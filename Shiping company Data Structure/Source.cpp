@@ -4,12 +4,11 @@
 using namespace std;
 int main()
 {
-	Queue<int> pq;
+	PriorityQueue<int> pq;
 	for (int i = 0; i < 6; i++)
 	{
 		int x,w;
-		cin >> x;
-		pq.enqueue(x);
+		cin >> x>>w;
+		pq.enqueue(x,w);
 	}
-	pq.print();
 }

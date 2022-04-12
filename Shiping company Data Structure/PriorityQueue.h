@@ -2,11 +2,18 @@
 #include "PriorityQueueADT.h"
 #include "Node.h"
 #include <iostream>
+#define max 1000
 using namespace std;
 template <typename T>
 class PriorityQueue: public PriorityQueueADT<T>
 {
-	Node<T>* head;
+	Node <T>* nodes[max];
+	int count;
+	int parent(int idx);
+	int lch(int idx);
+	int rch(int idx);
+	void reheapup(int idx);
+	void reheapdown(int idx);
 public:
 	PriorityQueue();
 	virtual bool peek(T& item) const;
@@ -18,61 +25,105 @@ public:
 };
 
 template<typename T>
+int PriorityQueue<T>::parent(int idx)
+{
+	return (idx-1)/2;
+}
+
+template<typename T>
+int PriorityQueue<T>::lch(int idx)
+{
+	return 2*idx+1;
+}
+
+template<typename T>
+inline int PriorityQueue<T>::rch(int idx)
+{
+	return 2*idx+2;
+}
+
+template<typename T>
+void PriorityQueue<T>::reheapup(int idx)
+{
+	if (idx == 0)
+		return;
+	int p = parent(idx);
+	if (nodes[idx]->GetWeight() > nodes[p]->GetWeight())
+	{
+		Node<T>* tmp = nodes[idx];
+		nodes[idx] = nodes[p];
+		nodes[p] = tmp;
+		reheapup(p);
+	}
+}
+
+template<typename T> 
+void PriorityQueue<T>::reheapdown(int idx)
+{
+	int maxpos = idx;
+	int l = lch(idx);
+	int r = rch(idx);
+	if (l<count && nodes[l]->GetWeight() > nodes[idx]->GetWeight())
+	{
+		maxpos = l;
+	}
+	if (r<count && nodes[maxpos]->GetWeight() > nodes[idx]->GetWeight())
+	{
+		maxpos = r;
+	}
+	if (maxpos != idx)
+	{
+		Node<T>* tmp = nodes[idx];
+		nodes[idx] = nodes[maxpos];
+		nodes[maxpos] = tmp;
+		reheapdown(maxpos);
+	}
+}
+
+template<typename T>
 PriorityQueue<T>::PriorityQueue()
 {
-	head = nullptr;
+	count=-1;
 }
 
 template<typename T>
 bool PriorityQueue<T>::peek(T& item) const
 {
-	 if(head==nullptr)
+	 if(count==-1)
 		return false;
-	 item = head->getitem();
+	 item = nodes[0]->getitem();
 	 return true;
 }
 
  template<typename T>
  bool PriorityQueue<T>::dequeue(T& item)
  {
-	 if(head==nullptr)
+	 if(count==-1)
 		return false;
-	 item = head->getitem();
-	 Node<T>* ptr = head;
-	 head = head->getnext();
-	 delete ptr;
+	 item = nodes[0]->getitem();
+	 Node<T>* tmp = nodes[0];
+	 nodes[0] = nodes[count];
+	 nodes[count] = tmp;
+	 delete tmp;
+	 count--;
+	 reheapdown(0);
 	 return true;
  }
 
  template<typename T>
  bool PriorityQueue<T>::enqueue(const T& item, int weight)
  {
+	 if (count == max - 1)
+		 return false;
 	 Node <T>* ptr = new Node<T>(item, weight);
-	 ptr->setnext(nullptr);
-	 if (!head)
-	 {
-		 head = ptr;
-		 return true;
-	 }
-	 if (head->GetWeight() < weight)
-	 {
-		 ptr->setnext(head);
-		 head = ptr;
-		 return true;
-	 }
-	 Node<T>* location = head;
-	 while (location->getnext() && location->getnext()->GetWeight() >= weight)
-	 {
-		 location = location->getnext();
-	 }
-	 ptr->setnext(location->getnext());
-	 location->setnext(ptr);
+	 nodes[++count] = ptr;
+	 reheapup(count);
 	 return true;
  }
  template<typename T>
  bool PriorityQueue<T>::isempty()
  {
-	 if(head==nullptr)
+	 if(count==-1)
 	 return false;
 	 return true;
  }
@@ -80,12 +131,8 @@ bool PriorityQueue<T>::peek(T& item) const
  template<typename T>
  void PriorityQueue<T>::print()
  {
-	 Node<T>* ptr = head;
-	 while (ptr)
-	 {
-		 cout << ptr->getitem() << " ";
-		 ptr = ptr->getnext();
-	 }
+	 for (int i = 0; i <= count; i++)
+		 cout << nodes[i]->getitem() << " ";
 	cout << endl;
  }
 
@@ -95,5 +142,6 @@ bool PriorityQueue<T>::peek(T& item) const
 	 int x;
 	 while (dequeue(x))
 	 {
+		 cout << x << endl;
 	 }
  }
