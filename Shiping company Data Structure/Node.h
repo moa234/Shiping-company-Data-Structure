@@ -11,6 +11,7 @@ public:
 	Node<T>* getnext() const;
 	T getitem() const;
 	void setnext(Node<T>* ptr);
+	void setitem(const T& item);
 };
 
 template<typename T>
@@ -47,4 +48,10 @@ template<typename T>
   void Node<T>::setnext(Node<T>* ptr)
   {
 	  next = ptr;
+  }
+
+  template<typename T>
+  void Node<T>::setitem(const T& item)
+  {
+		data = item;
   }
