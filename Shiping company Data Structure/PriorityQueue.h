@@ -144,6 +144,5 @@ bool PriorityQueue<T>::peek(T& item) const
 	 int x;
 	 while (dequeue(x))
 	 {
-		 cout << x << endl;
 	 }
  }
