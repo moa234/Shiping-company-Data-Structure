@@ -1,4 +1,6 @@
 #pragma once
+#include "DEFS.h"
+
 class Cargo
 {
 	int loadt;	 //load time in hours  
@@ -7,9 +9,10 @@ class Cargo
 	int prepth;
 	int deldis;	 //delivery distance in km
 	int cost;	 //cost of delivering truck
-
+	Itemtype type;
 
 public:
+	Cargo(Itemtype t);
 	void setprepth(int pt);
 	void setpreptd(int pt);
 	void setloadt(int lt);

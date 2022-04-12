@@ -1,8 +1,9 @@
 #include "Truck.h"
 
-Truck::Truck(int tc)
+Truck::Truck(int tc, Itemtype t)
 {
 	TCap = tc;
+	type = t;
 }
 
 int Truck::getcap()

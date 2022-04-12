@@ -1,5 +1,10 @@
 #include "Cargo.h"
 
+Cargo::Cargo(Itemtype t)
+{
+	type = t;
+}
+
 void Cargo::setprepth(int pt)
 {
 	prepth = pt;
