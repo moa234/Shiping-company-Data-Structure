@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="Cargo.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="PqNode.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="PriorityQueueADT.h" />
     <ClInclude Include="Queue.h" />
