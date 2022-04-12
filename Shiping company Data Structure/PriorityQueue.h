@@ -83,6 +83,8 @@ void PriorityQueue<T>::reheapdown(int idx)
 template<typename T>
 PriorityQueue<T>::PriorityQueue()
 {
+	for (int i = 0; i < max; i++)
+		nodes[i] = nullptr;
 	count=-1;
 }
 
@@ -142,6 +144,5 @@ bool PriorityQueue<T>::peek(T& item) const
 	 int x;
 	 while (dequeue(x))
 	 {
-		 cout << x << endl;
 	 }
  }
