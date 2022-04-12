@@ -140,6 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Cargo.h" />
+    <ClInclude Include="List.h" />
+    <ClInclude Include="ListADT.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="PriorityQueueADT.h" />

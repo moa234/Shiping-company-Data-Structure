@@ -63,6 +63,12 @@
     <ClInclude Include="QueueADT.h">
       <Filter>DS</Filter>
     </ClInclude>
+    <ClInclude Include="ListADT.h">
+      <Filter>DS</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cargo.cpp">
