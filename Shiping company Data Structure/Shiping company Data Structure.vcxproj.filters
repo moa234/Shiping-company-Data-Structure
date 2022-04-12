@@ -22,6 +22,9 @@
     <Filter Include="DS">
       <UniqueIdentifier>{e1d71bdf-6b6a-46ec-af60-d450a87cf169}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{8827d181-46e6-40bc-97f9-cbd6a364cf46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cargo.h">
@@ -63,6 +66,24 @@
     <ClInclude Include="QueueADT.h">
       <Filter>DS</Filter>
     </ClInclude>
+    <ClInclude Include="ListADT.h">
+      <Filter>DS</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>DS</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Preparation.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Cancellation.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Promotion.h">
+      <Filter>Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cargo.cpp">
@@ -91,6 +112,18 @@
     </ClCompile>
     <ClCompile Include="Source.cpp">
       <Filter>Trucks</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Preparation.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Cancellation.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Promotion.cpp">
+      <Filter>Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
