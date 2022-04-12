@@ -67,7 +67,7 @@
       <Filter>DS</Filter>
     </ClInclude>
     <ClInclude Include="List.h">
-      <Filter>Header Files</Filter>
+      <Filter>DS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
