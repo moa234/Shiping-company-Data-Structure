@@ -1,7 +1,6 @@
 #pragma once
 class Truck
 {
-protected:
     int TCap; // Truck Capacity
     int MTime; // Maintenance Time
     int Mjourney; //Number of journies for maintenance

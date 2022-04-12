@@ -1,8 +1,13 @@
 #include "Cargo.h"
 
-void Cargo::setprept(time pt)
+void Cargo::setprepth(int pt)
 {
-	prept = pt;
+	prepth = pt;
+}
+
+void Cargo::setpreptd(int pt)
+{
+	preptd = pt;
 }
 
 void Cargo::setloadt(int lt)
@@ -25,9 +30,14 @@ void Cargo::setcost(int c)
 	cost = c;
 }
 
-Cargo::time Cargo::getprept()
+int Cargo::getprepth()
 {
-	return prept;
+	return prepth;
+}
+
+int Cargo::getpreptd()
+{
+	return preptd;
 }
 
 int Cargo::getload()
