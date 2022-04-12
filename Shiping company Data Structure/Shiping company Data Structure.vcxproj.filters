@@ -60,9 +60,6 @@
     <ClInclude Include="Node.h">
       <Filter>DS</Filter>
     </ClInclude>
-    <ClInclude Include="PqNode.h">
-      <Filter>DS</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cargo.cpp">

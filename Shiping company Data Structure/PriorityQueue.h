@@ -1,17 +1,19 @@
 #pragma once
 #include "PriorityQueueADT.h"
-#include "PqNode.h"
 #include "Node.h"
+#include <iostream>
+using namespace std;
 template <typename T>
 class PriorityQueue: public PriorityQueueADT<T>
 {
-	PqNode<T>* head;
+	Node<T>* head;
 public:
 	PriorityQueue();
 	virtual bool peek(T& item) const;
 	virtual bool dequeue(T& item);
 	virtual bool enqueue(const T& item,int weight);
 	virtual bool isempty();
+	void print();
 };
 
 template<typename T>
@@ -34,8 +36,8 @@ bool PriorityQueue<T>::peek(T& item) const
  {
 	 if(head==nullptr)
 		return false;
-	 item = head->data;
-	 PqNode<T>* ptr = head;
+	 item = head->getitem();
+	 Node<T>* ptr = head;
 	 head = head->getnext();
 	 delete ptr;
 	 return true;
@@ -44,7 +46,7 @@ bool PriorityQueue<T>::peek(T& item) const
  template<typename T>
  bool PriorityQueue<T>::enqueue(const T& item, int weight)
  {
-	 PqNode <T>* ptr = new PqNode<T>(item, weight);
+	 Node <T>* ptr = new Node<T>(item, weight);
 	 ptr->setnext(nullptr);
 	 if (!head)
 	 {
@@ -57,7 +59,7 @@ bool PriorityQueue<T>::peek(T& item) const
 		 head = ptr;
 		 return true;
 	 }
-	 PqNode<T>* location = head;
+	 Node<T>* location = head;
 	 while (location->getnext() && location->getnext()->GetWeight() >= weight)
 	 {
 		 location = location->getnext();
@@ -71,4 +73,16 @@ bool PriorityQueue<T>::peek(T& item) const
 	 if(head==nullptr)
 	 return false;
 	 return true;
+ }
+
+ template<typename T>
+ void PriorityQueue<T>::print()
+ {
+	 Node<T>* ptr = head;
+	 while (ptr)
+	 {
+		 cout << ptr->getitem() << " ";
+		 ptr = ptr->getnext();
+	 }
+	cout << endl;
  }
