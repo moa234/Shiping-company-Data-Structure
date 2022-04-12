@@ -156,6 +156,7 @@
     <ClCompile Include="Cargo.cpp" />
     <ClCompile Include="NormalCargo.cpp" />
     <ClCompile Include="NormalTruck.cpp" />
+    <ClCompile Include="Source.cpp" />
     <ClCompile Include="SpecialCargo.cpp" />
     <ClCompile Include="SpecialTruck.cpp" />
     <ClCompile Include="Truck.cpp" />
