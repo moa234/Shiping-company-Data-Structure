@@ -19,6 +19,9 @@
     <Filter Include="Trucks">
       <UniqueIdentifier>{45b51cea-605a-4661-b4dd-c8867244e666}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DS">
+      <UniqueIdentifier>{e1d71bdf-6b6a-46ec-af60-d450a87cf169}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cargo.h">
@@ -44,6 +47,9 @@
     </ClInclude>
     <ClInclude Include="VIPTruck.h">
       <Filter>Trucks</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue.h">
+      <Filter>DS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
