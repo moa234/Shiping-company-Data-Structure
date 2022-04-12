@@ -14,6 +14,7 @@ public:
 	virtual bool enqueue(const T& item,int weight);
 	virtual bool isempty();
 	void print();
+	~PriorityQueue();
 };
 
 template<typename T>
@@ -86,4 +87,13 @@ bool PriorityQueue<T>::peek(T& item) const
 		 ptr = ptr->getnext();
 	 }
 	cout << endl;
+ }
+
+ template<typename T>
+ PriorityQueue<T>::~PriorityQueue()
+ {
+	 int x;
+	 while (dequeue(x))
+	 {
+	 }
  }

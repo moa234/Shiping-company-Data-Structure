@@ -16,12 +16,14 @@ public:
 	virtual bool enqueue(const T& item);
 	virtual bool isempty();
 	void print();
+	virtual ~Queue();
 };
 
 template<typename T>
 Queue<T>::Queue()
 {
 	head = nullptr;
+	rear = nullptr;
 }
 
 template<typename T>
@@ -80,6 +82,15 @@ void Queue<T>::print()
 		ptr = ptr->getnext();
 	}
 	cout << endl;
+}
+
+template<typename T>
+Queue<T>::~Queue()
+{
+	int x;
+	while (dequeue(x))
+	{
+	}
 }
 
 
