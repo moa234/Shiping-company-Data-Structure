@@ -146,6 +146,7 @@
     <ClInclude Include="Queue.h" />
     <ClInclude Include="NormalCargo.h" />
     <ClInclude Include="NormalTruck.h" />
+    <ClInclude Include="QueueADT.h" />
     <ClInclude Include="SpecialCargo.h" />
     <ClInclude Include="SpecialTruck.h" />
     <ClInclude Include="Truck.h" />

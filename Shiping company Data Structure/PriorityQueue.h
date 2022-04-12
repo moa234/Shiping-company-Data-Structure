@@ -66,6 +66,7 @@ bool PriorityQueue<T>::peek(T& item) const
 	 }
 	 ptr->setnext(location->getnext());
 	 location->setnext(ptr);
+	 return true;
  }
  template<typename T>
  bool PriorityQueue<T>::isempty()
