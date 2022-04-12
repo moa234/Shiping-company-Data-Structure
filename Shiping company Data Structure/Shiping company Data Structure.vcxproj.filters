@@ -51,6 +51,15 @@
     <ClInclude Include="Queue.h">
       <Filter>DS</Filter>
     </ClInclude>
+    <ClInclude Include="PriorityQueue.h">
+      <Filter>DS</Filter>
+    </ClInclude>
+    <ClInclude Include="PriorityQueueADT.h">
+      <Filter>DS</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>DS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cargo.cpp">
