@@ -3,5 +3,6 @@
 class VIPCargo :
     public Cargo
 {
+    int priority;
 };
 

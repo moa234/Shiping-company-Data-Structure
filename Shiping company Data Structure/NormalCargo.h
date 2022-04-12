@@ -3,5 +3,7 @@
 class NormalCargo :
     public Cargo
 {
+public:
+    //bool promote();
 };
 
