@@ -7,21 +7,28 @@ class Cargo
 		int Hour;
 		//add day when hour > 24
 	};
-	struct loading
-	{
-		int load;
-		int unload;
-	};
 protected:
-	loading l_u; //load and unload time in hours
-	time prept; //preparation time in (day:hour)
-	int deldis; //delivery distance in km
-	int cost; //cost of delivering truck
+	int loadt;	 //load time in hours  
+	int unloadt; //unload time in hours
+	time prept;	 //preparation time in (day:hour)
+	int deldis;	 //delivery distance in km
+	int cost;	 //cost of delivering truck
 
 
 public:
-	bool virtual load() = 0;
-	bool virtual unload() = 0;
+	void setprept(time pt);
+	void setloadt(int lt);
+	void setunloadt(int ult);
+	void setdeldis(int ds);
+	void setcost(int cost);
+	time getprept();
+	int getload();
+	int getunload();
+	int getdeldis();
+	int getcost();
+
+	//virtual bool load() = 0;
+	//virtual bool unload() = 0;
 	//bool virtual assign() = 0;
 };
 
