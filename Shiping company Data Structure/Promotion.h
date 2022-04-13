@@ -8,9 +8,9 @@ class Promotion :
     int AutoP; //max unloaded time
 
 public:
-    virtual void excute(Queue<Cargo>& WaitingList);
-    //void SetAutoP(int T);
-    //int GetAutoP();
-    //bool toPromote(Queue<Cargo>& WaitingList);
+    virtual void excute(Queue<Cargo>& normalWaitingList, Queue<Cargo>& VipWaitingList);
+    void SetAutoP(int T);
+    int GetAutoP();
+    bool toPromote(Queue<Cargo>& WaitingList);
 };
 
