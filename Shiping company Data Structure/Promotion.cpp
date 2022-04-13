@@ -14,7 +14,7 @@ int Promotion::GetAutoP()
 bool Promotion:: toPromote(Queue<Cargo>& normalWaitingList)
 {
 	Cargo C(Normal);
-	bool x=WaitingList.peek(C);
+	bool x=normalWaitingList.peek(C);
 	if (C.getpreptd()> AutoP)
 	{
 		return true;
