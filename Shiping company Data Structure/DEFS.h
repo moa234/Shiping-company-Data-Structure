@@ -4,5 +4,5 @@ enum Itemtype
 {
 	Normal,
 	VIP,
-	special
+	Special
 };
