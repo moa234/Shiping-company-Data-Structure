@@ -1,5 +1,5 @@
 #include "Promotion.h"
-
+#include "DEFS.h"
 
 void Promotion::SetAutoP(int T)
 {
@@ -29,7 +29,7 @@ void Promotion::excute(Queue<Cargo>& normalWaitingList,Queue<Cargo>& VipWaitingL
 		Cargo C(Normal);
 		normalWaitingList.dequeue(C);
 		VipWaitingList.enqueue(C);
-		
+		C.setitemtype(VIP);
 	}
 	
 }
