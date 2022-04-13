@@ -3,6 +3,7 @@
 #include "PriorityQueue.h"
 #include "Truck.h"
 #include "Event.h"
+#include "Cargo.h"
 class Company
 {
 
@@ -10,10 +11,12 @@ class Company
 	Queue<Truck*> Ready[3];
 	Queue<Truck*> Maintained[3]; 
 	Queue<Truck*> In_Trip[3];
-	Queue<Truck*> Special;
-	Queue<Truck*> Normal;
-
-	PriorityQueue<Truck*> VIP;
+	Queue<Truck*> TSpecial;
+	Queue<Truck*> TNormal;
+	Queue<Truck*> TVIP;
+	Queue<Cargo*> CNormal ;
+	Queue<Cargo*> CSpecial;
+	Queue<Cargo*> CVIP;
 
 };
 
