@@ -11,9 +11,6 @@ class Company
 	Queue<Truck*> Ready[3];
 	Queue<Truck*> Maintained[3]; 
 	Queue<Truck*> In_Trip[3];
-	Queue<Truck*> TSpecial;
-	Queue<Truck*> TNormal;
-	Queue<Truck*> TVIP;
 	Queue<Cargo*> CNormal ;
 	Queue<Cargo*> CSpecial;
 	Queue<Cargo*> CVIP;
