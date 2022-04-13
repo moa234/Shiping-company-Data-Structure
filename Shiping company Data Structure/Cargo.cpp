@@ -35,6 +35,11 @@ void Cargo::setcost(int c)
 	cost = c;
 }
 
+void Cargo::setitemtype(int it_type)
+{
+	type = static_cast<Itemtype>(it_type);
+}
+
 int Cargo::getprepth()
 {
 	return prepth;

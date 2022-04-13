@@ -19,6 +19,7 @@ public:
 	void setunloadt(int ult);
 	void setdeldis(int ds);
 	void setcost(int cost);
+	void setitemtype(int it_type);
 	int getprepth();
 	int getpreptd();
 	int getload();
