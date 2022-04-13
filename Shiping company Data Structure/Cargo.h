@@ -13,6 +13,7 @@ class Cargo
 
 public:
 	Cargo(Itemtype t);
+	Cargo();
 	void setprepth(int pt);
 	void setpreptd(int pt);
 	void setloadt(int lt);

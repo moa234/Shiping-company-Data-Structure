@@ -6,6 +6,10 @@ Truck::Truck(int tc, Itemtype t)
 	type = t;
 }
 
+Truck::Truck()
+{
+}
+
 int Truck::getcap()
 {
 	return TCap;

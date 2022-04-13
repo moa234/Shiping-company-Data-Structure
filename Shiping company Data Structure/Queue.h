@@ -87,7 +87,7 @@ void Queue<T>::print()
 template<typename T>
 Queue<T>::~Queue()
 {
-	int x;
+	T x;
 	while (dequeue(x))
 	{
 	}

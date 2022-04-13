@@ -5,6 +5,10 @@ Cargo::Cargo(Itemtype t)
 	type = t;
 }
 
+Cargo::Cargo()
+{
+}
+
 void Cargo::setprepth(int pt)
 {
 	prepth = pt;

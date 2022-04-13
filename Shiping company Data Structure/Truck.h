@@ -12,6 +12,7 @@ class Truck
     Itemtype type;
 public:
     Truck(int tc, Itemtype t);
+    Truck(); 
     int getcap();
     int getspeed();
     void setDI(int DeliveryT); //setter for delivery interval
