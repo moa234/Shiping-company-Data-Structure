@@ -17,7 +17,7 @@ void Preparation::excute(Company* MainPtr)
 	Cargo* ptr = new Cargo(ID, Dis, Lt, cost);
 	if (type == Normal)
 	{
-		//
+		
 	}
 }
 
