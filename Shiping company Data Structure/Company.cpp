@@ -1,5 +1,6 @@
 #include "Company.h"
-
+#include "Event.h"
+#include "Preparation.h"
 Company::Company()
 {
 }
@@ -78,7 +79,7 @@ void Company::ReadEvents(ifstream& fin)
 			Event* prep = new Preparation(category, et, data[2], data[3], data[4], data[5]);
 			Events.enqueue(prep);
 			break;
-		case 'X':
+		/*case 'X':
 			int data[3];
 			for (int i = 0; i < 3; i++)
 			{
@@ -112,7 +113,7 @@ void Company::ReadEvents(ifstream& fin)
 			et.SetHour(data[1]);
 			Event* prom = new Promotion(et, data[2], data[3]);
 			Events.enqueue(prom);
-			break;
+			break;*/
 		}
 	}
 

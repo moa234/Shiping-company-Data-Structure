@@ -1,7 +1,7 @@
 #include <iostream>
 #include "PriorityQueue.h"
 #include "Queue.h"
-#include "Truck.h"
+
 #include "Company.h"
 #include <fstream>
 using namespace std;

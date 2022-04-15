@@ -3,14 +3,13 @@
 #include "Queue.h"
 #include "PriorityQueue.h"
 #include "Truck.h"
-#include "Event.h"
-#include "Preparation.h"
-#include "Cancellation.h"
-#include "Promotion.h"
 #include "Cargo.h"
 #include "DEFS.h"
 #include "Time.h"
 #include <string>
+
+class Event;
+class Preparation;
 class Company
 {
 	Time AutoP;

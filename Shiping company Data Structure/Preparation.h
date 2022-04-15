@@ -1,7 +1,6 @@
 #pragma once
 #include "Event.h"
 #include "DEFS.h"
-
 class Preparation :
     public Event
 {

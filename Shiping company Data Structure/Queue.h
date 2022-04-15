@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "QueueADT.h"
 #include "Node.h"
 #include <iostream>
