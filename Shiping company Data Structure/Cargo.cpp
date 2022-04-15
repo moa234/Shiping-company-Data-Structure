@@ -1,57 +1,17 @@
 #include "Cargo.h"
 
-Cargo::Cargo(Itemtype t)
-{
-	type = t;
-}
 
-Cargo::Cargo(Itemtype t, int id)
+Cargo::Cargo(int ID, int Dis, int Lt, int cost)
 {
-	ID = id;
+	this->ID = ID;
+	deldis = Dis;
+	this->Lt = Lt;
+	this->cost = cost;
+
 }
 
 Cargo::Cargo()
 {
-}
-
-void Cargo::setprepth(int pt)
-{
-	prepth = pt;
-}
-
-void Cargo::setpreptd(int pt)
-{
-	preptd = pt;
-}
-
-void Cargo::setloadt(int lt)
-{
-	loadt = lt;
-}
-
-void Cargo::setunloadt(int ult)
-{
-	unloadt = ult;
-}
-
-void Cargo::setdeldis(int ds)
-{
-	deldis = ds;
-}
-
-void Cargo::setcost(int c)
-{
-	cost = c;
-}
-
-void Cargo::setitemtype(int it_type)
-{
-	type = static_cast<Itemtype>(it_type);
-}
-
-void Cargo::setid(int id)
-{
-	ID = id;
 }
 
 int Cargo::getid()
@@ -59,25 +19,18 @@ int Cargo::getid()
 	return ID;
 }
 
-int Cargo::getprepth()
+int Cargo::getprept()
 {
-	return prepth;
+	return Pt;
 }
 
-int Cargo::getpreptd()
+int Cargo::getloadt()
 {
-	return preptd;
+	return Lt;
 }
 
-int Cargo::getload()
-{
-	return loadt;
-}
 
-int Cargo::getunload()
-{
-	return unloadt;
-}
+
 
 int Cargo::getdeldis()
 {

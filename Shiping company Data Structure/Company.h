@@ -33,6 +33,9 @@ public:
 	void PrintAllData();
 	void PrintCargo(Queue<Cargo*> &q);
 	void PrintCargoPQ(PriorityQueue<Cargo*>&q);
+	void AddNormList(Cargo* ptr);
+	void AddSpeList(Cargo* ptr);
+	void AddVIPList(Cargo* ptr);
 
 };
 

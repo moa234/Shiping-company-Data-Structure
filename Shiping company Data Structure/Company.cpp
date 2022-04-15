@@ -58,6 +58,10 @@ void Company::ReadEvents(ifstream& fin)
 		{
 		case 'R':
 			fin >> type;
+			Itemtype category;
+			if (type == 'N') category = Normal;
+			if (type == 'S') category = Special;
+			if (type == 'V') category = VIP;
 			int data[6];
 			for (int i = 0; i < 5; i++)
 			{
@@ -71,7 +75,7 @@ void Company::ReadEvents(ifstream& fin)
 			Time et;
 			et.SetDay(data[0]);
 			et.SetHour(data[1]);
-			Event* prep = new Preparation(type, et, data[2], data[3], data[4], data[5]);
+			Event* prep = new Preparation(category, et, data[2], data[3], data[4], data[5]);
 			Events.enqueue(prep);
 			break;
 		case 'X':
