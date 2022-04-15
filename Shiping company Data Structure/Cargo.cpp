@@ -44,6 +44,16 @@ void Cargo::setitemtype(int it_type)
 	type = static_cast<Itemtype>(it_type);
 }
 
+void Cargo::setid(int id)
+{
+	ID = id;
+}
+
+int Cargo::getid()
+{
+	return ID;
+}
+
 int Cargo::getprepth()
 {
 	return prepth;

@@ -9,6 +9,7 @@ class Cargo
 	int prepth;
 	int deldis;	 //delivery distance in km
 	int cost;	 //cost of delivering truck
+	int ID;
 	Itemtype type;
 
 public:
@@ -21,6 +22,8 @@ public:
 	void setdeldis(int ds);
 	void setcost(int cost);
 	void setitemtype(int it_type);
+	void setid(int id);
+	int getid();
 	int getprepth();
 	int getpreptd();
 	int getload();

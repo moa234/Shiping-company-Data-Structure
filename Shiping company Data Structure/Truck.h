@@ -10,7 +10,7 @@ class Truck
     int DI; //Delivery interval
     Itemtype type;
 public:
-    Truck(int Tcap, int speed, int Mjourney, Itemtype type);
+    Truck( int speed, int Tcap, int Mjourney, Itemtype type);
     Truck(); 
     int getcap();
     int getspeed();
