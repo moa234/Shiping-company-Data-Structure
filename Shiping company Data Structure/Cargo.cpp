@@ -5,9 +5,12 @@ Cargo::Cargo(Itemtype t)
 	type = t;
 }
 
-Cargo::Cargo(Itemtype t, int id)
+Cargo::Cargo(Itemtype t, int id, int dis, int load, int c)
 {
 	ID = id;
+	deldis = dis;
+	loadt = load;
+	cost = c;
 }
 
 Cargo::Cargo()
