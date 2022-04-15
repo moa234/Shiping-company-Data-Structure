@@ -9,6 +9,7 @@ class Promotion :
 
 public:
     virtual void excute(Queue<Cargo>& normalWaitingList, Queue<Cargo>& VipWaitingList);
+    virtual void excute();
     void SetAutoP(int T);
     int GetAutoP();
     bool toPromote(Queue<Cargo>& WaitingList);

@@ -8,6 +8,8 @@ void Company::ReadFile(ifstream& fin)
 {
 	ReadTrucks(fin);
 	int d, h;
+	int numjourn;
+	fin >> numjourn;
 	fin >> d >> h;
 	AutoP.SetDay(d); AutoP.SetHour(h);
 
@@ -50,4 +52,74 @@ void Company::ReadTrucks(ifstream& fin)
 
 void Company::ReadEvents(ifstream& fin)
 {
+
+	int eventsnum;
+	fin >> eventsnum;
+	char type;
+
+	for (int i = 0; i < eventsnum; i++)
+	{
+		char evtype;
+		fin >> evtype;
+		switch (evtype)
+		{
+		case 'R':
+			fin >> type;
+			int data[6];
+			for (int i = 0; i < 5; i++)
+			{
+				if (i == 1)
+				{
+					char nullchar;
+					fin >> nullchar;
+				}
+				fin >> data[i];
+			}
+			Time pt;
+			pt.SetDay(data[0]);
+			pt.SetHour(data[1]);
+			Event* prep = new Preparation(type, pt, data[2], data[3], data[4], data[5]);
+			Events.enqueue(prep);
+			break;
+		case 'X':
+			int data[3];
+			for (int i = 0; i < 3; i++)
+			{
+				if (i == 1)
+				{
+					char nullchar;
+					fin >> nullchar;
+				}
+				fin >> data[i];
+			}
+			Time pt;
+			pt.SetDay(data[0]);
+			pt.SetHour(data[1]);
+			Event* cancel = new Cancellation(pt, data[2]);
+			Events.enqueue(cancel);
+			break;
+
+		case 'P':
+			int data[4];
+			for (int i = 0; i < 4; i++)
+			{
+				if (i == 1)
+				{
+					char nullchar;
+					fin >> nullchar;
+				}
+				fin >> data[i];
+			}
+			Time pt;
+			pt.SetDay(data[0]);
+			pt.SetHour(data[1]);
+			Event* prom = new Promotion(pt, data[2], data[3]);
+			Events.enqueue(prom);
+			break;
+		}
+	}
+
+	cout << eventsnum;
+	cout << m;
+	cout << timep;
 }
