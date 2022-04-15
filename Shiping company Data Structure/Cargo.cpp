@@ -91,3 +91,9 @@ int Cargo::getcost()
 {
 	return cost;
 }
+
+ostream& operator<<(ostream& f, const Cargo& C)
+{
+	f << " " << C.ID <<" "  << endl;
+	return f;
+}
