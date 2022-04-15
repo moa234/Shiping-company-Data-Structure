@@ -1,6 +1,9 @@
 #include "Company.h"
 #include "Event.h"
 #include "Preparation.h"
+#include "Cancellation.h"
+#include "Promotion.h"
+
 Company::Company()
 {
 }
@@ -79,15 +82,14 @@ void Company::ReadEvents(ifstream& fin)
 	{
 		char evtype;
 		fin >> evtype;
-		switch (evtype)
+		if (evtype == 'R')
 		{
-		case 'R':
 			fin >> type;
 			Itemtype category;
 			if (type == 'N') category = Normal;
 			if (type == 'S') category = Special;
 			if (type == 'V') category = VIP;
-			int data[6];
+			int datar[6];
 			for (int i = 0; i < 5; i++)
 			{
 				if (i == 1)
@@ -95,16 +97,17 @@ void Company::ReadEvents(ifstream& fin)
 					char nullchar;
 					fin >> nullchar;
 				}
-				fin >> data[i];
+				fin >> datar[i];
 			}
 			Time et;
-			et.SetDay(data[0]);
-			et.SetHour(data[1]);
-			Event* prep = new Preparation(category, et, data[2], data[3], data[4], data[5]);
+			et.SetDay(datar[0]);
+			et.SetHour(datar[1]);
+			Event* prep = new Preparation(category, et, datar[2], datar[3], datar[4], datar[5]);
 			Events.enqueue(prep);
-			break;
-		/*case 'X':
-			int data[3];
+		}
+		else if (evtype == 'X')
+		{
+			int datax[3];
 			for (int i = 0; i < 3; i++)
 			{
 				if (i == 1)
@@ -112,17 +115,17 @@ void Company::ReadEvents(ifstream& fin)
 					char nullchar;
 					fin >> nullchar;
 				}
-				fin >> data[i];
+				fin >> datax[i];
 			}
-			Time et;
-			et.SetDay(data[0]);
-			et.SetHour(data[1]);
-			Event* cancel = new Cancellation(et, data[2]);
+			Time etx;
+			etx.SetDay(datax[0]);
+			etx.SetHour(datax[1]);
+			Event* cancel = new Cancellation(etx, datax[2]);
 			Events.enqueue(cancel);
-			break;
-
-		case 'P':
-			int data[4];
+		}
+		else if (evtype == 'P')
+		{
+			int datap[4];
 			for (int i = 0; i < 4; i++)
 			{
 				if (i == 1)
@@ -130,14 +133,13 @@ void Company::ReadEvents(ifstream& fin)
 					char nullchar;
 					fin >> nullchar;
 				}
-				fin >> data[i];
+				fin >> datap[i];
 			}
-			Time et;
-			et.SetDay(data[0]);
-			et.SetHour(data[1]);
-			Event* prom = new Promotion(et, data[2], data[3]);
+			Time etp;
+			etp.SetDay(datap[0]);
+			etp.SetHour(datap[1]);
+			Event* prom = new Promotion(etp, datap[2], datap[3]);
 			Events.enqueue(prom);
-			break;*/
 		}
 	}
 
@@ -145,7 +147,7 @@ void Company::ReadEvents(ifstream& fin)
 }
 void Company::PrintAllData()
 {
-	/*Queue<Event* > Event;
+	Queue<Event* > Event;
 	Queue<Truck* > ReadyT[3];
 	Queue<Truck* > MaintainedT[3];
 	Queue<Truck* > In_TripT[3];
@@ -154,7 +156,7 @@ void Company::PrintAllData()
 	PriorityQueue<Cargo*> VWaitingC;
 	Queue<Cargo* > NMovingC;
 	Queue<Cargo* > SMovingC;
-	Queue<Cargo* > VMovingC;*/
+	Queue<Cargo* > VMovingC;
 	cout << "Normal Waiting Cargo:";
 	PrintCargo(NWaitingC);
 	cout << "Special Waiting Cargo:";
