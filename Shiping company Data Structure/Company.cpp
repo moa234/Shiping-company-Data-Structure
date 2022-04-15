@@ -5,6 +5,30 @@ Company::Company()
 {
 }
 
+bool Company::removenormal(Cargo *&q, int id)
+{
+	Queue<Cargo*> temp;
+	Cargo* t;
+	bool found = 0;
+	while (!NWaitingC.isempty())
+	{
+		NWaitingC.dequeue(t);
+		
+		if (t->getid() == id)
+		{
+			q = t;
+			found = true;
+		}
+		temp.enqueue(t);
+	}
+	while (!temp.isempty())
+	{
+		temp.dequeue(t);
+		NWaitingC.enqueue(t);
+	}
+	return found;
+}
+
 void Company::ReadFile(ifstream& fin)
 {
 	ReadTrucks(fin);
