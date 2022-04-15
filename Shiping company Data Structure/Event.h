@@ -4,6 +4,7 @@
 class Event
 {
 protected:
+	int ID;
 	Time time;
 	int ID;
 public:
