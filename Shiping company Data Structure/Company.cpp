@@ -127,18 +127,37 @@ void Company::PrintAllData()
 	Queue<Cargo* > SMovingC;
 	Queue<Cargo* > VMovingC;*/
 	cout << "Normal Waiting Cargo:";
-	PrintCargo()
+	PrintCargo(NWaitingC);
 	cout << "Special Waiting Cargo:";
+	PrintCargo(SWaitingC);
 	cout << "VIP Waiting Cargo:";
+	PrintCargoPQ(VWaitingC);
 	cout << "Normal Moving Cargo:";
+	PrintCargo(NMovingC);
 	cout << "Special Moving Cargo:";
+	PrintCargo(SMovingC);
 	cout << "VIP Moving Cargo:";
-	
+	PrintCargo(VMovingC);
 }
 
 void Company::PrintCargo(Queue<Cargo*>& q)
 {
 	int sz = q.GetSize();
+	cout << " Size: " << sz << " " << endl;
+	for (int i = 0; i < sz ; i++)
+	{
+		Cargo* c;
+		q.dequeue(c);
+		cout << c->getid() << " ";
+		q.enqueue(c);
+	}
+	cout << endl;
+}
+
+void Company::PrintCargoPQ(PriorityQueue<Cargo*>& q)
+{
+	int sz = q.GetSize();
+	cout << " Size: " << sz << " " << endl;
 	q.print();
 	cout << endl;
 }

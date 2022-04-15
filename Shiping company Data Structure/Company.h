@@ -32,6 +32,7 @@ public:
 	void ReadEvents(ifstream& fin);
 	void PrintAllData();
 	void PrintCargo(Queue<Cargo*> &q);
+	void PrintCargoPQ(PriorityQueue<Cargo*>&q);
 
 };
 

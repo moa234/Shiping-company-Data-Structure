@@ -20,6 +20,7 @@ public:
 	virtual bool dequeue(T& item);
 	virtual bool enqueue(const T& item,int weight);
 	virtual bool isempty();
+	virtual int GetSize();
 	void print();
 	~PriorityQueue();
 };
@@ -128,6 +129,12 @@ bool PriorityQueue<T>::peek(T& item) const
 	 if(count==-1)
 	 return false;
 	 return true;
+ }
+
+ template<typename T>
+ int PriorityQueue<T>::GetSize()
+ {
+	 return count;
  }
 
  template<typename T>

@@ -7,5 +7,6 @@ public:
 	virtual bool dequeue(T& item) = 0;
 	virtual bool enqueue(const T & item,int weight) = 0;
 	virtual bool isempty() = 0;
+	virtual int GetSize()=0;
 };
 

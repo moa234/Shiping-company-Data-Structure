@@ -1,6 +1,7 @@
 #pragma once
 #include "DEFS.h"
-
+#include <iostream>
+using namespace std;
 class Cargo
 {
 	int loadt;	 //load time in hours  
@@ -31,7 +32,8 @@ public:
 	int getunload();
 	int getdeldis();
 	int getcost();
-
+	
+	friend ostream& operator <<(ostream& f,const Cargo& C);
 	//virtual bool load() = 0;
 	//virtual bool unload() = 0;
 	//bool virtual assign() = 0;
