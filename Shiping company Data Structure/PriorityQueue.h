@@ -141,7 +141,7 @@ bool PriorityQueue<T>::peek(T& item) const
  template<typename T>
  PriorityQueue<T>::~PriorityQueue()
  {
-	 int x;
+	 T x;
 	 while (dequeue(x))
 	 {
 	 }

@@ -3,6 +3,6 @@
 enum Itemtype
 {
 	Normal,
-	VIP,
-	Special
+	Special,
+	VIP
 };

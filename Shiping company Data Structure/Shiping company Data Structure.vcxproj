@@ -153,6 +153,7 @@
     <ClInclude Include="Promotion.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="QueueADT.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="Truck.h" />
   </ItemGroup>
   <ItemGroup>
@@ -163,7 +164,11 @@
     <ClCompile Include="Preparation.cpp" />
     <ClCompile Include="Promotion.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="Truck.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,8 +1,9 @@
 #pragma once
+#include"Time.h"
 class Event
 {
 protected:
-	int time;
+	Time time;
 public:
 	virtual void excute() = 0;
 };

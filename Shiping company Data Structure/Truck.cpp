@@ -1,9 +1,13 @@
 #include "Truck.h"
 
-Truck::Truck(int tc, Itemtype t)
+
+Truck::Truck(int Tcap, int speed, int Mjourney, Itemtype type)
 {
-	TCap = tc;
-	type = t;
+	this->TCap = Tcap;
+	this->speed = speed;
+	this->Mjourney = Mjourney;
+	this->type = type;
+	int Currjourney = 0;
 }
 
 Truck::Truck()
@@ -23,4 +27,9 @@ int Truck::getspeed()
 void Truck::setDI(int DeliveryT)
 {
 	DI = DeliveryT;
+}
+
+void Truck::IncementJ()
+{
+	Currjourney = 0;
 }

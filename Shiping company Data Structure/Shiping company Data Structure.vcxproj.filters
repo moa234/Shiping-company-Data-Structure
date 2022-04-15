@@ -72,6 +72,9 @@
     <ClInclude Include="Company.h">
       <Filter>Company</Filter>
     </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Company</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cargo.cpp">
@@ -98,5 +101,13 @@
     <ClCompile Include="Company.cpp">
       <Filter>Company</Filter>
     </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Company</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="test.txt">
+      <Filter>Trucks</Filter>
+    </Text>
   </ItemGroup>
 </Project>

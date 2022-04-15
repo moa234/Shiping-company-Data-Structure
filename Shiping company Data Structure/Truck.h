@@ -1,6 +1,5 @@
 #pragma once
 #include "DEFS.h"
-
 class Truck
 {
     int TCap; // Truck Capacity
@@ -11,10 +10,11 @@ class Truck
     int DI; //Delivery interval
     Itemtype type;
 public:
-    Truck(int tc, Itemtype t);
+    Truck(int Tcap, int speed, int Mjourney, Itemtype type);
     Truck(); 
     int getcap();
     int getspeed();
     void setDI(int DeliveryT); //setter for delivery interval
-    
+    void IncementJ(); // increment number of journies
+
 };
