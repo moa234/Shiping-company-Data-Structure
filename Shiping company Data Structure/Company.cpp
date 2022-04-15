@@ -75,10 +75,10 @@ void Company::ReadEvents(ifstream& fin)
 				}
 				fin >> data[i];
 			}
-			Time pt;
-			pt.SetDay(data[0]);
-			pt.SetHour(data[1]);
-			Event* prep = new Preparation(type, pt, data[2], data[3], data[4], data[5]);
+			Time et;
+			et.SetDay(data[0]);
+			et.SetHour(data[1]);
+			Event* prep = new Preparation(type, et, data[2], data[3], data[4], data[5]);
 			Events.enqueue(prep);
 			break;
 		case 'X':
@@ -92,10 +92,10 @@ void Company::ReadEvents(ifstream& fin)
 				}
 				fin >> data[i];
 			}
-			Time pt;
-			pt.SetDay(data[0]);
-			pt.SetHour(data[1]);
-			Event* cancel = new Cancellation(pt, data[2]);
+			Time et;
+			et.SetDay(data[0]);
+			et.SetHour(data[1]);
+			Event* cancel = new Cancellation(et, data[2]);
 			Events.enqueue(cancel);
 			break;
 
@@ -110,10 +110,10 @@ void Company::ReadEvents(ifstream& fin)
 				}
 				fin >> data[i];
 			}
-			Time pt;
-			pt.SetDay(data[0]);
-			pt.SetHour(data[1]);
-			Event* prom = new Promotion(pt, data[2], data[3]);
+			Time et;
+			et.SetDay(data[0]);
+			et.SetHour(data[1]);
+			Event* prom = new Promotion(et, data[2], data[3]);
 			Events.enqueue(prom);
 			break;
 		}
