@@ -7,6 +7,6 @@ protected:
 	int ID;
 	Time time;
 public:
-	virtual void excute(const Company*& MainPtr) = 0;
+	virtual void excute(Company* MainPtr) = 0;
 };
 
