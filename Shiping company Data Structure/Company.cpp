@@ -44,7 +44,6 @@ void Company::ReadTrucks(ifstream& fin)
 		Ready[i].peek(T);
 		cout << T << endl;
 		cout << T->getcap() << endl;
-	
 	}
 }
 
