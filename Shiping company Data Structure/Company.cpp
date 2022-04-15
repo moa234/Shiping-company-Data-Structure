@@ -165,3 +165,19 @@ void Company::PrintCargoPQ(PriorityQueue<Cargo*>& q)
 	q.print();
 	cout << endl;
 }
+
+void Company::AddNormList(Cargo* ptr)
+{
+	NWaitingC.enqueue(ptr);
+}
+
+void Company::AddSpeList(Cargo* ptr)
+{
+	SWaitingC.enqueue(ptr);
+}
+
+void Company::AddVIPList(Cargo* ptr)
+{
+	int cost = ptr->getcost();
+	VWaitingC.enqueue(ptr, cost);
+}
