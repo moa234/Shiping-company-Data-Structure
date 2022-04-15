@@ -4,6 +4,9 @@
 #include "PriorityQueue.h"
 #include "Truck.h"
 #include "Event.h"
+#include "Preparation.h"
+#include "Cancellation.h"
+#include "Promotion.h"
 #include "Cargo.h"
 #include "DEFS.h"
 #include "Time.h"
@@ -12,7 +15,7 @@ class Company
 {
 	Time AutoP;
 	Time timer;
-	Queue<Event* > Event;
+	Queue<Event* > Events;
 	Queue<Truck* > ReadyT[3];
 	Queue<Truck* > MaintainedT[3]; 
 	Queue<Truck* > In_TripT[3];
