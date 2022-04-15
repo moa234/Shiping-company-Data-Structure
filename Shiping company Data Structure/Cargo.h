@@ -9,6 +9,7 @@ class Cargo
 	int prepth;
 	int deldis;	 //delivery distance in km
 	int cost;	 //cost of delivering truck
+	int ID;
 	Itemtype type;
 
 public:

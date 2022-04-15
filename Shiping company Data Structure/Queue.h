@@ -9,6 +9,7 @@ class Queue : public QueueADT<T>
 {
 	Node<T>* head;
 	Node<T>* rear;
+	int count;
 public:
 	Queue();
 	virtual bool peek(T& item) const;
@@ -16,6 +17,7 @@ public:
 	virtual bool enqueue(const T& item);
 	virtual bool isempty();
 	void print();
+	int GetSize();
 	virtual ~Queue();
 };
 
@@ -24,6 +26,7 @@ Queue<T>::Queue()
 {
 	head = nullptr;
 	rear = nullptr;
+	count = 0;
 }
 
 template<typename T>
@@ -46,6 +49,7 @@ bool Queue<T>::dequeue(T& item)
 	Node<T>* ptr = head;
 	head = head->getnext();
 	delete ptr;
+	count--;
 	return true;
 }
 
@@ -54,6 +58,7 @@ bool Queue<T>::enqueue(const T& item)
 {
 	Node <T>* ptr = new Node<T>(item);
 	ptr->setnext(nullptr);
+	count++;
 	if (!head)
 	{
 		head = ptr;
@@ -82,6 +87,12 @@ void Queue<T>::print()
 		ptr = ptr->getnext();
 	}
 	cout << endl;
+}
+
+template<typename T>
+inline int Queue<T>::GetSize()
+{
+	return count;
 }
 
 template<typename T>

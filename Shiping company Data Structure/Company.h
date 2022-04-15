@@ -7,22 +7,28 @@
 #include "Cargo.h"
 #include "DEFS.h"
 #include "Time.h"
+#include <string>
 class Company
 {
 	Time AutoP;
 	Time timer;
 	Queue<Event* > Event;
-	Queue<Truck* > Ready[3];
-	Queue<Truck* > Maintained[3]; 
-	Queue<Truck* > In_Trip[3];
-	Queue<Cargo* > CNormal;
-	Queue<Cargo* > CSpecial;
-	PriorityQueue<Cargo*> CVIP;
+	Queue<Truck* > ReadyT[3];
+	Queue<Truck* > MaintainedT[3]; 
+	Queue<Truck* > In_TripT[3];
+	Queue<Cargo* > NWaitingC;
+	Queue<Cargo* > SWaitingC;
+	PriorityQueue<Cargo*> VWaitingC;
+	Queue<Cargo* > NMovingC;
+	Queue<Cargo* > SMovingC;
+	Queue<Cargo* > VMovingC;
 public:
 	Company();
 	void ReadFile(ifstream &fin);
 	void ReadTrucks(ifstream &fin);
 	void ReadEvents(ifstream& fin);
+	void PrintAllData();
+	void PrintCargo(Queue<Cargo*> &q);
 
 };
 
