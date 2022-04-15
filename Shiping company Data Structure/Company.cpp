@@ -120,6 +120,4 @@ void Company::ReadEvents(ifstream& fin)
 	}
 
 	cout << eventsnum;
-	cout << m;
-	cout << timep;
 }
