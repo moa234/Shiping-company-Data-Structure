@@ -31,20 +31,14 @@ void Company::ReadTrucks(ifstream& fin)
 			type = Special;
 		if (i == 2)
 			type = VIP;
-		for (int j = 0; j < data[0][j]; j++)
+		for (int j = 0; j < data[0][i]; j++)
 		{
 			
-			Truck* ptr = new Truck(data[1][i],data[2][i],data[3][0],type);
+			Truck* ptr = new Truck(data[1][i],data[2][i],data[3][i],type);
 				ReadyT[type].enqueue(ptr);
 		}
 	}
-	for (int i = 0; i < 3; i++)
-	{
-		Truck *T;
-		ReadyT[i].peek(T);
-		cout << T << endl;
-		cout << T->getcap() << endl;
-	}
+	
 }
 
 void Company::ReadEvents(ifstream& fin)
@@ -62,16 +56,19 @@ void Company::PrintAllData()
 	Queue<Cargo* > NMovingC;
 	Queue<Cargo* > SMovingC;
 	Queue<Cargo* > VMovingC;*/
+	cout << "Normal Waiting Cargo:";
+	PrintCargo()
+	cout << "Special Waiting Cargo:";
+	cout << "VIP Waiting Cargo:";
+	cout << "Normal Moving Cargo:";
+	cout << "Special Moving Cargo:";
+	cout << "VIP Moving Cargo:";
 	
 }
 
 void Company::PrintCargo(Queue<Cargo*>& q)
 {
 	int sz = q.GetSize();
-	for (int i = 0; i < sz; i++)
-	{
-		Cargo* t;
-		q.dequeue(t);
-		cout<<t->
-	}
+	q.print();
+	cout << endl;
 }

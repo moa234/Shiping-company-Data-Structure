@@ -8,15 +8,22 @@ using namespace std;
 int main()
 {
 
-	//Queue<Truck*> pq[5];
+	Queue<int*> pq;
 	Company c;
 	ifstream fin("test.txt") ;
 	c.ReadFile(fin);
-	/*for (int i = 0; i < 6; i++)
-	{
-		int x,w;
-		cin >> x>>w;
-		pq[0].enqueue(x, w);
-	}
-	pq[0].print();*/
+	//for (int i = 0; i < 6; i++)
+	//{
+	//	int x,w;
+	//	cin >> x;
+	//	int* p = new int(x);
+	//	pq.enqueue(p);
+	//}
+	//for (int i = 0; i < 6; i++)
+	//{
+	//	int* p;
+	//	pq.dequeue(p);
+	//	delete p;
+	//}
+	//pq.print();
 }

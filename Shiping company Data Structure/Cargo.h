@@ -14,6 +14,7 @@ class Cargo
 
 public:
 	Cargo(Itemtype t);
+	Cargo(Itemtype t,int id);
 	Cargo();
 	void setprepth(int pt);
 	void setpreptd(int pt);

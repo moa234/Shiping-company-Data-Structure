@@ -5,6 +5,11 @@ Cargo::Cargo(Itemtype t)
 	type = t;
 }
 
+Cargo::Cargo(Itemtype t, int id)
+{
+	ID = id;
+}
+
 Cargo::Cargo()
 {
 }
