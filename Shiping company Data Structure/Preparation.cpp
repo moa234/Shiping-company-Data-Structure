@@ -9,13 +9,15 @@ Preparation::Preparation(Itemtype type, Time time, int ID, int Dis, int Lt, int 
 	this->cost = cost;
 	this->Lt = Lt;
 	this->time = time;
+	MainPtr = nullptr;
 }
 
-void Preparation::excute()
+void Preparation::excute(Company* MainPtr)
 {
+	Cargo* ptr = new Cargo(ID, Dis, Lt, cost);
 	if (type == Normal)
 	{
-		
+		//
 	}
-	
 }
+

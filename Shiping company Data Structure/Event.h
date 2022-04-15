@@ -6,8 +6,7 @@ class Event
 protected:
 	int ID;
 	Time time;
-	int ID;
 public:
-	virtual void excute() = 0;
+	virtual void excute(const Company*& MainPtr) = 0;
 };
 
