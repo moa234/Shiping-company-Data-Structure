@@ -22,6 +22,8 @@ public:
 	void setdeldis(int ds);
 	void setcost(int cost);
 	void setitemtype(int it_type);
+	void setid(int id);
+	int getid();
 	int getprepth();
 	int getpreptd();
 	int getload();

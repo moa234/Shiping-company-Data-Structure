@@ -62,18 +62,7 @@ void Company::PrintAllData()
 	Queue<Cargo* > NMovingC;
 	Queue<Cargo* > SMovingC;
 	Queue<Cargo* > VMovingC;*/
-	for (int i = 0; i < 3; i++)
-	{
-		string s;
-		if (i == 0)
-			s = "Normal";
-		if (i == 1)
-			s = "Special";
-		if (i == 2)
-			s = "VIP";
-		cout << s << " size: " << ReadyT[i].GetSize() << endl;
-		
-	}
+	
 }
 
 void Company::PrintCargo(Queue<Cargo*>& q)
