@@ -40,6 +40,7 @@ public:
 	void AddSpeList(Cargo* ptr);
 	void AddVIPList(Cargo* ptr);
 	void Timer();
+	void deletecargo(Cargo* c);
 
 };
 

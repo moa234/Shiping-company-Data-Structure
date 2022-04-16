@@ -222,3 +222,8 @@ void Company::Timer()
 		
 	}
 }
+
+void Company::deletecargo(Cargo* c)
+{
+	delete c;
+}
