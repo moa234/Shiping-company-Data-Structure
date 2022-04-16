@@ -155,12 +155,12 @@ void Company::PrintAllData()
 	PrintCargo(SWaitingC);
 	cout << "VIP Waiting Cargo:";
 	PrintCargoPQ(VWaitingC);
-	/*cout << "Normal Moving Cargo:";
-	PrintCargo(NMovingC);
-	cout << "Special Moving Cargo:";
-	PrintCargo(SMovingC);
-	cout << "VIP Moving Cargo:";
-	PrintCargo(VMovingC);*/
+	cout << "Normal Delivered Cargo:";
+	PrintCargo(NDeliveredC);
+	cout << "Special Delivered Cargo:";
+	PrintCargo(SDeliveredC);
+	cout << "VIP Delivered Cargo:";
+	PrintCargo(VDeliveredC);
 }
 
 void Company::PrintCargo(Queue<Cargo*>& q)
@@ -215,12 +215,11 @@ void Company::AddVIPList(Cargo* ptr)
 
 void Company::Timer()
 {
-	for (int i = 1; i <= 720; i++)
+	int counter = 0;
+	for (int i = 1; i <= 50; i++)
 	{
 		Event* nxt;
 		PrintAllData();
-		/*int x;
-		cin >> x;*/
 		while (Events.peek(nxt) && nxt->GetTime() == timer)
 		{
 			Events.dequeue(nxt);
@@ -228,11 +227,28 @@ void Company::Timer()
 			delete nxt;
 		}
 		timer.hour_incr();
-		
+		counter++;
+		if (counter == 5)
+		{
+			Cargo* ptr = nullptr;
+			if (NWaitingC.dequeue(ptr))
+				NDeliveredC.enqueue(ptr);
+			if (SWaitingC.dequeue(ptr))
+				SDeliveredC.enqueue(ptr);
+			if (VWaitingC.dequeue(ptr))
+				VDeliveredC.enqueue(ptr);
+			counter = 0;
+		}
 	}
 }
 
 void Company::deletecargo(Cargo* c)
 {
 	delete c;
+}
+
+void Company::simulate(ifstream& fin)
+{
+	ReadFile(fin);
+	Timer();
 }

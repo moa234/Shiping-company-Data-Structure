@@ -12,8 +12,7 @@ int main()
 	Queue<int*> pq;
 	Company c;
 	ifstream fin("test.txt") ;
-	c.ReadFile(fin);
-	c.Timer();
+	c.simulate(fin);
 	//for (int i = 0; i < 6; i++)
 	//{
 	//	int x,w;
