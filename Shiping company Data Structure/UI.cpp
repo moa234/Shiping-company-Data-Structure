@@ -20,5 +20,5 @@ void UI::readmode()
 	displaytext("For interactive mode enter 1");
 	displaytext("For step-by-step mode enter 2");
 	displaytext("For silent mode enter 3");
-	mode = (readnumber() == 0)? interactive: (readnumber() == 1) ?stepBstep:silent ;
+	mode = (readnumber() == 0)? interactive: (readnumber() == 1)? stepBstep: silent ;
 }
