@@ -155,12 +155,12 @@ void Company::PrintAllData()
 	PrintCargo(SWaitingC);
 	cout << "VIP Waiting Cargo:";
 	PrintCargoPQ(VWaitingC);
-	cout << "Normal Moving Cargo:";
+	/*cout << "Normal Moving Cargo:";
 	PrintCargo(NMovingC);
 	cout << "Special Moving Cargo:";
 	PrintCargo(SMovingC);
 	cout << "VIP Moving Cargo:";
-	PrintCargo(VMovingC);
+	PrintCargo(VMovingC);*/
 }
 
 void Company::PrintCargo(Queue<Cargo*>& q)
@@ -180,8 +180,20 @@ void Company::PrintCargo(Queue<Cargo*>& q)
 void Company::PrintCargoPQ(PriorityQueue<Cargo*>& q)
 {
 	int sz = q.GetSize();
-	cout << " Size: " << sz << " " << endl;
-	q.print();
+	Queue<Cargo*> temp;
+	cout << " Size: " << sz << endl;
+	Cargo* ptr=nullptr;
+	while (!q.isempty())
+	{
+		q.dequeue(ptr);
+		cout << *ptr << " ";
+		temp.enqueue(ptr);
+	}
+	while (!temp.isempty())
+	{
+		temp.dequeue(ptr);
+		q.enqueue(ptr,ptr->getcost());
+	}
 	cout << endl;
 }
 
@@ -207,8 +219,8 @@ void Company::Timer()
 	{
 		Event* nxt;
 		PrintAllData();
-		int x;
-		cin >> x;
+		/*int x;
+		cin >> x;*/
 		while (Events.peek(nxt) && nxt->GetTime() == timer)
 		{
 			Events.dequeue(nxt);

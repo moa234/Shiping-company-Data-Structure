@@ -127,14 +127,14 @@ bool PriorityQueue<T>::peek(T& item) const
  bool PriorityQueue<T>::isempty()
  {
 	 if(count==-1)
-	 return false;
 	 return true;
+	 return false;
  }
 
  template<typename T>
  int PriorityQueue<T>::GetSize()
  {
-	 return count;
+	 return count+1;
  }
 
  template<typename T>
