@@ -6,3 +6,9 @@ enum Itemtype
 	Special,
 	VIP
 };
+enum Modetype
+{
+	interactive,
+	stepBstep,
+	silent
+};
