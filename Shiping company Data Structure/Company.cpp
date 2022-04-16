@@ -212,7 +212,7 @@ void Company::Timer()
 		PrintAllData();
 		int x;
 		cin >> x;
-		if (Events.peek(nxt) && nxt->GetTime() == timer)
+		while (Events.peek(nxt) && nxt->GetTime() == timer)
 		{
 			Events.dequeue(nxt);
 			nxt->excute(this);
