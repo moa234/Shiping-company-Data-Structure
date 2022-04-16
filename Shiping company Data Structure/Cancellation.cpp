@@ -8,8 +8,8 @@ Cancellation::Cancellation(Time et, int id)
 
 void Cancellation::excute(Company* MainPtr)
 {
-	Cargo* cancelled = nullptr;
-	if (MainPtr->removenormal(cancelled, ID))
+	Cargo* cancelled = MainPtr->removenormal(ID);
+	if (cancelled)
 	{
 		MainPtr->deletecargo(cancelled);
 	}
