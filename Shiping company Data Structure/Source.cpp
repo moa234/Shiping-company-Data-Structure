@@ -13,6 +13,7 @@ int main()
 	Company c;
 	ifstream fin("test.txt") ;
 	c.ReadFile(fin);
+	c.Timer();
 	//for (int i = 0; i < 6; i++)
 	//{
 	//	int x,w;

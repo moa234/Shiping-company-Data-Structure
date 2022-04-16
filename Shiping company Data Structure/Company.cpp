@@ -6,6 +6,7 @@
 
 Company::Company()
 {
+	timer.SetDay(1); timer.SetHour(1);
 }
 
 bool Company::removenormal(Cargo *&q, int id)
@@ -152,16 +153,6 @@ void Company::ReadEvents(ifstream& fin)
 }
 void Company::PrintAllData()
 {
-	Queue<Event* > Event;
-	Queue<Truck* > ReadyT[3];
-	Queue<Truck* > MaintainedT[3];
-	Queue<Truck* > In_TripT[3];
-	Queue<Cargo* > NWaitingC;
-	Queue<Cargo* > SWaitingC;
-	PriorityQueue<Cargo*> VWaitingC;
-	Queue<Cargo* > NMovingC;
-	Queue<Cargo* > SMovingC;
-	Queue<Cargo* > VMovingC;
 	cout << "Normal Waiting Cargo:";
 	PrintCargo(NWaitingC);
 	cout << "Special Waiting Cargo:";
@@ -212,4 +203,24 @@ void Company::AddVIPList(Cargo* ptr)
 {
 	int cost = ptr->getcost();
 	VWaitingC.enqueue(ptr, cost);
+}
+
+void Company::Timer()
+{
+	for (int i = 1; i <= 720; i++)
+	{
+		Event* nxt;
+		Events.peek(nxt);
+		cout << Events.GetSize() << endl;
+		cout <<"time:" << timer.GetHour() << " ";
+		if (nxt)
+			cout << "not nullptr";
+		if (nxt && nxt->GetTime() == timer)
+		{
+			Events.dequeue(nxt);
+			nxt->excute(this);
+			delete nxt;
+		}
+		timer.hour_incr();
+	}
 }
