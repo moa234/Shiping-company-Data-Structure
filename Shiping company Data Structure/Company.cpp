@@ -93,7 +93,7 @@ void Company::ReadEvents(ifstream& fin)
 			if (type == 'S') category = Special;
 			if (type == 'V') category = VIP;
 			int datar[6];
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < 6; i++)
 			{
 				
 				if (i == 1)
@@ -102,7 +102,6 @@ void Company::ReadEvents(ifstream& fin)
 					fin >> nullchar;
 				}
 				fin >> datar[i];
-				cout << datar[i];
 			}
 			Time et;
 			et.SetDay(datar[0]);
@@ -210,17 +209,16 @@ void Company::Timer()
 	for (int i = 1; i <= 720; i++)
 	{
 		Event* nxt;
-		Events.peek(nxt);
-		cout << Events.GetSize() << endl;
-		cout <<"time:" << timer.GetHour() << " ";
-		if (nxt)
-			cout << "not nullptr";
-		if (nxt && nxt->GetTime() == timer)
+		PrintAllData();
+		int x;
+		cin >> x;
+		if (Events.peek(nxt) && nxt->GetTime() == timer)
 		{
 			Events.dequeue(nxt);
 			nxt->excute(this);
 			delete nxt;
 		}
 		timer.hour_incr();
+		
 	}
 }
