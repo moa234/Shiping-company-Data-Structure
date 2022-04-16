@@ -149,16 +149,6 @@ void Company::ReadEvents(ifstream& fin)
 }
 void Company::PrintAllData()
 {
-	Queue<Event* > Event;
-	Queue<Truck* > ReadyT[3];
-	Queue<Truck* > MaintainedT[3];
-	Queue<Truck* > In_TripT[3];
-	Queue<Cargo* > NWaitingC;
-	Queue<Cargo* > SWaitingC;
-	PriorityQueue<Cargo*> VWaitingC;
-	Queue<Cargo* > NMovingC;
-	Queue<Cargo* > SMovingC;
-	Queue<Cargo* > VMovingC;
 	cout << "Normal Waiting Cargo:";
 	PrintCargo(NWaitingC);
 	cout << "Special Waiting Cargo:";
