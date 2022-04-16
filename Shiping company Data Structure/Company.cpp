@@ -82,13 +82,12 @@ void Company::ReadEvents(ifstream& fin)
 	{
 		char evtype;
 		fin >> evtype;
+		Itemtype category;
+		if (evtype == 'R') category = Normal;
+		if (evtype == 'X') category = Special;
+		if (evtype == 'P') category = VIP;
 		if (evtype == 'R')
-		{
-			fin >> type;
-			Itemtype category;
-			if (type == 'N') category = Normal;
-			if (type == 'S') category = Special;
-			if (type == 'V') category = VIP;
+		{	
 			int datar[6];
 			for (int i = 0; i < 5; i++)
 			{
@@ -139,11 +138,13 @@ void Company::ReadEvents(ifstream& fin)
 			etp.SetDay(datap[0]);
 			etp.SetHour(datap[1]);
 			Event* prom = new Promotion(etp, datap[2], datap[3]);
+			
 			Events.enqueue(prom);
 		}
 	}
 
 	cout << eventsnum;
+	Events.print();
 }
 void Company::PrintAllData()
 {
