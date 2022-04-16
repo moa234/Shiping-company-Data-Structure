@@ -3,6 +3,7 @@
 #include "Preparation.h"
 Company::Company()
 {
+	timer.SetDay(1); timer.SetHour(1);
 }
 
 bool Company::removenormal(Cargo *&q, int id)
@@ -141,7 +142,6 @@ void Company::ReadEvents(ifstream& fin)
 		}
 	}
 
-	cout << eventsnum;
 }
 void Company::PrintAllData()
 {
@@ -205,4 +205,24 @@ void Company::AddVIPList(Cargo* ptr)
 {
 	int cost = ptr->getcost();
 	VWaitingC.enqueue(ptr, cost);
+}
+
+void Company::Timer()
+{
+	for (int i = 1; i <= 720; i++)
+	{
+		Event* nxt;
+		Events.peek(nxt);
+		cout << Events.GetSize() << endl;
+		cout <<"time:" << timer.GetHour() << " ";
+		if (nxt)
+			cout << "not nullptr";
+		if (nxt && nxt->GetTime() == timer)
+		{
+			Events.dequeue(nxt);
+			nxt->excute(this);
+			delete nxt;
+		}
+		timer.hour_incr();
+	}
 }

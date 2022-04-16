@@ -12,6 +12,7 @@ public:
 	int GetHour();
 	void SetDay(int num);
 	void SetHour(int num);
+	bool operator == (const Time& t2);
 	
 };
 

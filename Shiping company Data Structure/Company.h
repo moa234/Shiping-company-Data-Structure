@@ -36,6 +36,7 @@ public:
 	void AddNormList(Cargo* ptr);
 	void AddSpeList(Cargo* ptr);
 	void AddVIPList(Cargo* ptr);
+	void Timer();
 
 };
 

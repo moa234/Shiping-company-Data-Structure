@@ -8,5 +8,6 @@ protected:
 	Time time;
 public:
 	virtual void excute(Company* MainPtr) = 0;
+	Time GetTime();
 };
 
