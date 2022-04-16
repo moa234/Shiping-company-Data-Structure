@@ -1,5 +1,11 @@
 #include "UI.h"
 
+UI::UI(Modetype mode, Company* ptr)
+{
+	this->mode = mode;
+	this->ptr = ptr;
+}
+
 int UI::readnumber()
 {
 	int x;
@@ -26,3 +32,86 @@ void UI::readmode()
 	displaytext("For silent mode enter 3");
 	mode = (readnumber() == 0)? interactive: (readnumber() == 1) ?stepBstep:silent ;
 }
+
+void UI::PrintCargoId(Queue<int>* n, Queue<int>* s, Queue<int>* v)
+{
+	int szn, szs, szv;
+	szn = n->GetSize();
+	szs = n->GetSize();
+	szv = n->GetSize();
+	cout << "[";
+	PrintQueue(n);
+	cout << "] ";
+	cout << "(";
+	PrintQueue(s);
+	cout << ") ";
+	cout << "{";
+	PrintQueue(v);
+	cout << "} ";
+}
+
+void UI::PrintQueue(Queue<int>* q)
+{
+	int sz = q->GetSize();
+	for (int i = 0; i < sz; i++)
+	{
+		int x;
+		q->dequeue(x);
+		cout << x ;
+		if (i != sz-1)
+			cout << ",";
+	}
+}
+
+void UI::PrintMode(Queue<int>* n, Queue<int>* s, Queue<int>* v, ListType L)
+{
+	cout << n->GetSize() + s->GetSize() + v->GetSize();
+	if (L == PCargoWaiting)
+	{
+		cout << " Waiting Cargos: ";
+		PrintCargoId(n, s, v);
+	}
+	if (L == PCargoDelivered)
+	{
+		cout << " Delivered Cargos: ";
+		PrintCargoId(n, s, v);
+	}
+}
+
+void UI::Print()
+{
+	cout << "Current Time(Day:Hour):"<<ptr->GetTime().GetDay() << ":" << ptr->GetTime().GetHour() << endl;
+	Queue<int>* n = ptr->AccessCargoIds(PCargoWaiting,Normal);
+	Queue<int>* s = ptr->AccessCargoIds(PCargoWaiting, Special);
+	Queue<int>* v = ptr->AccessCargoIds(PCargoWaiting, VIP);
+	PrintMode(n, s, v, PCargoWaiting);
+	cout << endl;
+	delete n; delete s; delete v;
+     n = ptr->AccessCargoIds(PCargoDelivered, Normal);
+	 s = ptr->AccessCargoIds(PCargoDelivered, Special);
+	 v = ptr->AccessCargoIds(PCargoDelivered, VIP);
+	PrintMode(n, s, v, PCargoDelivered);
+	delete n; delete s; delete v;
+}
+
+void UI::WaitOption()
+{
+	if (mode == interactive)
+	{
+		Print();
+		char x;
+		cin.get();
+	}
+	if (mode == silent)
+		return;
+}
+
+void UI::simulate()
+{
+	for (int i = 0; i < 720; i++)
+	{
+		WaitOption();
+		ptr->Timer();
+	}
+}
+

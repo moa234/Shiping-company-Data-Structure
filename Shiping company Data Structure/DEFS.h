@@ -4,7 +4,16 @@ enum Itemtype
 {
 	Normal,
 	Special,
-	VIP
+	VIP,
+};
+enum ListType
+{
+	PCargoWaiting,
+	PCargoMoving,
+	PCargoDelivered,
+	PTruckReady,
+	PTruckMaintained,
+	PTruckMoving
 };
 enum Modetype
 {

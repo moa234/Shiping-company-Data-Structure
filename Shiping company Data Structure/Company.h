@@ -12,11 +12,11 @@ class Event;
 class Preparation;
 class Promotion;
 class Cancellation;
-
 class Company
 {
 	Time AutoP;
 	Time timer;
+	int counter;
 	Queue<Event*> Events;
 	Queue<Truck*> ReadyT[3];
 	Queue<Truck*> MaintainedT[3]; 
@@ -32,18 +32,22 @@ class Company
 	Queue<Cargo*> VDeliveredC;
 	void ReadTrucks(ifstream& fin);
 	void ReadEvents(ifstream& fin);
-	void Timer();
-	void ReadFile(ifstream& fin);
 public:
 	Company();
+	Time GetTime();
+	void Timer();
+	void ReadFile(ifstream& fin);
 	Cargo* removenormal(int id);
-	void PrintAllData();
-	void PrintCargo(Queue<Cargo*> &q);
-	void PrintCargoPQ(PriorityQueue<Cargo*>&q);
+	//void PrintAllData();
+	//void PrintCargo(Queue<Cargo*> &q);
+	//void PrintCargoPQ(PriorityQueue<Cargo*>&q);
+	Queue<int>* AccessCargoIds(ListType L, Itemtype T);
+	Queue<int>* CargoData(Queue<Cargo*>& q);
+	Queue<int>* CargoDataPQ(PriorityQueue<Cargo*>& q);
 	void AddNormList(Cargo* ptr);
 	void AddSpeList(Cargo* ptr);
 	void AddVIPList(Cargo* ptr);
 	void deletecargo(Cargo* c);
-	void simulate(ifstream& fin);
+	void simulate();
 };
 

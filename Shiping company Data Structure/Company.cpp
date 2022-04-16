@@ -7,6 +7,13 @@
 Company::Company()
 {
 	timer.SetDay(1); timer.SetHour(1);
+	counter = 0;
+}
+
+
+Time Company::GetTime()
+{
+	return timer;
 }
 
 Cargo* Company::removenormal(int id)
@@ -147,54 +154,111 @@ void Company::ReadEvents(ifstream& fin)
 		}
 	}
 }
-void Company::PrintAllData()
+//void Company::PrintAllData()
+//{
+//	cout << "Normal Waiting Cargo:";
+//	PrintCargo(NWaitingC);
+//	cout << "Special Waiting Cargo:";
+//	PrintCargo(SWaitingC);
+//	cout << "VIP Waiting Cargo:";
+//	PrintCargoPQ(VWaitingC);
+//	cout << "Normal Delivered Cargo:";
+//	PrintCargo(NDeliveredC);
+//	cout << "Special Delivered Cargo:";
+//	PrintCargo(SDeliveredC);
+//	cout << "VIP Delivered Cargo:";
+//	PrintCargo(VDeliveredC);
+//}
+
+//void Company::PrintCargo(Queue<Cargo*>& q)
+//{
+//	int sz = q.GetSize();
+//	cout << " Size: " << sz << " " << endl;
+//	for (int i = 0; i < sz ; i++)
+//	{
+//		Cargo* c;
+//		q.dequeue(c);
+//		cout << c->getid() << " ";
+//		q.enqueue(c);
+//	}
+//	cout << endl;
+//}
+//
+//void Company::PrintCargoPQ(PriorityQueue<Cargo*>& q)
+//{
+//	int sz = q.GetSize();
+//	Queue<Cargo*> temp;
+//	cout << " Size: " << sz << endl;
+//	Cargo* ptr=nullptr;
+//	while (!q.isempty())
+//	{
+//		q.dequeue(ptr);
+//		cout << *ptr << " ";
+//		temp.enqueue(ptr);
+//	}
+//	while (!temp.isempty())
+//	{
+//		temp.dequeue(ptr);
+//		q.enqueue(ptr,ptr->getcost());
+//	}
+//	cout << endl;
+//}
+
+Queue<int>* Company::AccessCargoIds(ListType L, Itemtype T)
 {
-	cout << "Normal Waiting Cargo:";
-	PrintCargo(NWaitingC);
-	cout << "Special Waiting Cargo:";
-	PrintCargo(SWaitingC);
-	cout << "VIP Waiting Cargo:";
-	PrintCargoPQ(VWaitingC);
-	cout << "Normal Delivered Cargo:";
-	PrintCargo(NDeliveredC);
-	cout << "Special Delivered Cargo:";
-	PrintCargo(SDeliveredC);
-	cout << "VIP Delivered Cargo:";
-	PrintCargo(VDeliveredC);
+	if (L == PCargoWaiting && T == Normal)
+		return CargoData(NWaitingC);
+	if (L == PCargoWaiting && T == Special)
+		return CargoData(SWaitingC);
+	if (L == PCargoWaiting && T == VIP)
+		return CargoDataPQ(VWaitingC);
+	if (L == PCargoMoving && T == Normal)
+		return CargoData(NMovingC);
+	if (L == PCargoMoving && T == Special)
+		return CargoData(SMovingC);
+	if (L == PCargoMoving && T == VIP)
+		return CargoData(VMovingC);
+	if (L == PCargoDelivered && T == Normal)
+		return CargoData(NDeliveredC);
+	if (L == PCargoDelivered && T == Special)
+		return CargoData(SDeliveredC);
+	if (L == PCargoDelivered && T == VIP)
+		return CargoData(VDeliveredC);
 }
 
-void Company::PrintCargo(Queue<Cargo*>& q)
+Queue<int>* Company::CargoData(Queue<Cargo*>& q)
 {
+	Queue<int>* ptr = new Queue<int>;
 	int sz = q.GetSize();
-	cout << " Size: " << sz << " " << endl;
-	for (int i = 0; i < sz ; i++)
+	for (int i = 0; i < sz; i++)
 	{
 		Cargo* c;
 		q.dequeue(c);
-		cout << c->getid() << " ";
+		ptr->enqueue(c->getid());
 		q.enqueue(c);
 	}
-	cout << endl;
+	return ptr;
+	
 }
 
-void Company::PrintCargoPQ(PriorityQueue<Cargo*>& q)
+Queue<int>* Company::CargoDataPQ(PriorityQueue<Cargo*>& q)
 {
+	Queue<int>* data = new Queue<int>;
 	int sz = q.GetSize();
 	Queue<Cargo*> temp;
-	cout << " Size: " << sz << endl;
-	Cargo* ptr=nullptr;
+	Cargo* ptr = nullptr;
 	while (!q.isempty())
 	{
 		q.dequeue(ptr);
-		cout << *ptr << " ";
+		data->enqueue(ptr->getid());
 		temp.enqueue(ptr);
 	}
 	while (!temp.isempty())
 	{
 		temp.dequeue(ptr);
-		q.enqueue(ptr,ptr->getcost());
+		q.enqueue(ptr, ptr->getcost());
 	}
-	cout << endl;
+	return data;
 }
 
 void Company::AddNormList(Cargo* ptr)
@@ -215,11 +279,9 @@ void Company::AddVIPList(Cargo* ptr)
 
 void Company::Timer()
 {
-	int counter = 0;
-	for (int i = 1; i <= 50; i++)
-	{
+	
 		Event* nxt;
-		PrintAllData();
+		//PrintAllData();
 		while (Events.peek(nxt) && nxt->GetTime() == timer)
 		{
 			Events.dequeue(nxt);
@@ -239,7 +301,7 @@ void Company::Timer()
 				VDeliveredC.enqueue(ptr);
 			counter = 0;
 		}
-	}
+
 }
 
 void Company::deletecargo(Cargo* c)
@@ -247,8 +309,7 @@ void Company::deletecargo(Cargo* c)
 	delete c;
 }
 
-void Company::simulate(ifstream& fin)
+void Company::simulate()
 {
-	ReadFile(fin);
 	Timer();
 }
