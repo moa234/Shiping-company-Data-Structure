@@ -29,7 +29,7 @@ class Company
 	Queue<Cargo* > VMovingC;
 public:
 	Company();
-	bool removenormal(Cargo *&q, int id);
+	Cargo* removenormal(int id);
 	void ReadFile(ifstream &fin);
 	void ReadTrucks(ifstream &fin);
 	void ReadEvents(ifstream& fin);
