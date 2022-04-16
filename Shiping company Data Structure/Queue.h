@@ -72,8 +72,8 @@ template<typename T>
 bool Queue<T>::isempty()
 {
 	if (head == nullptr)
-		return false;
-	return true;
+		return true;
+	return false;
 }
 
 template<typename T>
