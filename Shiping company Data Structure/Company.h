@@ -10,6 +10,9 @@
 
 class Event;
 class Preparation;
+class Promotion;
+class Cancellation;
+
 class Company
 {
 	Time AutoP;
