@@ -9,26 +9,18 @@ Company::Company()
 	timer.SetDay(1); timer.SetHour(1);
 }
 
-bool Company::removenormal(Cargo *&q, int id)
+Cargo* Company::removenormal(int id)
 {
-	Queue<Cargo*> temp;
-	Cargo* t;
-	bool found = 0;
-	while (!NWaitingC.isempty())
+	Cargo* c;
+	Cargo* found = NULL;
+	for (int i = 0; i < NWaitingC.GetSize(); i++)
 	{
-		NWaitingC.dequeue(t);
-		
-		if (t->getid() == id)
+		NWaitingC.dequeue(c);
+		if (c->getid() == id)
 		{
-			q = t;
-			found = true;
+			found = c;
 		}
-		temp.enqueue(t);
-	}
-	while (!temp.isempty())
-	{
-		temp.dequeue(t);
-		NWaitingC.enqueue(t);
+		NWaitingC.enqueue(c);
 	}
 	return found;
 }
