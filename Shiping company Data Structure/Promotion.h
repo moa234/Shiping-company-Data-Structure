@@ -8,7 +8,7 @@ class Promotion :
     public Event
 {
     int AutoP; //max unloaded time
-
+    int extracost;
 public:
     Promotion(Time et, int id, int extra);
     virtual void excute(Queue<Cargo>& normalWaitingList, Queue<Cargo>& VipWaitingList);

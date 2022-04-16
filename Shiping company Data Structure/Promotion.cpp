@@ -24,6 +24,9 @@ bool Promotion:: toPromote(Queue<Cargo>& normalWaitingList)
 
 Promotion::Promotion(Time et, int id, int extra)
 {
+	time = et;
+	ID = id;
+	extracost = extra;
 }
 
 void Promotion::excute(Queue<Cargo>& normalWaitingList,Queue<Cargo>& VipWaitingList)
