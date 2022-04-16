@@ -68,7 +68,7 @@ void PriorityQueue<T>::reheapdown(int idx)
 	{
 		maxpos = l;
 	}
-	if (r<count && nodes[maxpos]->GetWeight() > nodes[idx]->GetWeight())
+	if (r<count && nodes[r]->GetWeight() > nodes[maxpos]->GetWeight())
 	{
 		maxpos = r;
 	}
