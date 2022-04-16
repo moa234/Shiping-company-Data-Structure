@@ -1,13 +1,13 @@
 #include "Cargo.h"
 
 
-Cargo::Cargo(int ID, int Dis, int Lt, int cost)
+Cargo::Cargo(int ID, int Dis, int Lt, int cost, Time time)
 {
 	this->ID = ID;
 	deldis = Dis;
 	this->Lt = Lt;
 	this->cost = cost;
-
+	Pt = time;
 }
 
 Cargo::Cargo()
