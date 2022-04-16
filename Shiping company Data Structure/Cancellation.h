@@ -1,6 +1,7 @@
 #pragma once
 #include "Event.h"
 #include "Company.h"
+#include "Time.h"
 class Cancellation :
     public Event
 {
