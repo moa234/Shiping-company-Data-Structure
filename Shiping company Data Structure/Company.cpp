@@ -13,7 +13,8 @@ Cargo* Company::removenormal(int id)
 {
 	Cargo* c;
 	Cargo* found = NULL;
-	for (int i = 0; i < NWaitingC.GetSize(); i++)
+	int count = NWaitingC.GetSize();
+	for (int i = 0; i < count; i++)
 	{
 		NWaitingC.dequeue(c);
 		if (c->getid() == id)
@@ -21,7 +22,10 @@ Cargo* Company::removenormal(int id)
 			found = c;
 		}
 		else
-		NWaitingC.enqueue(c);
+		{
+			NWaitingC.enqueue(c);
+		}
+		
 	}
 	return found;
 }
