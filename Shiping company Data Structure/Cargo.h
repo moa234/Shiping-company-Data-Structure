@@ -16,7 +16,7 @@ public:
 	Cargo(int ID, int Dis, int Lt, int cost, Time time);
 	Cargo();
 	int getid();
-	int getprept();
+	Time getprept();
 	int getloadt();
 	int getdeldis();
 	int getcost();

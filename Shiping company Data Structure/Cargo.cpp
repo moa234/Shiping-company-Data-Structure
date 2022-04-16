@@ -19,7 +19,7 @@ int Cargo::getid()
 	return ID;
 }
 
-int Cargo::getprept()
+Time Cargo::getprept()
 {
 	return Pt;
 }
