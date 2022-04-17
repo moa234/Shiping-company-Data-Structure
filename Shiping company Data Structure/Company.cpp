@@ -51,6 +51,20 @@ void Company::ReadFile(ifstream& fin)
 	ReadEvents(fin);
 }
 
+void Company::savefile(ofstream& fout)
+{
+	fout << "CDT" << "\tID" << "\tPT" << "\tWT" << "\tTID" << endl;
+	int count = DeliveredC.GetSize();
+	Cargo* c;
+	for (int i = 0; i < count; i++)
+	{
+		DeliveredC.dequeue(c);
+		fout << c->getCDT().GetDay() << ":" << c->getCDT().GetHour() << "\t" << c->getprept().GetDay() << ":"
+			<< c->getprept().GetHour() << "\t" << c->getWT().GetDay() << ":" << c->getWT().GetHour() << "\t" << c->getTID() << endl;
+		DeliveredC.enqueue(c);
+	}
+}
+
 void Company::ReadTrucks(ifstream& fin)
 {
 	int data[4][3]; // one row for count of vechiles,then another for speed,then another for capacity,then another for maintainence
