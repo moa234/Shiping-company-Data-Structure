@@ -13,9 +13,10 @@ class Cargo
 	Itemtype type;
 
 public:
-	Cargo(int ID, int Dis, int Lt, int cost, Time time);
+	Cargo(Itemtype t, int ID, int Dis, int Lt, int cost, Time time);
 	Cargo();
 	int getid();
+	Itemtype gettype();
 	Time getprept();
 	int getloadt();
 	int getdeldis();

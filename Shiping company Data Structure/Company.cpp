@@ -2,12 +2,14 @@
 #include "Event.h"
 #include "Preparation.h"
 #include "Cancellation.h"
+#include "UI.h"
 #include "Promotion.h"
 
 Company::Company()
 {
 	timer.SetDay(1); timer.SetHour(1);
 	counter = 0;
+	PUI = new UI(this);
 }
 
 
@@ -204,62 +206,127 @@ void Company::ReadEvents(ifstream& fin)
 //	cout << endl;
 //}
 
-Queue<int>* Company::AccessCargoIds(ListType L, Itemtype T)
-{
-	if (L == PCargoWaiting && T == Normal)
-		return CargoData(NWaitingC);
-	if (L == PCargoWaiting && T == Special)
-		return CargoData(SWaitingC);
-	if (L == PCargoWaiting && T == VIP)
-		return CargoDataPQ(VWaitingC);
-	if (L == PCargoMoving && T == Normal)
-		return CargoData(NMovingC);
-	if (L == PCargoMoving && T == Special)
-		return CargoData(SMovingC);
-	if (L == PCargoMoving && T == VIP)
-		return CargoData(VMovingC);
-	if (L == PCargoDelivered && T == Normal)
-		return CargoData(NDeliveredC);
-	if (L == PCargoDelivered && T == Special)
-		return CargoData(SDeliveredC);
-	if (L == PCargoDelivered && T == VIP)
-		return CargoData(VDeliveredC);
-}
+//Queue<int>* Company::AccessCargoIds(ListType L, Itemtype T)
+//{
+//	if (L == PCargoWaiting && T == Normal)
+//		return CargoData(NWaitingC);
+//	if (L == PCargoWaiting && T == Special)
+//		return CargoData(SWaitingC);
+//	if (L == PCargoWaiting && T == VIP)
+//		return CargoDataPQ(VWaitingC);
+//	if (L == PCargoMoving && T == Normal)
+//		return CargoData(NMovingC);
+//	if (L == PCargoMoving && T == Special)
+//		return CargoData(SMovingC);
+//	if (L == PCargoMoving && T == VIP)
+//		return CargoData(VMovingC);
+//	if (L == PCargoDelivered && T == Normal)
+//		return CargoData(NDeliveredC);
+//	if (L == PCargoDelivered && T == Special)
+//		return CargoData(SDeliveredC);
+//	if (L == PCargoDelivered && T == VIP)
+//		return CargoData(VDeliveredC);
+//}
 
-Queue<int>* Company::CargoData(Queue<Cargo*>& q)
+//Queue<int>* Company::CargoData(Queue<Cargo*>& q)
+//{
+//	Queue<int>* ptr = new Queue<int>;
+//	int sz = q.GetSize();
+//	for (int i = 0; i < sz; i++)
+//	{
+//		Cargo* c;
+//		q.dequeue(c);
+//		ptr->enqueue(c->getid());
+//		q.enqueue(c);
+//	}
+//	return ptr;
+//	
+//}
+void Company::printwaiting() 
 {
-	Queue<int>* ptr = new Queue<int>;
-	int sz = q.GetSize();
-	for (int i = 0; i < sz; i++)
-	{
-		Cargo* c;
-		q.dequeue(c);
-		ptr->enqueue(c->getid());
-		q.enqueue(c);
-	}
-	return ptr;
 	
+	Queue<int>* idn = new Queue<int>;
+	Queue<int>* idv = new Queue<int>;
+	Queue<int>* ids = new Queue<int>;
+	Cargo* c;
+
+	int count = NWaitingC.GetSize();
+	for (int i = 0; i < count; i++)
+	{
+		NWaitingC.dequeue(c);
+		idn->enqueue(c->getid());
+		NWaitingC.enqueue(c);
+	}
+	count = VWaitingC.GetSize();
+	Queue<Cargo*> temp;
+	for (int i = 0; i < count; i++)
+	{
+		VWaitingC.dequeue(c);
+		idv->enqueue(c->getid());
+		temp.enqueue(c);
+	}
+	for (int i = 0; i < count; i++)
+	{
+		temp.dequeue(c);
+		VWaitingC.enqueue(c, c->getcost());
+	}
+	count = SWaitingC.GetSize();
+	for (int i = 0; i < count; i++)
+	{
+		SWaitingC.dequeue(c);
+		ids->enqueue(c->getid());
+		SWaitingC.enqueue(c);
+	}
+	PUI->PrintCargoId(idn, ids, idv);
 }
 
-Queue<int>* Company::CargoDataPQ(PriorityQueue<Cargo*>& q)
+void Company::printdelivered()
 {
-	Queue<int>* data = new Queue<int>;
-	int sz = q.GetSize();
-	Queue<Cargo*> temp;
-	Cargo* ptr = nullptr;
-	while (!q.isempty())
+	Queue<int>* idn = new Queue<int>;
+	Queue<int>* idv = new Queue<int>;
+	Queue<int>* ids = new Queue<int>;
+	Cargo* c;
+
+	int count = DeliveredC.GetSize();
+	for (int i = 0; i < count; i++)
 	{
-		q.dequeue(ptr);
-		data->enqueue(ptr->getid());
-		temp.enqueue(ptr);
+		DeliveredC.dequeue(c);
+		if (c->gettype() == Normal)
+		{
+			idn->enqueue(c->getid());
+		}
+		else if (c->gettype() == VIP)
+		{
+			idv->enqueue(c->getid());
+		}
+		else
+		{
+			ids->enqueue(c->getid());
+		}
+		DeliveredC.enqueue(c);
 	}
-	while (!temp.isempty())
-	{
-		temp.dequeue(ptr);
-		q.enqueue(ptr, ptr->getcost());
-	}
-	return data;
+	PUI->PrintCargoId(idn, ids, idv);
 }
+
+//Queue<int>* Company::CargoDataPQ(PriorityQueue<Cargo*>& q)
+//{
+//	Queue<int>* data = new Queue<int>;
+//	int sz = q.GetSize();
+//	Queue<Cargo*> temp;
+//	Cargo* ptr = nullptr;
+//	while (!q.isempty())
+//	{
+//		q.dequeue(ptr);
+//		data->enqueue(ptr->getid());
+//		temp.enqueue(ptr);
+//	}
+//	while (!temp.isempty())
+//	{
+//		temp.dequeue(ptr);
+//		q.enqueue(ptr, ptr->getcost());
+//	}
+//	return data;
+//}
 
 void Company::AddNormList(Cargo* ptr)
 {
@@ -294,11 +361,11 @@ void Company::Timer()
 		{
 			Cargo* ptr = nullptr;
 			if (NWaitingC.dequeue(ptr))
-				NDeliveredC.enqueue(ptr);
+				DeliveredC.enqueue(ptr);
 			if (SWaitingC.dequeue(ptr))
-				SDeliveredC.enqueue(ptr);
+				DeliveredC.enqueue(ptr);
 			if (VWaitingC.dequeue(ptr))
-				VDeliveredC.enqueue(ptr);
+				DeliveredC.enqueue(ptr);
 			counter = 0;
 		}
 
@@ -311,5 +378,6 @@ void Company::deletecargo(Cargo* c)
 
 void Company::simulate()
 {
-	Timer();
+	PUI->simulate();
+	//Timer();
 }

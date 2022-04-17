@@ -1,8 +1,8 @@
 #include "UI.h"
 
-UI::UI(Modetype mode, Company* ptr)
+UI::UI(Company* ptr)
 {
-	this->mode = mode;
+	//this->mode = mode;
 	this->ptr = ptr;
 }
 
@@ -26,7 +26,7 @@ void UI::readmode()
 	displaytext("For interactive mode enter 1");
 	displaytext("For step-by-step mode enter 2");
 	displaytext("For silent mode enter 3");
-	mode = (readnumber() == 0)? interactive: (readnumber() == 1)? stepBstep: silent ;
+	mode = (readnumber() == 1) ? interactive : (readnumber() == 2) ? stepBstep : silent;
 }
 
 void UI::PrintCargoId(Queue<int>* n, Queue<int>* s, Queue<int>* v)
@@ -44,6 +44,7 @@ void UI::PrintCargoId(Queue<int>* n, Queue<int>* s, Queue<int>* v)
 	cout << "{";
 	PrintQueue(v);
 	cout << "} ";
+	cout << endl << "--------------------------------" << endl;
 }
 
 void UI::PrintQueue(Queue<int>* q)
@@ -74,27 +75,28 @@ void UI::PrintMode(Queue<int>* n, Queue<int>* s, Queue<int>* v, ListType L)
 	}
 }
 
-void UI::Print()
-{
-	cout << "Current Time(Day:Hour):"<<ptr->GetTime().GetDay() << ":" << ptr->GetTime().GetHour() << endl;
-	Queue<int>* n = ptr->AccessCargoIds(PCargoWaiting,Normal);
-	Queue<int>* s = ptr->AccessCargoIds(PCargoWaiting, Special);
-	Queue<int>* v = ptr->AccessCargoIds(PCargoWaiting, VIP);
-	PrintMode(n, s, v, PCargoWaiting);
-	cout << endl;
-	delete n; delete s; delete v;
-     n = ptr->AccessCargoIds(PCargoDelivered, Normal);
-	 s = ptr->AccessCargoIds(PCargoDelivered, Special);
-	 v = ptr->AccessCargoIds(PCargoDelivered, VIP);
-	PrintMode(n, s, v, PCargoDelivered);
-	delete n; delete s; delete v;
-}
+//void UI::Print()
+//{
+//	cout << "Current Time(Day:Hour):"<<ptr->GetTime().GetDay() << ":" << ptr->GetTime().GetHour() << endl;
+//	Queue<int>* n = ptr->AccessCargoIds(PCargoWaiting,Normal);
+//	Queue<int>* s = ptr->AccessCargoIds(PCargoWaiting, Special);
+//	Queue<int>* v = ptr->AccessCargoIds(PCargoWaiting, VIP);
+//	PrintMode(n, s, v, PCargoWaiting);
+//	cout << endl;
+//	delete n; delete s; delete v;
+//     n = ptr->AccessCargoIds(PCargoDelivered, Normal);
+//	 s = ptr->AccessCargoIds(PCargoDelivered, Special);
+//	 v = ptr->AccessCargoIds(PCargoDelivered, VIP);
+//	PrintMode(n, s, v, PCargoDelivered);
+//	delete n; delete s; delete v;
+//}
 
 void UI::WaitOption()
 {
 	if (mode == interactive)
 	{
-		Print();
+		ptr->printwaiting();
+		ptr->printdelivered();
 		char x;
 		cin.get();
 	}
@@ -102,8 +104,14 @@ void UI::WaitOption()
 		return;
 }
 
+void UI::save(ofstream& s)
+{
+	
+}
+
 void UI::simulate()
 {
+	readmode();
 	for (int i = 0; i < 720; i++)
 	{
 		WaitOption();

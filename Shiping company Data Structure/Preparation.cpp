@@ -13,7 +13,7 @@ Preparation::Preparation(Itemtype type, Time time, int ID, int Dis, int Lt, int 
 
 void Preparation::excute(Company* MainPtr)
 {
-	Cargo* ptr = new Cargo(ID, Dis, Lt, cost, time);
+	Cargo* ptr = new Cargo(type, ID, Dis, Lt, cost, time);
 	if (type == Normal)
 	{
 		MainPtr->AddNormList(ptr);

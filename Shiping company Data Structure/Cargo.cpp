@@ -1,8 +1,9 @@
 #include "Cargo.h"
 
 
-Cargo::Cargo(int ID, int Dis, int Lt, int cost, Time time)
+Cargo::Cargo(Itemtype t,int ID, int Dis, int Lt, int cost, Time time)
 {
+	type = t;
 	this->ID = ID;
 	deldis = Dis;
 	this->Lt = Lt;
@@ -17,6 +18,11 @@ Cargo::Cargo()
 int Cargo::getid()
 {
 	return ID;
+}
+
+Itemtype Cargo::gettype()
+{
+	return type;
 }
 
 Time Cargo::getprept()

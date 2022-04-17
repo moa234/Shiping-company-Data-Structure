@@ -12,9 +12,10 @@ int main()
 	Queue<int*> pq;
 	Company c;
 	ifstream fin("test.txt") ;
-	UI interface(interactive,&c);
 	c.ReadFile(fin);
-	interface.simulate();
+	c.simulate();
+	c.printwaiting();
+	
 	//for (int i = 0; i < 6; i++)
 	//{
 	//	int x,w;
