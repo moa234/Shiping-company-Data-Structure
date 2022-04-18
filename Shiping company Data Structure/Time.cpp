@@ -37,6 +37,11 @@ int Time::GetHour()
 	return hour;
 }
 
+int Time::tohours()
+{
+	return day*24 + hour;
+}
+
 void Time::SetDay(int num)
 {
 	day = num;

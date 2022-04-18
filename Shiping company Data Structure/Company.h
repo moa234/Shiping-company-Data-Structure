@@ -16,7 +16,8 @@ class Cancellation;
 class Company
 {
 	UI* PUI;
-	Time AutoP;
+	int AutoP;
+	int maxW;
 	Time timer;
 	int counter;
 	Queue<Event*> Events;
@@ -52,5 +53,6 @@ public:
 	void AddVIPList(Cargo* ptr);
 	void deletecargo(Cargo* c);
 	void simulate();
+	void autopromote();
 };
 

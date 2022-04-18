@@ -10,6 +10,7 @@ public:
 	void hour_incr();
 	int GetDay();
 	int GetHour();
+	int tohours();
 	void SetDay(int num);
 	void SetHour(int num);
 	bool operator == (const Time& t2);
