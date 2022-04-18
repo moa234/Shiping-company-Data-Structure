@@ -18,7 +18,7 @@ public:
 	PriorityQueue();
 	virtual bool peek(T& item) const;
 	virtual bool dequeue(T& item);
-	virtual bool enqueue(const T& item,int weight);
+	virtual bool enqueue(const T& item,double weight);
 	virtual bool isempty();
 	virtual int GetSize();
 	void print();
@@ -64,13 +64,13 @@ void PriorityQueue<T>::reheapdown(int idx)
 	int maxpos = idx;
 	int l = lch(idx);
 	int r = rch(idx);
-	if (r<count && nodes[r]->GetWeight() > nodes[maxpos]->GetWeight())
-	{
-		maxpos = r;
-	}
 	if (l<count && nodes[l]->GetWeight() > nodes[idx]->GetWeight())
 	{
 		maxpos = l;
+	}
+	if (r<count && nodes[r]->GetWeight() > nodes[maxpos]->GetWeight())
+	{
+		maxpos = r;
 	}
 	if (maxpos != idx)
 	{
@@ -108,13 +108,13 @@ bool PriorityQueue<T>::peek(T& item) const
 	 nodes[0] = nodes[count];
 	 nodes[count] = tmp;
 	 delete tmp;
-	 count--;
 	 reheapdown(0);
+	 count--;
 	 return true;
  }
 
  template<typename T>
- bool PriorityQueue<T>::enqueue(const T& item, int weight)
+ bool PriorityQueue<T>::enqueue(const T& item, double weight)
  {
 	 if (count == max - 1)
 		 return false;

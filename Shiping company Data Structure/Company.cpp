@@ -268,7 +268,7 @@ void Company::printwaiting()
 	for (int i = 0; i < count; i++)
 	{
 		temp.dequeue(c);
-		VWaitingC.enqueue(c, c->getcost());
+		VWaitingC.enqueue(c, c->getcost()+c->getid()/100.0);
 	}
 	count = SWaitingC.GetSize();
 	for (int i = 0; i < count; i++)
@@ -341,7 +341,7 @@ void Company::AddSpeList(Cargo* ptr)
 void Company::AddVIPList(Cargo* ptr)
 {
 	int cost = ptr->getcost();
-	VWaitingC.enqueue(ptr, cost);
+	VWaitingC.enqueue(ptr, cost+ptr->getid()/100.0);
 }
 
 void Company::Timer()

@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
 
-	Queue<int*> pq;
+	//Queue<int*> pq;
 	Company c;
 	ifstream fin("test.txt") ;
 	c.ReadFile(fin);
