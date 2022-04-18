@@ -46,9 +46,24 @@ void Company::ReadFile(ifstream& fin)
 	int numjourn;
 	fin >> numjourn;
 	fin >> d >> h;
-	AutoP.SetDay(d); AutoP.SetHour(h);
+	AutoP = d;
+	maxW = h;
 
 	ReadEvents(fin);
+}
+
+void Company::savefile(ofstream& fout)
+{
+	fout << "CDT" << "\tID" << "\tPT" << "\tWT" << "\tTID" << endl;
+	int count = DeliveredC.GetSize();
+	Cargo* c;
+	for (int i = 0; i < count; i++)
+	{
+		DeliveredC.dequeue(c);
+		fout << c->getCDT().GetDay() << ":" << c->getCDT().GetHour() << "\t" << c->getprept().GetDay() << ":"
+			<< c->getprept().GetHour() << "\t" << c->getWT().GetDay() << ":" << c->getWT().GetHour() << "\t" << c->getTID() << endl;
+		DeliveredC.enqueue(c);
+	}
 }
 
 void Company::ReadTrucks(ifstream& fin)
@@ -306,6 +321,7 @@ void Company::printdelivered()
 		DeliveredC.enqueue(c);
 	}
 	PUI->PrintCargoId(idn, ids, idv);
+	delete idn, ids, idv;
 }
 
 //Queue<int>* Company::CargoDataPQ(PriorityQueue<Cargo*>& q)
@@ -380,4 +396,26 @@ void Company::simulate()
 {
 	PUI->simulate();
 	//Timer();
+}
+
+void Company::autopromote()
+{
+	Cargo* c;
+	int count = NWaitingC.GetSize();
+	for (int i = 0; i < count; i++)
+	{
+		NWaitingC.dequeue(c);
+		if (c->getWT().tohours() >= AutoP)
+		{
+			Time t;
+			Event* promote = new Promotion(t,c->getid(), 0);
+			promote->excute(this);
+			delete promote;
+		}
+		else
+		{
+			NWaitingC.enqueue(c);
+		}
+		
+	}
 }

@@ -20,6 +20,16 @@ int Cargo::getid()
 	return ID;
 }
 
+int Cargo::getTID()
+{
+	return TID;
+}
+
+void Cargo::setTID(int id)
+{
+	TID = id;
+}
+
 Itemtype Cargo::gettype()
 {
 	return type;
@@ -28,6 +38,26 @@ Itemtype Cargo::gettype()
 Time Cargo::getprept()
 {
 	return Pt;
+}
+
+Time Cargo::getCDT()
+{
+	return CDT;
+}
+
+Time Cargo::getWT()
+{
+	return WT;
+}
+
+void Cargo::setWT(Time& t)
+{
+	WT = t;
+}
+
+void Cargo::setCDT(Time& t)
+{
+	CDT = t;
 }
 
 int Cargo::getloadt()

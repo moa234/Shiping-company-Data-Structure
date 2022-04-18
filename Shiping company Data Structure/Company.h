@@ -16,19 +16,18 @@ class Cancellation;
 class Company
 {
 	UI* PUI;
-	Time AutoP;
+	int AutoP;
+	int maxW;
 	Time timer;
 	int counter;
 	Queue<Event*> Events;
 	Queue<Truck*> ReadyT[3];
 	Queue<Truck*> MaintainedT[3]; 
-	Queue<Truck*> In_TripT[3];
+	PriorityQueue<Truck*> In_TripT;
 	Queue<Cargo*> NWaitingC;
 	Queue<Cargo*> SWaitingC;
 	PriorityQueue<Cargo*> VWaitingC;
-	Queue<Cargo*> NMovingC;
-	Queue<Cargo*> SMovingC;
-	Queue<Cargo*> VMovingC;
+	PriorityQueue<Cargo*> MovingC;
 	Queue<Cargo*> DeliveredC;
 	//Queue<Cargo*> SDeliveredC;
 	//Queue<Cargo*> VDeliveredC;
@@ -39,6 +38,7 @@ public:
 	Time GetTime();
 	void Timer();
 	void ReadFile(ifstream& fin);
+	void savefile(ofstream& fout);
 	Cargo* removenormal(int id);
 	//void PrintAllData();
 	//void PrintCargo(Queue<Cargo*> &q);
@@ -53,5 +53,6 @@ public:
 	void AddVIPList(Cargo* ptr);
 	void deletecargo(Cargo* c);
 	void simulate();
+	void autopromote();
 };
 
