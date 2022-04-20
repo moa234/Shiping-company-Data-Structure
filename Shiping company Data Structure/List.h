@@ -1,7 +1,7 @@
 #pragma once
 #include "ListADT.h"
 #include "Node.h"
-
+#include <iostream>
 template <class T>
 class List : public ListADT<T>
 {
@@ -27,7 +27,7 @@ public:
 		}
 		return false;
 	}
-	int getLength() const
+	int GetSize() const
 	{
 		return count;
 	}
@@ -102,17 +102,17 @@ public:
 		insert(position, entry);
 		return replaced;
 	}
-	//void Print()
-	//{
-	//	Node<T>* ptr = headptr;
-	//	while (ptr)
-	//	{
-	//		cout << ptr->getitem();
-	//		ptr = ptr->getnext();
-	//		if (ptr)
-	//			cout << ",";
-	//	}
-	//}
+	void Print()
+	{
+		Node<T>* ptr = headptr;
+		while (ptr)
+		{
+			std::cout << ptr->getitem();
+			ptr = ptr->getnext();
+			if (ptr)
+				std::cout << ",";
+		}
+	}
 	~List()
 	{
 		clear();

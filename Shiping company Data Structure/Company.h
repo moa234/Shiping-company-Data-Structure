@@ -7,7 +7,7 @@
 #include "DEFS.h"
 #include "Time.h"
 #include <string>
-#include "List.h"
+#include "CargoList.h"
 class Event;
 class UI;
 class Preparation;
@@ -25,7 +25,7 @@ class Company
 	Queue<Truck*> MaintainedT[3];
 	Queue<Truck*> LoadingT[3];
 	PriorityQueue<Truck*> In_TripT[3];
-	Queue<Cargo*> NWaitingC;
+	CargoList NWaitingC;
 	Queue<Cargo*> SWaitingC;
 	PriorityQueue<Cargo*> VWaitingC;
 	PriorityQueue<Cargo*> MovingC;
@@ -37,16 +37,17 @@ class Company
 public:
 	Company();
 	Time GetTime();
-	//void Timer();
+	void Timer();
 	void ReadFile(ifstream& fin);
 	bool IsRemainingEvents();
 	//void savefile(ofstream& fout);
-	Cargo* removenormal(int id);
+	//Cargo* removenormal(int id);
 	void AddNormList(Cargo* ptr);
 	void AddSpeList(Cargo* ptr);
 	void AddVIPList(Cargo* ptr);
 	void deletecargo(Cargo* c);
-	void autopromote();
+	//void autopromote();
 	void CurrData();
+	void simulate();
 };
 

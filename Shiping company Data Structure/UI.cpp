@@ -38,10 +38,15 @@ void UI::displayNum(int n)
 void UI::readmode()
 {
 	displaytext("Choose mode of opeartion");
+	cout << endl;
 	displaytext("For interactive mode enter 1");
+	cout << endl;
 	displaytext("For step-by-step mode enter 2");
+	cout << endl;
 	displaytext("For silent mode enter 3");
-	mode = (readnumber() == 1) ? interactive : (readnumber() == 2) ? stepBstep : silent;
+	cout << endl;
+	int num = readnumber();
+	mode = ( num== 1) ? interactive : (num == 2) ? stepBstep : silent;
 }
 
 void UI::PrintBracketStart(Itemtype t)
@@ -79,12 +84,12 @@ void UI::PrintPQC(PriorityQueue<Cargo*>& q, Itemtype t)
 	PrintBracketEnd(t);
 }
 
-void UI::PrintListC(List<Cargo*>& q, Itemtype t)
+/*void UI::PrintListC(List<Cargo*>& q, Itemtype t)
 {
 	PrintBracketStart(t);
 	q.print();
 	PrintBracketEnd(t);
-}
+}*/
 
 void UI::PrintQT(Queue<Truck*>& q, Itemtype t)
 {

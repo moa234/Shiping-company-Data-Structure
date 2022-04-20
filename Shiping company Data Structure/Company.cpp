@@ -188,8 +188,8 @@ void Company::Timer()
 		if (counter == 5)
 		{
 			Cargo* ptr = nullptr;
-			if (NWaitingC.dequeue(ptr))
-				NDeliveredC.enqueue(ptr);
+			/*if (NWaitingC.remove(ptr));
+				NDeliveredC.enqueue(ptr);*/
 			if (SWaitingC.dequeue(ptr))
 				SDeliveredC.enqueue(ptr);
 			if (VWaitingC.dequeue(ptr))
@@ -205,7 +205,7 @@ void Company::deletecargo(Cargo* c)
 }
 
 
-void Company::autopromote()
+/*void Company::autopromote()
 {
 	Cargo* c;
 	int count = NWaitingC.GetSize();
@@ -225,14 +225,14 @@ void Company::autopromote()
 		}
 		
 	}
-}
+}*/
 
 void Company::CurrData()
 {
 	PUI->displayTime(timer);
 	PUI->displayNum(NWaitingC.GetSize()+SWaitingC.GetSize()+VWaitingC.GetSize());
 	PUI->displaytext(" Waiting Cargos: ");
-	PUI->PrintQC(NWaitingC,Normal);
+	//PUI->PrintQC(NWaitingC,Normal);
 	PUI->displaytext(" ");
 	PUI->PrintQC(SWaitingC, Special);
 	PUI->displaytext(" ");
@@ -286,4 +286,9 @@ void Company::CurrData()
 
 
 
+}
+
+void Company::simulate()
+{
+	PUI->Interface();
 }
