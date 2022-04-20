@@ -57,23 +57,13 @@ public:
 		}
 		return nullptr;
 	}
-	Cargo* remRet1(int pos)
+	Cargo* remRet1()
 	{
-		bool abletoremove = (pos >= 1) && (pos <= count);
-		if (abletoremove)
+		if (count >= 1)
 		{
 			Node<Cargo*>* currptr = nullptr;
-			if (pos == 1)
-			{
-				currptr = headptr;
-				headptr = headptr->getnext();
-			}
-			else
-			{
-				Node<Cargo*>* prevNode = getNode(pos - 1);
-				currptr = prevNode->getnext();
-				prevNode->setnext(currptr->getnext());
-			}
+			currptr = headptr;
+			headptr = headptr->getnext();
 			return currptr->getitem();
 		}
 		return nullptr;
