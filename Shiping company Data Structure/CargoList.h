@@ -24,9 +24,9 @@ class CargoList : public List<Cargo*>
 	}
 public:
 
-	bool remove(int position)
+	Cargo* remRet(int id)
 	{
-		int pos = this->getPos(position);
+		int pos = this->getPos(id);
 		bool abletoremove = (pos >= 1) && (pos <= count);
 		if (abletoremove)
 		{
@@ -42,11 +42,9 @@ public:
 				currptr = prevNode->getnext();
 				prevNode->setnext(currptr->getnext());
 			}
-			delete currptr;
-			currptr = nullptr;
-			count--;
+			return currptr->getitem();
 		}
-		return abletoremove;
+		return nullptr;
 	}
 	Cargo* getEntry(int id)
 	{
@@ -55,6 +53,17 @@ public:
 		if (exist)
 		{
 			Node<Cargo*>* currptr = getNode(position);
+			return currptr->getitem();
+		}
+		return nullptr;
+	}
+	Cargo* remRet1()
+	{
+		if (count >= 1)
+		{
+			Node<Cargo*>* currptr = nullptr;
+			currptr = headptr;
+			headptr = headptr->getnext();
 			return currptr->getitem();
 		}
 		return nullptr;
