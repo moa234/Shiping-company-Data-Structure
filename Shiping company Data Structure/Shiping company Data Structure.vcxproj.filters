@@ -118,5 +118,8 @@
     <Text Include="test.txt">
       <Filter>Trucks</Filter>
     </Text>
+    <Text Include="Text.txt">
+      <Filter>Company</Filter>
+    </Text>
   </ItemGroup>
 </Project>

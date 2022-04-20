@@ -1,0 +1,47 @@
+
+template<>
+Node<Cargo*>* List<Cargo*>::getNode(int pos) const
+{
+	Node<Cargo*>* currptr = headptr;
+	while (currptr)
+	{
+		if (currptr->getitem()->getid() != pos)
+		{
+			currptr = currptr->getnext();
+		}
+		else
+		{
+			break;
+		}
+	}
+	return currptr;
+}
+template<>
+bool List<Cargo*>::remove(int id)
+{
+	Node<Cargo*>* currptr = this->getNode(id);
+	if (currptr == headptr)
+	{
+		headptr = headptr->getnext();
+	}
+	else
+	{
+		Node<Cargo*>* prevNode = getNode(newPosition - 1);
+		currptr = prevNode->getnext();
+		prevNode->setnext(currptr->getnext());
+	}
+	delete currptr;
+	currptr = nullptr;
+	count--;
+	return abletoremove;
+}
+template<>
+Cargo* List<Cargo*>::getEntry(int id)
+{
+	Node<Cargo*>* currptr = getNode(id);
+	if (currptr)
+	{
+		return currptr->getitem();
+	}
+	return nullptr;
+}
