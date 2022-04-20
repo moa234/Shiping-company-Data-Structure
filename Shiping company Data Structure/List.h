@@ -39,7 +39,7 @@ public:
 			if (newPosition == 1)
 			{
 				newNode->setnext(headptr);
-				headptr = newentry;
+				headptr = newNode;
 			}
 			else
 			{
@@ -97,7 +97,7 @@ public:
 		insert(position, entry);
 		return replaced;
 	}
-	Void Print()
+	void print()
 	{
 		Node<T>* ptr = headptr;
 		while (ptr)

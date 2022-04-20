@@ -15,9 +15,24 @@ int UI::readnumber()
 	return x;
 }
 
+void UI::displayTime(Time t)
+{
+	cout << "Current Time (Day:Hour):" << t.GetDay() << ":" << t.GetHour() << endl;
+}
+
+void UI::displayline()
+{
+	cout << endl<<"----------------------------------" << endl;
+}
+
 void UI::displaytext(string c)
 {
-	cout << c << endl;
+	cout << c ;
+}
+
+void UI::displayNum(int n)
+{
+	cout << n;
 }
 
 void UI::readmode()
@@ -29,79 +44,76 @@ void UI::readmode()
 	mode = (readnumber() == 1) ? interactive : (readnumber() == 2) ? stepBstep : silent;
 }
 
-void UI::PrintCargoId(Queue<int>* n, Queue<int>* s, Queue<int>* v)
+void UI::PrintBracketStart(Itemtype t)
 {
-	int szn, szs, szv;
-	szn = n->GetSize();
-	szs = n->GetSize();
-	szv = n->GetSize();
-	cout << "[";
-	PrintQueue(n);
-	cout << "] ";
-	cout << "(";
-	PrintQueue(s);
-	cout << ") ";
-	cout << "{";
-	PrintQueue(v);
-	cout << "} ";
-	cout << endl << "--------------------------------" << endl;
+	if (t == Normal)
+		cout << "[";
+	if (t == Special)
+		cout << "(";
+	if (t == VIP)
+		cout << "{";
+
 }
 
-void UI::PrintQueue(Queue<int>* q)
+void UI::PrintBracketEnd(Itemtype t)
 {
-	int sz = q->GetSize();
-	for (int i = 0; i < sz; i++)
-	{
-		int x;
-		q->dequeue(x);
-		cout << x ;
-		if (i != sz-1)
-			cout << ",";
-	}
+	if (t == Normal)
+		cout << "]";
+	if (t == Special)
+		cout << ")";
+	if (t == VIP)
+		cout << "}";
 }
 
-void UI::PrintMode(Queue<int>* n, Queue<int>* s, Queue<int>* v, ListType L)
+void UI::PrintQC(Queue<Cargo*>& q, Itemtype t)
 {
-	cout << n->GetSize() + s->GetSize() + v->GetSize();
-	if (L == PCargoWaiting)
-	{
-		cout << " Waiting Cargos: ";
-		PrintCargoId(n, s, v);
-	}
-	if (L == PCargoDelivered)
-	{
-		cout << " Delivered Cargos: ";
-		PrintCargoId(n, s, v);
-	}
+	PrintBracketStart(t);
+	q.print();
+	PrintBracketEnd(t);
 }
 
-//void UI::Print()
-//{
-//	cout << "Current Time(Day:Hour):"<<ptr->GetTime().GetDay() << ":" << ptr->GetTime().GetHour() << endl;
-//	Queue<int>* n = ptr->AccessCargoIds(PCargoWaiting,Normal);
-//	Queue<int>* s = ptr->AccessCargoIds(PCargoWaiting, Special);
-//	Queue<int>* v = ptr->AccessCargoIds(PCargoWaiting, VIP);
-//	PrintMode(n, s, v, PCargoWaiting);
-//	cout << endl;
-//	delete n; delete s; delete v;
-//     n = ptr->AccessCargoIds(PCargoDelivered, Normal);
-//	 s = ptr->AccessCargoIds(PCargoDelivered, Special);
-//	 v = ptr->AccessCargoIds(PCargoDelivered, VIP);
-//	PrintMode(n, s, v, PCargoDelivered);
-//	delete n; delete s; delete v;
-//}
+void UI::PrintPQC(PriorityQueue<Cargo*>& q, Itemtype t)
+{
+	PrintBracketStart(t);
+	q.print();
+	PrintBracketEnd(t);
+}
+
+void UI::PrintListC(List<Cargo*>& q, Itemtype t)
+{
+	PrintBracketStart(t);
+	q.print();
+	PrintBracketEnd(t);
+}
+
+void UI::PrintQT(Queue<Truck*>& q, Itemtype t)
+{
+	PrintBracketStart(t);
+	q.print();
+	PrintBracketEnd(t);
+}
+
+void UI::PrintPQT(PriorityQueue<Truck*>& q, Itemtype t)
+{
+	PrintBracketStart(t);
+	q.print();
+	PrintBracketEnd(t);
+}
+
+
+
 
 void UI::WaitOption()
 {
 	if (mode == interactive)
 	{
-		ptr->printwaiting();
-		ptr->printdelivered();
 		char x;
 		cin.get();
 	}
 	if (mode == silent)
-		return;
+	{
+		Sleep(1000);
+	}
 }
 
 void UI::save(ofstream& s)
@@ -109,13 +121,14 @@ void UI::save(ofstream& s)
 	
 }
 
-void UI::simulate()
+void UI::Interface()
 {
 	readmode();
-	for (int i = 0; i < 720; i++)
+	while(ptr->IsRemainingEvents())
 	{
 		WaitOption();
 		ptr->Timer();
+		ptr->CurrData();
 	}
 }
 
