@@ -97,6 +97,17 @@ public:
 		insert(position, entry);
 		return replaced;
 	}
+	Void Print()
+	{
+		Node<T>* ptr = headptr;
+		while (ptr)
+		{
+			cout << ptr->getitem();
+			ptr = ptr->getnext();
+			if (ptr)
+				cout << ",";
+		}
+	}
 	~List()
 	{
 		clear();

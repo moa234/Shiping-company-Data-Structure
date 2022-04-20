@@ -52,25 +52,26 @@ void Company::ReadFile(ifstream& fin)
 	ReadEvents(fin);
 }
 
-void Company::savefile(ofstream& fout)
-{
-	fout << "CDT" << "\tID" << "\tPT" << "\tWT" << "\tTID" << endl;
-	int count = DeliveredC.GetSize();
-	Cargo* c;
-	for (int i = 0; i < count; i++)
-	{
-		DeliveredC.dequeue(c);
-		fout << c->getCDT().GetDay() << ":" << c->getCDT().GetHour() << "\t" << c->getprept().GetDay() << ":"
-			<< c->getprept().GetHour() << "\t" << c->getWT().GetDay() << ":" << c->getWT().GetHour() << "\t" << c->getTID() << endl;
-		DeliveredC.enqueue(c);
-	}
-}
+//void Company::savefile(ofstream& fout)
+//{
+//	fout << "CDT" << "\tID" << "\tPT" << "\tWT" << "\tTID" << endl;
+//	int count = DeliveredC.GetSize();
+//	Cargo* c;
+//	for (int i = 0; i < count; i++)
+//	{
+//		DeliveredC.dequeue(c);
+//		fout << c->getCDT().GetDay() << ":" << c->getCDT().GetHour() << "\t" << c->getprept().GetDay() << ":"
+//			<< c->getprept().GetHour() << "\t" << c->getWT().GetDay() << ":" << c->getWT().GetHour() << "\t" << c->getTID() << endl;
+//		DeliveredC.enqueue(c);
+//	}
+//}
 
 void Company::ReadTrucks(ifstream& fin)
 {
 	int data[4][3]; // one row for count of vechiles,then another for speed,then another for capacity,then another for maintainence
 					// one coloum contains complete data of a truck type
 	int checkduration;
+	int ids = 0;
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 3; j++)
 			fin >> data[i][j];
@@ -86,7 +87,7 @@ void Company::ReadTrucks(ifstream& fin)
 		for (int j = 0; j < data[0][i]; j++)
 		{
 			
-			Truck* ptr = new Truck(data[1][i],data[2][i],data[3][i],type);
+			Truck* ptr = new Truck(data[1][i],data[2][i],data[3][i],type,++ids);
 				ReadyT[type].enqueue(ptr);
 		}
 	}
@@ -274,7 +275,7 @@ void Company::printwaiting()
 	}
 	count = VWaitingC.GetSize();
 	Queue<Cargo*> temp;
-	for (int i = 0; i < count; i++)
+	/*for (int i = 0; i < count; i++)
 	{
 		VWaitingC.dequeue(c);
 		idv->enqueue(c->getid());
@@ -284,7 +285,7 @@ void Company::printwaiting()
 	{
 		temp.dequeue(c);
 		VWaitingC.enqueue(c, c->getcost()+c->getid()/100.0);
-	}
+	}*/
 	count = SWaitingC.GetSize();
 	for (int i = 0; i < count; i++)
 	{
@@ -357,7 +358,7 @@ void Company::AddSpeList(Cargo* ptr)
 void Company::AddVIPList(Cargo* ptr)
 {
 	int cost = ptr->getcost();
-	VWaitingC.enqueue(ptr, cost+ptr->getid()/100.0);
+	VWaitingC.enqueue(ptr, cost);
 }
 
 void Company::Timer()
@@ -365,6 +366,10 @@ void Company::Timer()
 	
 		Event* nxt;
 		//PrintAllData();
+		//NWaitingC.print();
+		cout << "[";
+		NWaitingC.print();
+		cout << "]" << endl;
 		while (Events.peek(nxt) && nxt->GetTime() == timer)
 		{
 			Events.dequeue(nxt);

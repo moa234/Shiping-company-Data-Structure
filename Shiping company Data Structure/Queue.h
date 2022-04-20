@@ -82,10 +82,11 @@ void Queue<T>::print()
 	Node<T>* ptr = head;
 	while (ptr)
 	{
-		cout << ptr->getitem() << " ";
+		cout << ptr->getitem();
 		ptr = ptr->getnext();
+		if (ptr)
+			cout << ",";
 	}
-	cout << endl;
 }
 
 template<typename T>

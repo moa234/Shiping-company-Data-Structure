@@ -15,12 +15,12 @@ Cargo::Cargo()
 {
 }
 
-int Cargo::getid()
+int Cargo::getid() const
 {
 	return ID;
 }
 
-int Cargo::getTID()
+int Cargo::getTID() const
 {
 	return TID;
 }
@@ -78,8 +78,12 @@ int Cargo::getcost()
 	return cost;
 }
 
-ostream& operator<<(ostream& f, const Cargo& C)
+
+
+std::ostream& operator<<(std::ostream& f, const Cargo* C)
 {
-	f  << C.ID ;
+	f << C->getid();
 	return f;
 }
+
+
