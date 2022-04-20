@@ -5,6 +5,7 @@
 template <class T>
 class List : public ListADT<T>
 {
+protected:
 	Node<T>* headptr = nullptr;
 	int count = 0;
 	Node<T>* getNode(int position) const
@@ -39,7 +40,7 @@ public:
 			if (newPosition == 1)
 			{
 				newNode->setnext(headptr);
-				headptr = newentry;
+				headptr = newNode;
 			}
 			else
 			{
@@ -50,6 +51,10 @@ public:
 			count++;
 		}
 		return abletoinsert;
+	}
+	bool insertend(const T& entry)
+	{
+		return insert(count, entry);
 	}
 	bool remove(int position)
 	{
@@ -64,7 +69,7 @@ public:
 			}
 			else
 			{
-				Node<T>* prevNode = getNode(newPosition - 1);
+				Node<T>* prevNode = getNode(position - 1);
 				currptr = prevNode->getnext();
 				prevNode->setnext(currptr->getnext());
 			}
@@ -93,24 +98,23 @@ public:
 	T repalce(int position, const T& entry)
 	{
 		T replaced = getEntry(position);
-		remove(getNode(position));
+		remove(position);
 		insert(position, entry);
 		return replaced;
 	}
-	Void Print()
-	{
-		Node<T>* ptr = headptr;
-		while (ptr)
-		{
-			cout << ptr->getitem();
-			ptr = ptr->getnext();
-			if (ptr)
-				cout << ",";
-		}
-	}
+	//void Print()
+	//{
+	//	Node<T>* ptr = headptr;
+	//	while (ptr)
+	//	{
+	//		cout << ptr->getitem();
+	//		ptr = ptr->getnext();
+	//		if (ptr)
+	//			cout << ",";
+	//	}
+	//}
 	~List()
 	{
 		clear();
 	}
 };
-

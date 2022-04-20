@@ -18,27 +18,6 @@ Time Company::GetTime()
 	return timer;
 }
 
-Cargo* Company::removenormal(int id)
-{
-	Cargo* c;
-	Cargo* found = NULL;
-	int count = NWaitingC.GetSize();
-	for (int i = 0; i < count; i++)
-	{
-		NWaitingC.dequeue(c);
-		if (c->getid() == id)
-		{
-			found = c;
-		}
-		else
-		{
-			NWaitingC.enqueue(c);
-		}
-		
-	}
-	return found;
-}
-
 void Company::ReadFile(ifstream& fin)
 {
 	ReadTrucks(fin);
@@ -258,72 +237,72 @@ void Company::ReadEvents(ifstream& fin)
 //	return ptr;
 //	
 //}
-void Company::printwaiting() 
-{
-	
-	Queue<int>* idn = new Queue<int>;
-	Queue<int>* idv = new Queue<int>;
-	Queue<int>* ids = new Queue<int>;
-	Cargo* c;
-
-	int count = NWaitingC.GetSize();
-	for (int i = 0; i < count; i++)
-	{
-		NWaitingC.dequeue(c);
-		idn->enqueue(c->getid());
-		NWaitingC.enqueue(c);
-	}
-	count = VWaitingC.GetSize();
-	Queue<Cargo*> temp;
-	/*for (int i = 0; i < count; i++)
-	{
-		VWaitingC.dequeue(c);
-		idv->enqueue(c->getid());
-		temp.enqueue(c);
-	}
-	for (int i = 0; i < count; i++)
-	{
-		temp.dequeue(c);
-		VWaitingC.enqueue(c, c->getcost()+c->getid()/100.0);
-	}*/
-	count = SWaitingC.GetSize();
-	for (int i = 0; i < count; i++)
-	{
-		SWaitingC.dequeue(c);
-		ids->enqueue(c->getid());
-		SWaitingC.enqueue(c);
-	}
-	PUI->PrintCargoId(idn, ids, idv);
-}
-
-void Company::printdelivered()
-{
-	Queue<int>* idn = new Queue<int>;
-	Queue<int>* idv = new Queue<int>;
-	Queue<int>* ids = new Queue<int>;
-	Cargo* c;
-
-	int count = DeliveredC.GetSize();
-	for (int i = 0; i < count; i++)
-	{
-		DeliveredC.dequeue(c);
-		if (c->gettype() == Normal)
-		{
-			idn->enqueue(c->getid());
-		}
-		else if (c->gettype() == VIP)
-		{
-			idv->enqueue(c->getid());
-		}
-		else
-		{
-			ids->enqueue(c->getid());
-		}
-		DeliveredC.enqueue(c);
-	}
-	PUI->PrintCargoId(idn, ids, idv);
-	delete idn, ids, idv;
-}
+//void Company::printwaiting() 
+//{
+//	
+//	Queue<int>* idn = new Queue<int>;
+//	Queue<int>* idv = new Queue<int>;
+//	Queue<int>* ids = new Queue<int>;
+//	Cargo* c;
+//
+//	int count = NWaitingC.GetSize();
+//	for (int i = 0; i < count; i++)
+//	{
+//		NWaitingC.dequeue(c);
+//		idn->enqueue(c->getid());
+//		NWaitingC.enqueue(c);
+//	}
+//	count = VWaitingC.GetSize();
+//	Queue<Cargo*> temp;
+//	/*for (int i = 0; i < count; i++)
+//	{
+//		VWaitingC.dequeue(c);
+//		idv->enqueue(c->getid());
+//		temp.enqueue(c);
+//	}
+//	for (int i = 0; i < count; i++)
+//	{
+//		temp.dequeue(c);
+//		VWaitingC.enqueue(c, c->getcost()+c->getid()/100.0);
+//	}*/
+//	count = SWaitingC.GetSize();
+//	for (int i = 0; i < count; i++)
+//	{
+//		SWaitingC.dequeue(c);
+//		ids->enqueue(c->getid());
+//		SWaitingC.enqueue(c);
+//	}
+//	PUI->PrintCargoId(idn, ids, idv);
+//}
+//
+//void Company::printdelivered()
+//{
+//	Queue<int>* idn = new Queue<int>;
+//	Queue<int>* idv = new Queue<int>;
+//	Queue<int>* ids = new Queue<int>;
+//	Cargo* c;
+//
+//	int count = DeliveredC.GetSize();
+//	for (int i = 0; i < count; i++)
+//	{
+//		DeliveredC.dequeue(c);
+//		if (c->gettype() == Normal)
+//		{
+//			idn->enqueue(c->getid());
+//		}
+//		else if (c->gettype() == VIP)
+//		{
+//			idv->enqueue(c->getid());
+//		}
+//		else
+//		{
+//			ids->enqueue(c->getid());
+//		}
+//		DeliveredC.enqueue(c);
+//	}
+//	PUI->PrintCargoId(idn, ids, idv);
+//	delete idn, ids, idv;
+//}
 
 //Queue<int>* Company::CargoDataPQ(PriorityQueue<Cargo*>& q)
 //{
@@ -347,7 +326,7 @@ void Company::printdelivered()
 
 void Company::AddNormList(Cargo* ptr)
 {
-	NWaitingC.enqueue(ptr);
+	NWaitingC.insertend(ptr);
 }
 
 void Company::AddSpeList(Cargo* ptr)
@@ -361,36 +340,36 @@ void Company::AddVIPList(Cargo* ptr)
 	VWaitingC.enqueue(ptr, cost);
 }
 
-void Company::Timer()
-{
-	
-		Event* nxt;
-		//PrintAllData();
-		//NWaitingC.print();
-		cout << "[";
-		NWaitingC.print();
-		cout << "]" << endl;
-		while (Events.peek(nxt) && nxt->GetTime() == timer)
-		{
-			Events.dequeue(nxt);
-			nxt->excute(this);
-			delete nxt;
-		}
-		timer.hour_incr();
-		counter++;
-		if (counter == 5)
-		{
-			Cargo* ptr = nullptr;
-			if (NWaitingC.dequeue(ptr))
-				DeliveredC.enqueue(ptr);
-			if (SWaitingC.dequeue(ptr))
-				DeliveredC.enqueue(ptr);
-			if (VWaitingC.dequeue(ptr))
-				DeliveredC.enqueue(ptr);
-			counter = 0;
-		}
-
-}
+//void Company::Timer()
+//{
+//	
+//		Event* nxt;
+//		//PrintAllData();
+//		//NWaitingC.print();
+//		cout << "[";
+//		NWaitingC.Print();
+//		cout << "]" << endl;
+//		while (Events.peek(nxt) && nxt->GetTime() == timer)
+//		{
+//			Events.dequeue(nxt);
+//			nxt->excute(this);
+//			delete nxt;
+//		}
+//		timer.hour_incr();
+//		counter++;
+//		if (counter == 5)
+//		{
+//			Cargo* ptr = nullptr;
+//			if (NWaitingC.dequeue(ptr))
+//				DeliveredC.enqueue(ptr);
+//			if (SWaitingC.dequeue(ptr))
+//				DeliveredC.enqueue(ptr);
+//			if (VWaitingC.dequeue(ptr))
+//				DeliveredC.enqueue(ptr);
+//			counter = 0;
+//		}
+//
+//}
 
 void Company::deletecargo(Cargo* c)
 {
@@ -405,22 +384,22 @@ void Company::simulate()
 
 void Company::autopromote()
 {
-	Cargo* c;
-	int count = NWaitingC.GetSize();
-	for (int i = 0; i < count; i++)
-	{
-		NWaitingC.dequeue(c);
-		if (c->getWT().tohours() >= AutoP)
-		{
-			Time t;
-			Event* promote = new Promotion(t,c->getid(), 0);
-			promote->excute(this);
-			delete promote;
-		}
-		else
-		{
-			NWaitingC.enqueue(c);
-		}
-		
-	}
+	//Cargo* c;
+	//int count = NWaitingC.GetSize();
+	//for (int i = 0; i < count; i++)
+	//{
+	//	NWaitingC.dequeue(c);
+	//	if (c->getWT().tohours() >= AutoP)
+	//	{
+	//		Time t;
+	//		Event* promote = new Promotion(t,c->getid(), 0);
+	//		promote->excute(this);
+	//		delete promote;
+	//	}
+	//	else
+	//	{
+	//		NWaitingC.enqueue(c);
+	//	}
+	//	
+	//}
 }

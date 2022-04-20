@@ -95,8 +95,8 @@ void UI::WaitOption()
 {
 	if (mode == interactive)
 	{
-		ptr->printwaiting();
-		ptr->printdelivered();
+		//ptr->printwaiting();
+		//ptr->printdelivered();
 		char x;
 		cin.get();
 	}
@@ -115,7 +115,7 @@ void UI::simulate()
 	for (int i = 0; i < 720; i++)
 	{
 		WaitOption();
-		ptr->Timer();
+		//ptr->Timer();
 	}
 }
 
