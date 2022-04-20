@@ -1,8 +1,7 @@
 #pragma once
 #include "DEFS.h"
 #include "Time.h"
-#include <iostream>
-using namespace std;
+#include <ostream>
 class Cargo
 {
 	int Lt;	//Load time
@@ -18,8 +17,8 @@ class Cargo
 public:
 	Cargo(Itemtype t, int ID, int Dis, int Lt, int cost, Time time);
 	Cargo();
-	int getid();
-	int getTID();
+	int getid() const;
+	int getTID() const;
 	void setTID(int id);
 	Itemtype gettype();
 	Time getprept();
@@ -30,7 +29,5 @@ public:
 	int getloadt();
 	int getdeldis();
 	int getcost();
-	
-	friend ostream& operator <<(ostream& f,const Cargo& C);
+	friend std::ostream& operator <<(std::ostream& f, const Cargo* C);
 };
-

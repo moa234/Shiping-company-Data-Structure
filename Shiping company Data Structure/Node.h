@@ -4,18 +4,14 @@ class Node
 {
 	T data;
 	Node<T>* next;
-	double weight;
 public:
 	Node();
 	Node(const T& item);
 	Node(const T& item,Node<T>* nxt);
-	Node(const T& item, double w);
 	Node<T>* getnext() const;
 	T getitem() const;
 	void setnext(Node<T>* ptr);
 	void setitem(const T& item);
-	void SetWeight(double w);
-	double GetWeight();
 };
 
 template<typename T>
@@ -36,12 +32,6 @@ template<typename T>
 	 next = nxt;
 }
 
- template<typename T>
- Node<T>::Node(const T& item, double w)
- {
-	 data = item;
-	 weight = w;
- }
 
  template<typename T>
   Node<T>* Node<T>::getnext() const
@@ -66,15 +56,4 @@ template<typename T>
   {
 		data = item;
   }
-  template<typename T>
-  void Node<T>::SetWeight(double w)
-  {
-	  weight = w;
-  }
- 
 
-  template<typename T>
-  double Node<T>::GetWeight()
-  {
-	  return weight;
-  }

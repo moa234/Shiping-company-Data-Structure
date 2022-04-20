@@ -1,19 +1,20 @@
 #pragma once
 #include "PriorityQueueADT.h"
-#include "Node.h"
+#include "PQNode.h"
 #include <iostream>
 #define max 1000
 using namespace std;
 template <typename T>
 class PriorityQueue: public PriorityQueueADT<T>
 {
-	Node <T>* nodes[max];
+	PQNode <T>* PQNodes[max];
 	int count;
 	int parent(int idx);
 	int lch(int idx);
 	int rch(int idx);
 	void reheapup(int idx);
 	void reheapdown(int idx);
+		
 public:
 	PriorityQueue();
 	virtual bool peek(T& item) const;
@@ -49,11 +50,11 @@ void PriorityQueue<T>::reheapup(int idx)
 	if (idx == 0)
 		return;
 	int p = parent(idx);
-	if (nodes[idx]->GetWeight() > nodes[p]->GetWeight())
+	if (PQNodes[idx]->GetWeight() > PQNodes[p]->GetWeight())
 	{
-		Node<T>* tmp = nodes[idx];
-		nodes[idx] = nodes[p];
-		nodes[p] = tmp;
+		PQNode<T>* tmp = PQNodes[idx];
+		PQNodes[idx] = PQNodes[p];
+		PQNodes[p] = tmp;
 		reheapup(p);
 	}
 }
@@ -64,19 +65,22 @@ void PriorityQueue<T>::reheapdown(int idx)
 	int maxpos = idx;
 	int l = lch(idx);
 	int r = rch(idx);
-	if (l<count && nodes[l]->GetWeight() > nodes[idx]->GetWeight())
+	
+	if (l<=count && PQNodes[l]->GetWeight() > PQNodes[idx]->GetWeight())
 	{
 		maxpos = l;
 	}
-	if (r<count && nodes[r]->GetWeight() > nodes[maxpos]->GetWeight())
+	
+	if (r<=count && PQNodes[r]->GetWeight() > PQNodes[maxpos]->GetWeight())
 	{
 		maxpos = r;
 	}
+		
 	if (maxpos != idx)
 	{
-		Node<T>* tmp = nodes[idx];
-		nodes[idx] = nodes[maxpos];
-		nodes[maxpos] = tmp;
+		PQNode<T>* tmp = PQNodes[idx];
+		PQNodes[idx] = PQNodes[maxpos];
+		PQNodes[maxpos] = tmp;
 		reheapdown(maxpos);
 	}
 }
@@ -85,7 +89,7 @@ template<typename T>
 PriorityQueue<T>::PriorityQueue()
 {
 	for (int i = 0; i < max; i++)
-		nodes[i] = nullptr;
+		PQNodes[i] = nullptr;
 	count=-1;
 }
 
@@ -94,7 +98,7 @@ bool PriorityQueue<T>::peek(T& item) const
 {
 	 if(count==-1)
 		return false;
-	 item = nodes[0]->getitem();
+	 item = PQNodes[0]->getitem();
 	 return true;
 }
 
@@ -103,10 +107,10 @@ bool PriorityQueue<T>::peek(T& item) const
  {
 	 if(count==-1)
 		return false;
-	 item = nodes[0]->getitem();
-	 Node<T>* tmp = nodes[0];
-	 nodes[0] = nodes[count];
-	 nodes[count] = tmp;
+	 item = PQNodes[0]->getitem();
+	 PQNode<T>* tmp = PQNodes[0];
+	 PQNodes[0] = PQNodes[count];
+	 PQNodes[count] = tmp;
 	 delete tmp;
 	 reheapdown(0);
 	 count--;
@@ -118,8 +122,8 @@ bool PriorityQueue<T>::peek(T& item) const
  {
 	 if (count == max - 1)
 		 return false;
-	 Node <T>* ptr = new Node<T>(item, weight);
-	 nodes[++count] = ptr;
+	 PQNode <T>* ptr = new PQNode<T>(item, weight+(double)(max-count) / (100 * max));
+	 PQNodes[++count] = ptr;
 	 reheapup(count);
 	 return true;
  }
@@ -141,10 +145,22 @@ bool PriorityQueue<T>::peek(T& item) const
  void PriorityQueue<T>::print()
  {
 	 for (int i = 0; i <= count; i++)
-		 cout << nodes[i]->getitem() << " ";
-	cout << endl;
+	 {
+		 cout << PQNodes[0]->getitem();
+		 if (i != count)
+			 cout << ",";
+		 PQNodes[0]->SetWeight(-1*PQNodes[0]->GetWeight());
+		 reheapdown(0);
+	 }
+	 for (int i = 0; i <= count; i++)
+	 {
+		 PQNodes[i]->SetWeight(-1*PQNodes[i]->GetWeight());
+	 }
+	 for (int i = 0; i <= count; i++)
+	 {
+		 reheapup(i);
+	 }
  }
-
  template<typename T>
  PriorityQueue<T>::~PriorityQueue()
  {

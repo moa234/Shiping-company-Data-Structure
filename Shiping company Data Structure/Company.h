@@ -38,7 +38,7 @@ public:
 	Time GetTime();
 	void Timer();
 	void ReadFile(ifstream& fin);
-	void savefile(ofstream& fout);
+	//void savefile(ofstream& fout);
 	Cargo* removenormal(int id);
 	//void PrintAllData();
 	//void PrintCargo(Queue<Cargo*> &q);
