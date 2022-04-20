@@ -1,7 +1,10 @@
 #pragma once
+#include"Cargo.h"
 template <typename T>
 class ListADT
 {
+protected:
+	int count = 0;
 public:
 	virtual bool isEmpty() const = 0;
 	virtual int getLength() const = 0;

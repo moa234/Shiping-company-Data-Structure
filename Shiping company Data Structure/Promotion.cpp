@@ -43,7 +43,7 @@ void Promotion::excute(Queue<Cargo>& normalWaitingList,Queue<Cargo>& VipWaitingL
 
 void Promotion::excute(Company* MainPtr)
 {
-	Cargo* promoted = MainPtr->removenormal(ID);
+	Cargo* promoted/* = MainPtr->removenormal(ID)*/ = nullptr;
 	if (promoted)
 	{
 		MainPtr->AddVIPList(promoted);

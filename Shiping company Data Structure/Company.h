@@ -37,7 +37,7 @@ class Company
 public:
 	Company();
 	Time GetTime();
-	void Timer();
+	//void Timer();
 	void ReadFile(ifstream& fin);
 	bool IsRemainingEvents();
 	//void savefile(ofstream& fout);

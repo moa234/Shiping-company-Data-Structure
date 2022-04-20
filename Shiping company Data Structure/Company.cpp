@@ -18,27 +18,6 @@ Time Company::GetTime()
 	return timer;
 }
 
-Cargo* Company::removenormal(int id)
-{
-	Cargo* c;
-	Cargo* found = NULL;
-	int count = NWaitingC.GetSize();
-	for (int i = 0; i < count; i++)
-	{
-		NWaitingC.dequeue(c);
-		if (c->getid() == id)
-		{
-			found = c;
-		}
-		else
-		{
-			NWaitingC.enqueue(c);
-		}
-		
-	}
-	return found;
-}
-
 void Company::ReadFile(ifstream& fin)
 {
 	ReadTrucks(fin);
@@ -180,7 +159,7 @@ void Company::ReadEvents(ifstream& fin)
 
 void Company::AddNormList(Cargo* ptr)
 {
-	NWaitingC.enqueue(ptr);
+	NWaitingC.insertend(ptr);
 }
 
 void Company::AddSpeList(Cargo* ptr)

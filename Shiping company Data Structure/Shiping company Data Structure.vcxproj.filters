@@ -84,6 +84,9 @@
     <ClInclude Include="PQNode.h">
       <Filter>DS</Filter>
     </ClInclude>
+    <ClInclude Include="CargoList.h">
+      <Filter>DS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cargo.cpp">
@@ -116,10 +119,16 @@
     <ClCompile Include="UI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="CargoList.cpp">
+      <Filter>DS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt">
       <Filter>Trucks</Filter>
+    </Text>
+    <Text Include="Text.txt">
+      <Filter>Company</Filter>
     </Text>
   </ItemGroup>
 </Project>

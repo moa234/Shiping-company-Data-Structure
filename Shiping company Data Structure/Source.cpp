@@ -14,7 +14,7 @@ int main()
 	ifstream fin("test.txt") ;
 	c.ReadFile(fin);
 	c.simulate();
-	c.printwaiting();
+	//c.printwaiting();
 	//for (int i = 0; i < 6; i++)
 	//{
 	//	int x,w;
