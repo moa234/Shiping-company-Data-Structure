@@ -21,6 +21,7 @@ public:
 	void PrintBracketStart(Itemtype t);
 	void PrintBracketEnd(Itemtype t);
 	void PrintQC(Queue<Cargo*>& q,Itemtype t);
+	void PrintLC(CargoList& q, Itemtype t);
 	void PrintPQC(PriorityQueue<Cargo*>& q, Itemtype t);
 	//void PrintListC(List<Cargo*>& q, Itemtype t);
 	void PrintQT(Queue<Truck*>& q, Itemtype t);

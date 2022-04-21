@@ -233,7 +233,7 @@ void Company::CurrData()
 	PUI->displayTime(timer);
 	PUI->displayNum(NWaitingC.GetSize()+SWaitingC.GetSize()+VWaitingC.GetSize());
 	PUI->displaytext(" Waiting Cargos: ");
-	//PUI->PrintQC(NWaitingC,Normal);
+	PUI->PrintLC(NWaitingC,Normal);
 	PUI->displaytext(" ");
 	PUI->PrintQC(SWaitingC, Special);
 	PUI->displaytext(" ");

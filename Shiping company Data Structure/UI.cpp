@@ -77,6 +77,13 @@ void UI::PrintQC(Queue<Cargo*>& q, Itemtype t)
 	PrintBracketEnd(t);
 }
 
+void UI::PrintLC(CargoList& q, Itemtype t)
+{
+	PrintBracketStart(t);
+	q.Print();
+	PrintBracketEnd(t);
+}
+
 void UI::PrintPQC(PriorityQueue<Cargo*>& q, Itemtype t)
 {
 	PrintBracketStart(t);
@@ -115,7 +122,7 @@ void UI::WaitOption()
 		char x;
 		cin.get();
 	}
-	if (mode == silent)
+	if (mode == stepBstep)
 	{
 		Sleep(1000);
 	}

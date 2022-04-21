@@ -12,5 +12,5 @@ int main()
 	ifstream fin("test.txt") ;
 	c.ReadFile(fin);
 	c.simulate();
-	
+	return 0;
 }

@@ -81,7 +81,7 @@ public:
 	}
 	void clear()
 	{
-		while (isEmpty())
+		while (!isEmpty())
 		{
 			remove(1);
 		}

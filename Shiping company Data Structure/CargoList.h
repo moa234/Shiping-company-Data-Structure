@@ -5,7 +5,7 @@ class CargoList : public List<Cargo*>
 	int getPos(int id)
 	{
 		Node<Cargo*>* currptr = headptr;
-		if (currptr)
+		if (currptr != nullptr)
 		{
 			for (int i = 0; i < count; i++)
 			{
@@ -42,7 +42,9 @@ public:
 				currptr = prevNode->getnext();
 				prevNode->setnext(currptr->getnext());
 			}
+			count--;
 			return currptr->getitem();
+			
 		}
 		return nullptr;
 	}
@@ -64,6 +66,7 @@ public:
 			Node<Cargo*>* currptr = nullptr;
 			currptr = headptr;
 			headptr = headptr->getnext();
+			count--;
 			return currptr->getitem();
 		}
 		return nullptr;
