@@ -157,6 +157,12 @@ void Company::ReadEvents(ifstream& fin)
 	}
 }
 
+
+Cargo* Company::getNCargo(int id)
+{
+	return NWaitingC.remRet(id);
+}
+
 void Company::AddNormList(Cargo* ptr)
 {
 	NWaitingC.insertend(ptr);
@@ -187,9 +193,9 @@ void Company::Timer()
 		counter++;
 		if (counter == 5)
 		{
-			Cargo* ptr = nullptr;
-			/*if (NWaitingC.remove(ptr));
-				NDeliveredC.enqueue(ptr);*/
+			Cargo* ptr = NWaitingC.remRet1();
+			if (ptr);
+				NDeliveredC.enqueue(ptr);
 			if (SWaitingC.dequeue(ptr))
 				SDeliveredC.enqueue(ptr);
 			if (VWaitingC.dequeue(ptr))
@@ -197,11 +203,6 @@ void Company::Timer()
 			counter = 0;
 		}
 
-}
-
-void Company::deletecargo(Cargo* c)
-{
-	delete c;
 }
 
 

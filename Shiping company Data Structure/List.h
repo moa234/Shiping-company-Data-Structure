@@ -54,7 +54,7 @@ public:
 	}
 	bool insertend(const T& entry)
 	{
-		return insert(count, entry);
+		return insert(count + 1, entry);
 	}
 	bool remove(int position)
 	{

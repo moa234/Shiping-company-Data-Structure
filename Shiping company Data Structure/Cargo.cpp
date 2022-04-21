@@ -60,6 +60,11 @@ void Cargo::setCDT(Time& t)
 	CDT = t;
 }
 
+void Cargo::settype(Itemtype t)
+{
+	type = t;
+}
+
 int Cargo::getloadt()
 {
 	return Lt;

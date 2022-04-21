@@ -8,9 +8,9 @@ Cancellation::Cancellation(Time et, int id)
 
 void Cancellation::excute(Company* MainPtr)
 {
-	Cargo* cancelled /*= MainPtr->removenormal(ID)*/ = nullptr;
+	Cargo* cancelled = MainPtr->getNCargo(ID);
 	if (cancelled)
 	{
-		MainPtr->deletecargo(cancelled);
+		delete cancelled;
 	}
 }

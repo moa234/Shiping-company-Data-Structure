@@ -41,11 +41,10 @@ public:
 	void ReadFile(ifstream& fin);
 	bool IsRemainingEvents();
 	//void savefile(ofstream& fout);
-	//Cargo* removenormal(int id);
+	Cargo* getNCargo(int id);
 	void AddNormList(Cargo* ptr);
 	void AddSpeList(Cargo* ptr);
 	void AddVIPList(Cargo* ptr);
-	void deletecargo(Cargo* c);
 	//void autopromote();
 	void CurrData();
 	void simulate();
