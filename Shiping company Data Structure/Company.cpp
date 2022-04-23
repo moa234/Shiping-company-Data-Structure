@@ -194,7 +194,7 @@ void Company::Timer()
 		if (counter == 5)
 		{
 			Cargo* ptr = NWaitingC.remRet1();
-			if (ptr);
+			if (ptr)
 				NDeliveredC.enqueue(ptr);
 			if (SWaitingC.dequeue(ptr))
 				SDeliveredC.enqueue(ptr);
