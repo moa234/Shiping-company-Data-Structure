@@ -119,9 +119,6 @@
     <ClCompile Include="UI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="CargoList.cpp">
-      <Filter>DS</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt">

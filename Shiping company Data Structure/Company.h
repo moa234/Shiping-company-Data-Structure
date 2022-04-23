@@ -28,7 +28,6 @@ class Company
 	CargoList NWaitingC;
 	Queue<Cargo*> SWaitingC;
 	PriorityQueue<Cargo*> VWaitingC;
-	PriorityQueue<Cargo*> MovingC;
 	Queue<Cargo*> NDeliveredC;
 	Queue<Cargo*> SDeliveredC;
 	Queue<Cargo*> VDeliveredC;
