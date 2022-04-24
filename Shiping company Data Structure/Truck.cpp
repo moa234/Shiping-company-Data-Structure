@@ -59,6 +59,8 @@ void Truck::IncementJ()
 
 std::ostream& operator<<(std::ostream& f, Truck* C)
 {
+	if (!C->MovingC.isempty())
+		f << " ";
 	f << C->getid();
 	if (!C->MovingC.isempty())
 	{
@@ -66,19 +68,19 @@ std::ostream& operator<<(std::ostream& f, Truck* C)
 		{
 			f << "[";
 			C->MovingC.print();
-			f << "] ";
+			f << "]";
 		}
 		else if (C->type == VIP)
 		{
 			f << "{";
 			C->MovingC.print();
-			f << "} ";
+			f << "}";
 		}
 		else if (C->type == Special)
 		{
 			f << "(";
 			C->MovingC.print();
-			f << ") ";
+			f << ")";
 		}
 	}
 	
