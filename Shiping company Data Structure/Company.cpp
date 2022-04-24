@@ -241,6 +241,8 @@ void Company::CurrData()
 		Truck* t2;
 		LoadingT[0].peek(t2);
 		t2->loadC(c);
+		LoadingT[0].dequeue(t2);
+		LoadingT[0].enqueue(t2);
 	}
 	PUI->displayTime(timer);
 	PUI->displayNum(NWaitingC.GetSize()+SWaitingC.GetSize()+VWaitingC.GetSize());
