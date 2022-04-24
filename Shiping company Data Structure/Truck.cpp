@@ -54,7 +54,7 @@ void Truck::setDI(int DeliveryT)
 
 void Truck::IncementJ()
 {
-	Currjourney = 0;
+	Currjourney++;
 }
 
 std::ostream& operator<<(std::ostream& f, const Truck* C)
@@ -62,3 +62,4 @@ std::ostream& operator<<(std::ostream& f, const Truck* C)
 	f << C->getid();
 	return f;
 }
+
