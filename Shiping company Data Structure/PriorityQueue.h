@@ -149,12 +149,12 @@ bool PriorityQueue<T>::peek(T& item) const
 		 cout << PQNodes[0]->getitem();
 		 if (i != count)
 			 cout << ",";
-		 PQNodes[0]->SetWeight(-1*PQNodes[0]->GetWeight());
+		 PQNodes[0]->SetWeight(PQNodes[0]->GetWeight()-1e6);
 		 reheapdown(0);
 	 }
 	 for (int i = 0; i <= count; i++)
 	 {
-		 PQNodes[i]->SetWeight(-1*PQNodes[i]->GetWeight());
+		 PQNodes[i]->SetWeight(PQNodes[i]->GetWeight()+1e6);
 	 }
 	 for (int i = 0; i <= count; i++)
 	 {
