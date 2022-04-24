@@ -59,7 +59,7 @@ void Truck::IncementJ()
 
 std::ostream& operator<<(std::ostream& f, Truck* C)
 {
-	f << C->getid(); //m
+	f << C->getid();
 	if (!C->MovingC.isempty())
 	{
 		if (C->type == Normal)
