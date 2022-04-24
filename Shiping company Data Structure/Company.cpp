@@ -33,7 +33,7 @@ void Company::ReadFile(ifstream& fin)
 
 bool Company::IsRemainingEvents()
 {
-	return Events.GetSize()!=0;
+	return Events.GetSize() + NWaitingC.GetSize() + VWaitingC.GetSize() + SWaitingC.GetSize() != 0;
 }
 
 //void Company::savefile(ofstream& fout)
@@ -189,12 +189,11 @@ void Company::Timer()
 			nxt->excute(this);
 			delete nxt;
 		}
-		timer.hour_incr();
 		counter++;
 		if (counter == 5)
 		{
 			Cargo* ptr = NWaitingC.remRet1();
-			if (ptr);
+			if (ptr)
 				NDeliveredC.enqueue(ptr);
 			if (SWaitingC.dequeue(ptr))
 				SDeliveredC.enqueue(ptr);
@@ -285,7 +284,7 @@ void Company::CurrData()
 	PUI->PrintQC(VDeliveredC, VIP);
 	PUI->displayline();
 
-
+	timer.hour_incr();
 
 }
 

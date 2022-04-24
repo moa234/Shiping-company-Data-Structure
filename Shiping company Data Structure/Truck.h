@@ -1,5 +1,6 @@
 #pragma once
 #include "DEFS.h"
+#include "PriorityQueue.h"
 #include <iostream>
 class Truck
 {
