@@ -242,38 +242,38 @@ void Company::CurrData()
 
 	PUI->displayNum(LoadingT[0].GetSize() + LoadingT[1].GetSize() + LoadingT[2].GetSize());
 	PUI->displaytext(" Loading Trucks: ");
-	PUI->PrintQT(LoadingT[0], Normal);
+	PUI->PrintQT(LoadingT[0]);
 	PUI->displaytext(" ");
-	PUI->PrintQT(LoadingT[1], Special);
+	PUI->PrintQT(LoadingT[1]);
 	PUI->displaytext(" ");
-	PUI->PrintQT(LoadingT[2], VIP);
+	PUI->PrintQT(LoadingT[2]);
 	PUI->displayline();
 
 	PUI->displayNum(ReadyT[0].GetSize() + ReadyT[1].GetSize() + ReadyT[2].GetSize());
 	PUI->displaytext(" Empty Trucks: ");
-	PUI->PrintQT(ReadyT[0], Normal);
-	PUI->displaytext(", ");
-	PUI->PrintQT(ReadyT[1], Special);
-	PUI->displaytext(", ");
-	PUI->PrintQT(ReadyT[2], VIP);
+	PUI->PrintQT(ReadyT[0]);
+	PUI->displaytext(",");
+	PUI->PrintQT(ReadyT[1]);
+	PUI->displaytext(",");
+	PUI->PrintQT(ReadyT[2]);
 	PUI->displayline();
 
 	PUI->displayNum(In_TripT[0].GetSize() + In_TripT[1].GetSize() + In_TripT[2].GetSize());
 	PUI->displaytext(" Moving Cargos: ");
-	PUI->PrintPQT(In_TripT[0], Normal);
+	PUI->PrintPQT(In_TripT[0]);
 	PUI->displaytext(" ");
-	PUI->PrintPQT(In_TripT[1], Special);
+	PUI->PrintPQT(In_TripT[1]);
 	PUI->displaytext(" ");
-	PUI->PrintPQT(In_TripT[2], VIP);
+	PUI->PrintPQT(In_TripT[2]);
 	PUI->displayline();
 
 	PUI->displayNum(MaintainedT[0].GetSize() + MaintainedT[1].GetSize() + MaintainedT[2].GetSize());
 	PUI->displaytext(" In-Checkup Trucks: ");
-	PUI->PrintQT(MaintainedT[0], Normal);
+	PUI->PrintQT(MaintainedT[0]);
 	PUI->displaytext(" ");
-	PUI->PrintQT(MaintainedT[1], Special);
+	PUI->PrintQT(MaintainedT[1]);
 	PUI->displaytext(" ");
-	PUI->PrintQT(MaintainedT[2], VIP);
+	PUI->PrintQT(MaintainedT[2]);
 	PUI->displayline();
 
 	PUI->displayNum(NDeliveredC.GetSize() + SDeliveredC.GetSize() + VDeliveredC.GetSize());

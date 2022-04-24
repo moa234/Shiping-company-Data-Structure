@@ -98,18 +98,14 @@ void UI::PrintPQC(PriorityQueue<Cargo*>& q, Itemtype t)
 	PrintBracketEnd(t);
 }*/
 
-void UI::PrintQT(Queue<Truck*>& q, Itemtype t)
+void UI::PrintQT(Queue<Truck*>& q)
 {
-	PrintBracketStart(t);
 	q.print();
-	PrintBracketEnd(t);
 }
 
-void UI::PrintPQT(PriorityQueue<Truck*>& q, Itemtype t)
+void UI::PrintPQT(PriorityQueue<Truck*>& q)
 {
-	PrintBracketStart(t);
 	q.print();
-	PrintBracketEnd(t);
 }
 
 

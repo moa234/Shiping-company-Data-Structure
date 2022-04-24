@@ -59,6 +59,40 @@ void Truck::IncementJ()
 
 std::ostream& operator<<(std::ostream& f, const Truck* C)
 {
-	f << C->getid();
+	PriorityQueue<Cargo*> ca = C->MovingC;
+	if (!ca.isempty())
+	{
+		f << C->getid();
+	}
+	if (C->type == Normal)
+	{
+		cout << " [";
+		if (ca.isempty())
+		{
+			f << C->getid();
+		}
+		ca.print();
+		cout << "]";
+	}
+	else if (C->type == VIP)
+	{
+		cout << " {";
+		if (ca.isempty())
+		{
+			f << C->getid();
+		}
+		ca.print();
+		cout << "}";
+	}
+	else if (C->type == Special)
+	{
+		cout << " (";
+		if (ca.isempty())
+		{
+			f << C->getid();
+		}
+		ca.print();
+		cout << ")";
+	}
 	return f;
 }
