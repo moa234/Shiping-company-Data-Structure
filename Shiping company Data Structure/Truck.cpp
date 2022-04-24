@@ -60,13 +60,9 @@ void Truck::IncementJ()
 std::ostream& operator<<(std::ostream& f, const Truck* C)
 {
 	PriorityQueue<Cargo*> ca = C->MovingC;
-	if (ca.isempty())
+	f << C->getid();
+	if (!ca.isempty())
 	{
-		f << C->getid();
-	}
-	else
-	{
-		f << C->getid();
 		if (C->type == Normal)
 		{
 			f << " [";
