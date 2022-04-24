@@ -66,6 +66,7 @@ std::ostream& operator<<(std::ostream& f, const Truck* C)
 	}
 	else
 	{
+		f << C->getid();
 		if (C->type == Normal)
 		{
 			f << " [";
