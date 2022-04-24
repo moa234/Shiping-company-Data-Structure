@@ -68,33 +68,21 @@ std::ostream& operator<<(std::ostream& f, const Truck* C)
 	{
 		if (C->type == Normal)
 		{
-			cout << " [";
-			if (ca.isempty())
-			{
-				f << C->getid();
-			}
+			f << " [";
 			ca.print();
-			cout << "]";
+			f << "]";
 		}
 		else if (C->type == VIP)
 		{
-			cout << " {";
-			if (ca.isempty())
-			{
-				f << C->getid();
-			}
+			f << " {";
 			ca.print();
-			cout << "}";
+			f << "}";
 		}
 		else if (C->type == Special)
 		{
-			cout << " (";
-			if (ca.isempty())
-			{
-				f << C->getid();
-			}
+			f << " (";
 			ca.print();
-			cout << ")";
+			f << ")";
 		}
 	}
 	
