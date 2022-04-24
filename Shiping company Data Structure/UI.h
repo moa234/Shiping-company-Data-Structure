@@ -23,7 +23,6 @@ public:
 	void PrintQC(Queue<Cargo*>& q,Itemtype t);
 	void PrintLC(CargoList& q, Itemtype t);
 	void PrintPQC(PriorityQueue<Cargo*>& q, Itemtype t);
-	//void PrintListC(List<Cargo*>& q, Itemtype t);
 	void PrintQT(Queue<Truck*>& q);
 	void PrintPQT(PriorityQueue<Truck*>& q);
 	void WaitOption();
