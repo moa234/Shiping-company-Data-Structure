@@ -64,21 +64,21 @@ std::ostream& operator<<(std::ostream& f, Truck* C)
 	{
 		if (C->type == Normal)
 		{
-			f << " [";
+			f << "[";
 			C->MovingC.print();
-			f << "]";
+			f << "] ";
 		}
 		else if (C->type == VIP)
 		{
-			f << " {";
+			f << "{";
 			C->MovingC.print();
-			f << "}";
+			f << "} ";
 		}
 		else if (C->type == Special)
 		{
-			f << " (";
+			f << "(";
 			C->MovingC.print();
-			f << ")";
+			f << ") ";
 		}
 	}
 	
