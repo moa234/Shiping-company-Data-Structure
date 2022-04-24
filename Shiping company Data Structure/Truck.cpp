@@ -57,27 +57,28 @@ void Truck::IncementJ()
 	Currjourney++;
 }
 
-std::ostream& operator<<(std::ostream& f, Truck* C)
+std::ostream& operator<<(std::ostream& f, const Truck* C)
 {
+	PriorityQueue<Cargo*> ca = C->MovingC;
 	f << C->getid();
-	if (!C->MovingC.isempty())
+	if (!ca.isempty())
 	{
 		if (C->type == Normal)
 		{
 			f << " [";
-			C->MovingC.print();
+			ca.print();
 			f << "]";
 		}
 		else if (C->type == VIP)
 		{
 			f << " {";
-			C->MovingC.print();
+			ca.print();
 			f << "}";
 		}
 		else if (C->type == Special)
 		{
 			f << " (";
-			C->MovingC.print();
+			ca.print();
 			f << ")";
 		}
 	}
