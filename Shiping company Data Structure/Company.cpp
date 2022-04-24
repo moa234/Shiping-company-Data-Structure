@@ -229,6 +229,19 @@ void Company::Timer()
 
 void Company::CurrData()
 {
+	Truck* t;
+	if (ReadyT[0].dequeue(t))
+	{
+		LoadingT[0].enqueue(t);
+	}
+	
+	Cargo* c;
+	if (VWaitingC.dequeue(c))
+	{
+		Truck* t2;
+		LoadingT[0].peek(t2);
+		t2->loadC(c);
+	}
 	PUI->displayTime(timer);
 	PUI->displayNum(NWaitingC.GetSize()+SWaitingC.GetSize()+VWaitingC.GetSize());
 	PUI->displaytext(" Waiting Cargos: ");
