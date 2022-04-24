@@ -162,7 +162,6 @@
   <ItemGroup>
     <ClCompile Include="Cancellation.cpp" />
     <ClCompile Include="Cargo.cpp" />
-    <ClCompile Include="CargoList.cpp" />
     <ClCompile Include="Company.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Preparation.cpp" />
