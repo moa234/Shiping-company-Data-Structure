@@ -261,18 +261,6 @@ void Company::CurrData()
 	PUI->PrintQT(LoadingT[1]);
 	PUI->displaytext(" ");
 	PUI->PrintQT(LoadingT[2]);
-
-	if (LoadingT[0].isempty() && LoadingT[1].isempty() && LoadingT[2].isempty())
-	{
-		PUI->PrintBracketStart(Normal);
-		PUI->PrintBracketEnd(Normal);
-		PUI->displaytext(", ");
-		PUI->PrintBracketStart(Special);
-		PUI->PrintBracketEnd(Special);
-		PUI->displaytext(", ");
-		PUI->PrintBracketStart(VIP);
-		PUI->PrintBracketEnd(VIP);
-	}
 	PUI->displayline();
 
 	PUI->displayNum(ReadyT[0].GetSize() + ReadyT[1].GetSize() + ReadyT[2].GetSize());
@@ -289,21 +277,8 @@ void Company::CurrData()
 	PUI->PrintPQT(In_TripT[0]);
 	PUI->displaytext(" ");
 	PUI->PrintPQT(In_TripT[1]);
-		
 	PUI->displaytext(" ");
 	PUI->PrintPQT(In_TripT[2]);
-		
-	if (In_TripT[0].isempty() && In_TripT[1].isempty() && In_TripT[2].isempty())
-	{
-		PUI->PrintBracketStart(Normal);
-		PUI->PrintBracketEnd(Normal);
-		PUI->displaytext(", ");
-		PUI->PrintBracketStart(Special);
-		PUI->PrintBracketEnd(Special);
-		PUI->displaytext(", ");
-		PUI->PrintBracketStart(VIP);
-		PUI->PrintBracketEnd(VIP);
-	}
 	PUI->displayline();
 
 	PUI->displayNum(MaintainedT[0].GetSize() + MaintainedT[1].GetSize() + MaintainedT[2].GetSize());
