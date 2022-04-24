@@ -250,11 +250,11 @@ void Company::CurrData()
 
 	PUI->displayNum(ReadyT[0].GetSize() + ReadyT[1].GetSize() + ReadyT[2].GetSize());
 	PUI->displaytext(" Empty Trucks: ");
-	PUI->PrintQT(ReadyT[0]);
-	PUI->displaytext(",");
-	PUI->PrintQT(ReadyT[1]);
-	PUI->displaytext(",");
-	PUI->PrintQT(ReadyT[2]);
+	PUI->PrintEQT(ReadyT[0], Normal);
+	PUI->displaytext(", ");
+	PUI->PrintEQT(ReadyT[1], Special);
+	PUI->displaytext(", ");
+	PUI->PrintEQT(ReadyT[2], VIP);
 	PUI->displayline();
 
 	PUI->displayNum(In_TripT[0].GetSize() + In_TripT[1].GetSize() + In_TripT[2].GetSize());
@@ -268,11 +268,11 @@ void Company::CurrData()
 
 	PUI->displayNum(MaintainedT[0].GetSize() + MaintainedT[1].GetSize() + MaintainedT[2].GetSize());
 	PUI->displaytext(" In-Checkup Trucks: ");
-	PUI->PrintQT(MaintainedT[0]);
-	PUI->displaytext(" ");
-	PUI->PrintQT(MaintainedT[1]);
-	PUI->displaytext(" ");
-	PUI->PrintQT(MaintainedT[2]);
+	PUI->PrintEQT(MaintainedT[0], Normal);
+	PUI->displaytext(", ");
+	PUI->PrintEQT(MaintainedT[1], Special);
+	PUI->displaytext(", ");
+	PUI->PrintEQT(MaintainedT[2], VIP);
 	PUI->displayline();
 
 	PUI->displayNum(NDeliveredC.GetSize() + SDeliveredC.GetSize() + VDeliveredC.GetSize());
