@@ -29,5 +29,5 @@ public:
     int getid() const;
     void setDI(int DeliveryT); //setter for delivery interval
     void IncementJ(); // increment number of journies
-    friend std::ostream& operator <<(std::ostream& f, const Truck* C); 
+    friend std::ostream& operator <<(std::ostream& f, Truck* C); 
 };
