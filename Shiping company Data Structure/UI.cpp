@@ -142,6 +142,8 @@ void UI::Interface()
 	readmode();
 	while(ptr->IsRemainingEvents())
 	{
+		if(ptr->GetTime())
+		ptr->IncrementHour();
 		WaitOption();
 		ptr->Timer();
 		ptr->CurrData();

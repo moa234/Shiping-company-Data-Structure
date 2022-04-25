@@ -56,3 +56,4 @@ bool Time::operator==(const Time& t2)
 {
 	return (day==t2.day && hour==t2.hour);
 }
+

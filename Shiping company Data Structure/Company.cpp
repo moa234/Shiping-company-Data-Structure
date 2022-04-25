@@ -229,7 +229,7 @@ void Company::Timer()
 
 void Company::CurrData()
 {
-	Truck* t;
+	/*Truck* t;
 	if (ReadyT[0].dequeue(t))
 	{
 		LoadingT[0].enqueue(t);
@@ -243,7 +243,7 @@ void Company::CurrData()
 		t2->loadC(c);
 		LoadingT[0].dequeue(t2);
 		LoadingT[0].enqueue(t2);
-	}
+	}*/
 	PUI->displayTime(timer);
 	PUI->displayNum(NWaitingC.GetSize()+SWaitingC.GetSize()+VWaitingC.GetSize());
 	PUI->displaytext(" Waiting Cargos: ");
@@ -256,11 +256,11 @@ void Company::CurrData()
 
 	PUI->displayNum(LoadingT[0].GetSize() + LoadingT[1].GetSize() + LoadingT[2].GetSize());
 	PUI->displaytext(" Loading Trucks: ");
-	PUI->PrintQT(LoadingT[0]);
+	PUI->PrintPQT(LoadingT[0]);
 	PUI->displaytext(" ");
-	PUI->PrintQT(LoadingT[1]);
+	PUI->PrintPQT(LoadingT[1]);
 	PUI->displaytext(" ");
-	PUI->PrintQT(LoadingT[2]);
+	PUI->PrintPQT(LoadingT[2]);
 	PUI->displayline();
 
 	PUI->displayNum(ReadyT[0].GetSize() + ReadyT[1].GetSize() + ReadyT[2].GetSize());
@@ -299,11 +299,16 @@ void Company::CurrData()
 	PUI->PrintQC(VDeliveredC, VIP);
 	PUI->displayline();
 
-	timer.hour_incr();
+	
 
 }
 
 void Company::simulate()
 {
 	PUI->Interface();
+}
+
+void Company::IncrementHour()
+{
+	timer.hour_incr();
 }

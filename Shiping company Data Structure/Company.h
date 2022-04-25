@@ -23,7 +23,7 @@ class Company
 	Queue<Event*> Events;
 	Queue<Truck*> ReadyT[3];
 	Queue<Truck*> MaintainedT[3];
-	Queue<Truck*> LoadingT[3];
+	PriorityQueue<Truck*> LoadingT[3];
 	PriorityQueue<Truck*> In_TripT[3];
 	CargoList NWaitingC;
 	Queue<Cargo*> SWaitingC;
@@ -47,5 +47,6 @@ public:
 	//void autopromote();
 	void CurrData();
 	void simulate();
+	void IncrementHour();
 };
 
