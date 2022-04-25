@@ -23,7 +23,10 @@ class CargoList : public List<Cargo*>
 
 	}
 public:
-
+	int GetSize()
+	{
+		return count;
+	}
 	Cargo* remRet(int id)
 	{
 		int pos = this->getPos(id);

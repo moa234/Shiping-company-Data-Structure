@@ -14,6 +14,7 @@ public:
 	void SetDay(int num);
 	void SetHour(int num);
 	bool operator == (const Time& t2);
+	bool CompInRangeH(int h1,int h2);
 	
 };
 

@@ -142,11 +142,13 @@ void UI::Interface()
 	readmode();
 	while(ptr->IsRemainingEvents())
 	{
-		if(ptr->GetTime())
-		ptr->IncrementHour();
-		WaitOption();
-		ptr->Timer();
-		ptr->CurrData();
+		if (ptr->GetTime().CompInRangeH(5, 23))
+		{
+			WaitOption();
+			ptr->Timer();
+			ptr->CurrData();
+		}
+			ptr->IncrementHour();
 	}
 }
 
