@@ -30,5 +30,6 @@ public:
 	int getloadt();
 	int getdeldis();
 	int getcost();
+	void inccost(int c);
 	friend std::ostream& operator <<(std::ostream& f, const Cargo* C);
 };
