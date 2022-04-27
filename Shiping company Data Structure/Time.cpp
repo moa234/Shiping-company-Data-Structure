@@ -56,3 +56,10 @@ bool Time::operator==(const Time& t2)
 {
 	return (day==t2.day && hour==t2.hour);
 }
+
+bool Time::CompInRangeH( int h1, int h2)
+{
+	int h = hour;
+	return (h >= h1 && h <= h2);
+}
+

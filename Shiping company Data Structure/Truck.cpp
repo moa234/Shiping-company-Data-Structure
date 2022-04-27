@@ -64,19 +64,22 @@ std::ostream& operator<<(std::ostream& f, Truck* C)
 	f << C->getid();
 	if (!C->MovingC.isempty())
 	{
-		if (C->type == Normal)
+		Cargo* type;
+		C->MovingC.peek(type);
+		Itemtype t = type->gettype();
+		if (t == Normal)
 		{
 			f << "[";
 			C->MovingC.print();
 			f << "]";
 		}
-		else if (C->type == VIP)
+		else if (t == VIP)
 		{
 			f << "{";
 			C->MovingC.print();
 			f << "}";
 		}
-		else if (C->type == Special)
+		else if (t == Special)
 		{
 			f << "(";
 			C->MovingC.print();
