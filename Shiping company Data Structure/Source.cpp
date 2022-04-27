@@ -9,8 +9,7 @@ using namespace std;
 int main()
 {
 	Company c;
-	ifstream fin("test.txt") ;
-	c.ReadFile(fin);
+	c.LoadFile();
 	c.simulate();
 	return 0;
 }

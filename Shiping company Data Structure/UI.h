@@ -13,6 +13,7 @@ class UI
 public:
 	UI(Company* ptr);
 	int readnumber();
+	string readfilename();
 	void displayTime(Time t);
 	void displayline();
 	void displaytext(string c);

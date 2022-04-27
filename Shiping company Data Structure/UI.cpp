@@ -15,6 +15,15 @@ int UI::readnumber()
 	return x;
 }
 
+string UI::readfilename()
+{
+	string name;
+	cout << "Enter file name: ";
+	cin >> name;
+	cout << endl;
+	return name;
+}
+
 void UI::displayTime(Time t)
 {
 	cout << "Current Time (Day:Hour):" << t.GetDay() << ":" << t.GetHour() << endl;

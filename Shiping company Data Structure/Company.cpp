@@ -18,8 +18,9 @@ Time Company::GetTime()
 	return timer;
 }
 
-void Company::ReadFile(ifstream& fin)
+void Company::ReadFile(ifstream &fin)
 {
+
 	ReadTrucks(fin);
 	int d, h;
 	int numjourn;
@@ -226,6 +227,12 @@ void Company::Timer()
 		
 	}
 }*/
+void Company::LoadFile() 
+{
+	PUI->displaytext("Enter file name: ");
+	ifstream fin(PUI->readfilename());
+	this->ReadFile(fin);
+}
 
 void Company::CurrData()
 {
