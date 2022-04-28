@@ -11,9 +11,9 @@ Promotion::Promotion(Time et, int id, int extra)
 void Promotion::excute(Company* MainPtr)
 {
 	Cargo* promoted = MainPtr->getNCargo(ID);
-	promoted->inccost(extracost);
 	if (promoted)
 	{
+		promoted->inccost(extracost);
 		promoted->settype(VIP);
 		MainPtr->AddVIPList(promoted);
 	}

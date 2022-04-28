@@ -229,7 +229,6 @@ void Company::Timer()
 }*/
 void Company::LoadFile() 
 {
-	PUI->displaytext("Enter file name: ");
 	ifstream fin(PUI->readfilename());
 	this->ReadFile(fin);
 }
