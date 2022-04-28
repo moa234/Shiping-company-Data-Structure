@@ -42,13 +42,13 @@ public:
 							  //by checking empety conditions for reponsible lists
 	//void savefile(ofstream& fout);
 	Cargo* getNCargo(int id); //gets the cargo with specific id from 
-	void AddNormList(Cargo* ptr);
-	void AddSpeList(Cargo* ptr);
-	void AddVIPList(Cargo* ptr);
-	void LoadFile();
+	void AddNormList(Cargo* ptr); //adds a cargo to Normal Cargo List
+	void AddSpeList(Cargo* ptr); //adds a cargo to Special Cargo List
+	void AddVIPList(Cargo* ptr); //adds a cargo to VIP Cargo List
+	void LoadFile(); 
 	//void autopromote();
-	void CurrData();
-	void simulate();
-	void IncrementHour();
+	void CurrData(); //Function to be called to send current data to UI to be printed on screen
+	void simulate(); //to start simulation
+	void IncrementHour(); //increment the current hour
 };
 

@@ -78,15 +78,15 @@ int Cargo::getdeldis()
 	return deldis;
 }
 
+void Cargo::inccost(int c)
+{
+	cost += c;
+}
 int Cargo::getcost()
 {
 	return cost;
 }
 
-void Cargo::inccost(int c)
-{
-	cost += c;
-}
 
 std::ostream& operator<<(std::ostream& f, const Cargo* C)
 {
