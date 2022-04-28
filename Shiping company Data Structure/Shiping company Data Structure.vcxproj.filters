@@ -95,6 +95,9 @@
     <ClCompile Include="Truck.cpp">
       <Filter>Trucks</Filter>
     </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Trucks</Filter>
+    </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>Event</Filter>
     </ClCompile>
@@ -116,12 +119,10 @@
     <ClCompile Include="UI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Text.txt">
-      <Filter>Company</Filter>
+    <Text Include="test.txt">
+      <Filter>Trucks</Filter>
     </Text>
-    <Text Include="test.txt" />
   </ItemGroup>
 </Project>

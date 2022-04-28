@@ -2,7 +2,6 @@
 
 UI::UI(Company* ptr)
 {
-	//this->mode = mode;
 	this->ptr = ptr;
 }
 
