@@ -27,6 +27,8 @@ public:
     bool loadC(Cargo*& c);
     int getspeed() const;
     int getid() const;
+    //Cargo* PeekTopCargo();
+    //dequeue cargo
     void setDI(int DeliveryT); //setter for delivery interval
     void IncementJ(); // increment number of journies
     friend std::ostream& operator <<(std::ostream& f, Truck* C); 
