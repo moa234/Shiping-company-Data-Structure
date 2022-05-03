@@ -3,6 +3,9 @@
 #include"Company.h"
 class Event
 {
+
+
+
 protected:
 	int ID;
 	Time time;
