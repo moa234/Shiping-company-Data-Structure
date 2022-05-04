@@ -318,78 +318,78 @@ void Company::IncrementHour()
 	timer.hour_incr();
 }
 
-//void Company::TruckControl()
-//{
-//	for (int i = 0; i < 3; i++)
-//	{
-//		Truck* x;
-//		LoadingT[i].peek(x);
-//
-//		if (!x)
-//			return;
-//
-//		while (x)
-//		{
-//			Truck* x2=x;
-//
-//			Time Cargos_are_loaded = x->getMaxCLT() + x->getStartLoading();
-//
-//				if (Cargos_are_loaded == timer)
-//				{
-//					Cargo* c;
-//					x->peekTop(c);
-//
-//					LoadingT[i].dequeue(x);
-//					In_TripT->enqueue(x, -(c->getdeldis()));
-//				}
-//			LoadingT[i].peek(x);
-//			if (x2==x)
-//				break;
-//		
-//		}
-//	}
-//	for (int i = 0; i < 3; i++)
-//	{
-//		Truck* t;
-//		In_TripT[i].peek(t);
-//		while (t)
-//		{
-//			Cargo* r;
-//			t->peekTop(r);
-//			if (timer==(r->getCDT()+ t->getMaxCLT() + t->getStartLoading()))
-//			{
-//				t->dequeuetop(r);
-//				
-//				if (i==0)
-//					NDeliveredC.enqueue(r);
-//				else if (i==1)
-//					VDeliveredC.enqueue(r);
-//				else
-//					SDeliveredC.enqueue(r);
-//				
-//				t->peekTop(r);
-//				In_TripT->enqueue(t, -(r->getdeldis()));
-//
-//			}
-//		}
-//	}
-//	for (int i = 0; i < 3; i++)
-//	{
-//		Truck* x;
-//		In_TripT->peek(x);
-//		Cargo* c;
-//		if (!x->peekTop(c))
-//		{
-//			In_TripT->dequeue(x);
-//			if (x->getCurrj()==x->getMj())
-//			{
-//				MaintainedT[i].enqueue(x);
-//			}
-//			else
-//			{
-//				ReadyT[i].enqueue(x);
-//			}
-//		}
-//
-//	}
-//}
+void Company::TruckControl()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		//loading->in_trip
+
+		Truck* x = nullptr;
+		LoadingT[i].peek(x);
+
+		if (!x)
+			continue;
+
+		while (x)
+		{
+			Truck* x2 = x;
+
+			Time Cargos_are_loaded = x->getMaxCLT() + x->getStartLoading();
+
+			if (Cargos_are_loaded == timer)
+			{
+				Cargo* c = nullptr;
+				x->peekTopC(c);
+
+				LoadingT[i].dequeue(x);
+				In_TripT->enqueue(x, -(c->getdeldis()));
+			}
+			LoadingT[i].peek(x);
+			if (x2 == x)
+				continue;
+
+		}
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		//intrip->deliver
+		//		|
+		//		->empty truck->maint or ready
+
+		Truck* t = nullptr;
+		In_TripT[i].peek(t);
+		while (t)
+		{
+			Cargo* r = nullptr;
+			t->peekTopC(r);
+
+			if (!t->peekTopC(r))
+			{
+				In_TripT->dequeue(t);
+
+				if (t->getCurrj() == t->getMj())
+					MaintainedT[i].enqueue(t);
+
+				else
+					ReadyT[i].enqueue(t);
+
+			}
+			else if (timer == (r->getCDT() + t->getMaxCLT() + t->getStartLoading()))
+			{
+				t->dequeuetop(r);
+
+				if (i == 0)
+					NDeliveredC.enqueue(r);
+				else if (i == 1)
+					VDeliveredC.enqueue(r);
+				else
+					SDeliveredC.enqueue(r);
+
+				t->peekTopC(r);
+				In_TripT[i].dequeue(t);
+				In_TripT[i].enqueue(t, -(r->getdeldis()));
+
+			}
+		}
+	}
+}

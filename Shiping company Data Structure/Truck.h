@@ -20,7 +20,8 @@ class Truck
     int tl;
     int DDFC = 0;       // delivery distance of furthest cargo
 
-    Time StartLoading; //wa2t el bad2 feeh loading 
+    bool loaded;
+    Time StartLoading; //time where the truck started loading
     Time maxCargoLT;    //max cargo load time
 
 public:
@@ -37,7 +38,11 @@ public:
     void IncementJ(); // increment number of journies
     friend std::ostream& operator <<(std::ostream& f, Truck* C); 
 
-    bool peekTop(Cargo* c);
-    Time getStartLoading() const;
-    Time getMaxCLT() const;
+    bool peekTopC(Cargo* c);
+    Time getStartLoading() const;// returns time when the loading started
+    Time getMaxCLT() const;//returns max cargo load time
+    bool dequeuetop(Cargo*& c);//dequeue top cargo from truck
+    int getCurrj()const;
+    int getMj()const;
+
 };

@@ -57,7 +57,7 @@ void Truck::IncementJ()
 	Currjourney++;
 }
 
-bool Truck::peekTop(Cargo* c)
+bool Truck::peekTopC(Cargo* c)
 {
 	MovingC.peek(c);
 	if (c)
@@ -72,9 +72,30 @@ Time Truck::getStartLoading() const
 	return StartLoading;
 }
 
-Time Truck::getMaxCLT() const
+Time Truck::getMaxCLT() const 
 {
 	return maxCargoLT;
+}
+
+bool Truck::dequeuetop(Cargo* & c)
+{
+	MovingC.dequeue(c);
+	if (!c)
+	{
+		return false;
+	}
+	return true ;
+
+}
+
+int Truck::getCurrj() const
+{
+	return Currjourney;
+}
+
+int Truck::getMj() const
+{
+	return Mjourney;
 }
 
 std::ostream& operator<<(std::ostream& f, Truck* C)
