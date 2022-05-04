@@ -318,32 +318,78 @@ void Company::IncrementHour()
 	timer.hour_incr();
 }
 
-void Company::TruckControl()
-{
-	for (int i = 0; i < 3; i++)
-	{
-		Truck* x;
-		LoadingT[i].peek(x);
-
-		if (!x)
-			return;
-
-		while (x)
-		{
-			Cargo* c;
-			x->peekTop(c);
-			
-			Time Cargos_are_loaded = x->getMaxCLT() + x->getStartLoading();
-
-				if (Cargos_are_loaded == timer)
-				{
-					LoadingT[i].dequeue(x);
-					Time q = c->getCDT();
-					In_TripT->enqueue(x, -(c->getdeldis()));
-				}
-			LoadingT[i].peek(x);
-		}
-	}
-
-
-}
+//void Company::TruckControl()
+//{
+//	for (int i = 0; i < 3; i++)
+//	{
+//		Truck* x;
+//		LoadingT[i].peek(x);
+//
+//		if (!x)
+//			return;
+//
+//		while (x)
+//		{
+//			Truck* x2=x;
+//
+//			Time Cargos_are_loaded = x->getMaxCLT() + x->getStartLoading();
+//
+//				if (Cargos_are_loaded == timer)
+//				{
+//					Cargo* c;
+//					x->peekTop(c);
+//
+//					LoadingT[i].dequeue(x);
+//					In_TripT->enqueue(x, -(c->getdeldis()));
+//				}
+//			LoadingT[i].peek(x);
+//			if (x2==x)
+//				break;
+//		
+//		}
+//	}
+//	for (int i = 0; i < 3; i++)
+//	{
+//		Truck* t;
+//		In_TripT[i].peek(t);
+//		while (t)
+//		{
+//			Cargo* r;
+//			t->peekTop(r);
+//			if (timer==(r->getCDT()+ t->getMaxCLT() + t->getStartLoading()))
+//			{
+//				t->dequeuetop(r);
+//				
+//				if (i==0)
+//					NDeliveredC.enqueue(r);
+//				else if (i==1)
+//					VDeliveredC.enqueue(r);
+//				else
+//					SDeliveredC.enqueue(r);
+//				
+//				t->peekTop(r);
+//				In_TripT->enqueue(t, -(r->getdeldis()));
+//
+//			}
+//		}
+//	}
+//	for (int i = 0; i < 3; i++)
+//	{
+//		Truck* x;
+//		In_TripT->peek(x);
+//		Cargo* c;
+//		if (!x->peekTop(c))
+//		{
+//			In_TripT->dequeue(x);
+//			if (x->getCurrj()==x->getMj())
+//			{
+//				MaintainedT[i].enqueue(x);
+//			}
+//			else
+//			{
+//				ReadyT[i].enqueue(x);
+//			}
+//		}
+//
+//	}
+//}
