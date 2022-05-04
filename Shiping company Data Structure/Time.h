@@ -15,6 +15,8 @@ public:
 	void SetHour(int num);
 	bool operator == (const Time& t2); //overloading comparison operator == 
 	bool CompInRangeH(int h1,int h2); //compares current hour whether it is in range of two other hours
-	
+	Time operator +(int t);
+	Time operator +(Time t);
+
 };
 

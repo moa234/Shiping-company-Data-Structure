@@ -13,7 +13,6 @@ class Cargo
 	Time WT;		//waiting time
 	Itemtype type;	//type of cargo (normal, vip, special)
 	int TID;		//truck id when loaded
-
 public:
 	Cargo(Itemtype t, int ID, int Dis, int Lt, int cost, Time time);
 	Cargo();
@@ -32,4 +31,5 @@ public:
 	int getcost();
 	void inccost(int c);
 	friend std::ostream& operator <<(std::ostream& f, const Cargo* C);
+
 };

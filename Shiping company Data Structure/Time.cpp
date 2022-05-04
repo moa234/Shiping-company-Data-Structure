@@ -39,7 +39,7 @@ int Time::GetHour()
 
 int Time::tohours()
 {
-	return day*24 + hour;
+	return day * 24 + hour;
 }
 
 void Time::SetDay(int num)
@@ -54,12 +54,41 @@ void Time::SetHour(int num)
 
 bool Time::operator==(const Time& t2)
 {
-	return (day==t2.day && hour==t2.hour);
+	return (day == t2.day && hour == t2.hour);
 }
 
-bool Time::CompInRangeH( int h1, int h2)
+bool Time::CompInRangeH(int h1, int h2)
 {
 	int h = hour;
 	return (h >= h1 && h <= h2);
+}
+
+Time Time::operator+(int t)
+{
+	int h, d;
+	d = day + t;
+	if (d > 24)
+	{
+		hour++;
+		day -= 24;
+	}
+	h = hour;
+	Time x(d, h);
+	return x;
+}
+
+Time Time::operator+(Time t)
+{
+	int h, d;
+	d = day + t.day;
+	h = hour + t.hour;
+	if (d > 24)
+	{
+		h++;
+		day -= 24;
+	}
+
+	Time x(d, h);
+	return x;
 }
 

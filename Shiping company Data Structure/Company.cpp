@@ -18,7 +18,7 @@ Time Company::GetTime()
 	return timer;
 }
 
-void Company::ReadFile(ifstream &fin)
+void Company::ReadFile(ifstream& fin)
 {
 
 	ReadTrucks(fin);
@@ -71,12 +71,12 @@ void Company::ReadTrucks(ifstream& fin)
 			type = VIP;
 		for (int j = 0; j < data[0][i]; j++)
 		{
-			
-			Truck* ptr = new Truck(data[1][i],data[2][i],data[3][i],type,++ids);
-				ReadyT[type].enqueue(ptr);
+
+			Truck* ptr = new Truck(data[1][i], data[2][i], data[3][i], type, ++ids);
+			ReadyT[type].enqueue(ptr);
 		}
 	}
-	
+
 }
 
 void Company::ReadEvents(ifstream& fin)
@@ -91,9 +91,9 @@ void Company::ReadEvents(ifstream& fin)
 		char evtype;
 		fin >> evtype;
 		Itemtype category;
-		
+
 		if (evtype == 'R')
-		{	
+		{
 			char type;
 			fin >> type;
 			if (type == 'N') category = Normal;
@@ -102,7 +102,7 @@ void Company::ReadEvents(ifstream& fin)
 			int datar[6];
 			for (int i = 0; i < 6; i++)
 			{
-				
+
 				if (i == 1)
 				{
 					char nullchar;
@@ -128,7 +128,7 @@ void Company::ReadEvents(ifstream& fin)
 				}
 				fin >> datax[i];
 			}
-			
+
 			Time etx;
 			etx.SetDay(datax[0]);
 			etx.SetHour(datax[1]);
@@ -150,9 +150,9 @@ void Company::ReadEvents(ifstream& fin)
 			Time etp;
 			etp.SetDay(datap[0]);
 			etp.SetHour(datap[1]);
-			
+
 			Event* prom = new Promotion(etp, datap[2], datap[3]);
-			
+
 			Events.enqueue(prom);
 		}
 	}
@@ -182,26 +182,26 @@ void Company::AddVIPList(Cargo* ptr)
 
 void Company::Timer()
 {
-	
-		Event* nxt;
-		while (Events.peek(nxt) && nxt->GetTime() == timer)
-		{
-			Events.dequeue(nxt);
-			nxt->excute(this);
-			delete nxt;
-		}
-		counter++;
-		if (counter == 5)
-		{
-			Cargo* ptr = NWaitingC.remRet1();
-			if (ptr)
-				NDeliveredC.enqueue(ptr);
-			if (SWaitingC.dequeue(ptr))
-				SDeliveredC.enqueue(ptr);
-			if (VWaitingC.dequeue(ptr))
-				VDeliveredC.enqueue(ptr);
-			counter = 0;
-		}
+
+	Event* nxt;
+	while (Events.peek(nxt) && nxt->GetTime() == timer)
+	{
+		Events.dequeue(nxt);
+		nxt->excute(this);
+		delete nxt;
+	}
+	counter++;
+	if (counter == 5)
+	{
+		Cargo* ptr = NWaitingC.remRet1();
+		if (ptr)
+			NDeliveredC.enqueue(ptr);
+		if (SWaitingC.dequeue(ptr))
+			SDeliveredC.enqueue(ptr);
+		if (VWaitingC.dequeue(ptr))
+			VDeliveredC.enqueue(ptr);
+		counter = 0;
+	}
 
 }
 
@@ -224,10 +224,10 @@ void Company::Timer()
 		{
 			NWaitingC.enqueue(c);
 		}
-		
+
 	}
 }*/
-void Company::LoadFile() 
+void Company::LoadFile()
 {
 	ifstream fin(PUI->readfilename());
 	this->ReadFile(fin);
@@ -240,7 +240,7 @@ void Company::CurrData()
 	{
 		LoadingT[0].enqueue(t);
 	}
-	
+
 	Cargo* c;
 	if (VWaitingC.dequeue(c))
 	{
@@ -251,9 +251,9 @@ void Company::CurrData()
 		LoadingT[0].enqueue(t2);
 	}*/
 	PUI->displayTime(timer);
-	PUI->displayNum(NWaitingC.GetSize()+SWaitingC.GetSize()+VWaitingC.GetSize());
+	PUI->displayNum(NWaitingC.GetSize() + SWaitingC.GetSize() + VWaitingC.GetSize());
 	PUI->displaytext(" Waiting Cargos: ");
-	PUI->PrintLC(NWaitingC,Normal);
+	PUI->PrintLC(NWaitingC, Normal);
 	PUI->displaytext(" ");
 	PUI->PrintQC(SWaitingC, Special);
 	PUI->displaytext(" ");
@@ -318,7 +318,7 @@ void Company::CurrData()
 	PUI->PrintQC(VDeliveredC, VIP);
 	PUI->displayline();
 
-	
+
 
 }
 
@@ -330,4 +330,34 @@ void Company::simulate()
 void Company::IncrementHour()
 {
 	timer.hour_incr();
+}
+
+void Company::TruckControl()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		Truck* x;
+		LoadingT[i].peek(x);
+
+		if (!x)
+			return;
+
+		while (x)
+		{
+			Cargo* c;
+			x->peekTop(c);
+			
+			Time Cargos_are_loaded = x->getMaxCLT() + x->getStartLoading();
+
+				if (Cargos_are_loaded == timer)
+				{
+					LoadingT[i].dequeue(x);
+					Time q = c->getCDT();
+					In_TripT->enqueue(x, -(c->getdeldis()));
+				}
+			LoadingT[i].peek(x);
+		}
+	}
+
+
 }

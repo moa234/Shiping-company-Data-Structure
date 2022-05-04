@@ -82,6 +82,7 @@ void Cargo::inccost(int c)
 {
 	cost += c;
 }
+
 int Cargo::getcost()
 {
 	return cost;

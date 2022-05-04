@@ -57,6 +57,26 @@ void Truck::IncementJ()
 	Currjourney++;
 }
 
+bool Truck::peekTop(Cargo* c)
+{
+	MovingC.peek(c);
+	if (c)
+	{
+		return true;
+	}
+	return false;
+}
+
+Time Truck::getStartLoading() const
+{
+	return StartLoading;
+}
+
+Time Truck::getMaxCLT() const
+{
+	return maxCargoLT;
+}
+
 std::ostream& operator<<(std::ostream& f, Truck* C)
 {
 	if (!C->MovingC.isempty())
@@ -89,4 +109,6 @@ std::ostream& operator<<(std::ostream& f, Truck* C)
 	
 	return f;
 }
+
+
 

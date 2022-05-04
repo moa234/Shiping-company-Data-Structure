@@ -19,6 +19,10 @@ class Truck
     int tDC;            //total cargos delivered
     int tl;
     int DDFC = 0;       // delivery distance of furthest cargo
+
+    Time StartLoading; //wa2t el bad2 feeh loading 
+    Time maxCargoLT;    //max cargo load time
+
 public:
     Truck( int speed, int Tcap, int Mjourney, Itemtype type,int ID);
     Truck(); 
@@ -30,4 +34,8 @@ public:
     void setDI(int DeliveryT); //setter for delivery interval
     void IncementJ(); // increment number of journies
     friend std::ostream& operator <<(std::ostream& f, Truck* C); 
+
+    bool peekTop(Cargo* c);
+    Time getStartLoading() const;
+    Time getMaxCLT() const;
 };
