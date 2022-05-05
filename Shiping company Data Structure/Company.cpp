@@ -205,6 +205,75 @@ void Company::Timer()
 
 }
 
+bool Company::Assignment()
+{
+	while (!ReadyT[0].isempty() || !ReadyT[1].isempty() || !ReadyT[2].isempty())
+	{
+		AssignmentVIP();
+		AssignmentNormal();
+		AssignmentSpecial();
+		return true;
+	}
+	return false;
+}
+
+
+void Company::AssignmentVIP()
+{
+	Cargo* C;
+	while (!ReadyT[2].isempty())
+	{
+		Truck* T;
+		ReadyT[2].peek(T);
+		if (VWaitingC.GetSize() == T->getcap() || VWaitingC.GetSize() > T->getcap())
+		{
+			for (int i = 0; i < T->getcap(); i++)
+				(
+					VWaitingC.dequeue(C);
+			T->loadC(C);
+
+			)
+		}
+	}
+}
+
+void Company::AssignmentSpecial()
+{
+	Cargo* C;
+	while (!ReadyT[1].isempty())
+	{
+		Truck* T;
+		ReadyT[1].peek(T);
+		if (SWaitingC.GetSize() == T->getcap() || SWaitingC.GetSize() > T->getcap())
+		{
+			for (int i = 0; i < T->getcap(); i++)
+				(
+					SWaitingC.dequeue(C);
+			        T->loadC(C);
+
+			)
+		}
+	}
+}
+
+void Company::AssignmentNormal()
+{
+	Cargo* C;
+	while (!ReadyT[0].isempty())
+	{
+		Truck* T;
+		ReadyT[0].peek(T);
+		if (NWaitingC.GetSize() == T->getcap() || NWaitingC.GetSize() > T->getcap())
+		{
+			for (int i = 0; i < T->getcap(); i++)
+				(
+					C = NWaitingC.remRet1();
+			        T->loadC(C);
+
+			)
+		}
+	}
+}
 
 /*void Company::autopromote()
 {
