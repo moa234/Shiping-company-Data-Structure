@@ -346,7 +346,7 @@ void Company::TruckControl()
 			}
 			LoadingT[i].peek(x);
 			if (x2 == x)
-				continue;
+				break;
 
 		}
 	}
