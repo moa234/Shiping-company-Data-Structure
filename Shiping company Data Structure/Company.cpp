@@ -236,19 +236,19 @@ void Company::AssignmentVIP()
 				continue;
 		}
 		else
-			if (!ReadyT[1].isempty())
+			if (!ReadyT[0].isempty())
 			{
-				ReadyT[1].peek(T);
+				ReadyT[0].peek(T);
 				if (AvailableCargos >= T->getcap())
-					ReadyT[1].dequeue(T);
+					ReadyT[0].dequeue(T);
 				else
 					continue;
 			}
 			else
 			{
-				ReadyT[0].peek(T);
+				ReadyT[1].peek(T);
 				if (AvailableCargos >= T->getcap())
-					ReadyT[0].dequeue(T);
+					ReadyT[1].dequeue(T);
 				else
 					continue;
 			}
