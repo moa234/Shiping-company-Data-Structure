@@ -60,7 +60,7 @@ public:
 	void CurrData(); //Function to be called to send current data to UI to be printed on screen
 	void simulate(); //to start simulation
 	void IncrementHour(); //increment the current hour
-	void Assignment();
+	bool Assignment();
 	void AssignmentVIP();
 	void AssignmentNormal();
 	void AssignmentSpecial();

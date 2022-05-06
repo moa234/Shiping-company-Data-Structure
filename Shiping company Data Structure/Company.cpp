@@ -228,11 +228,11 @@ void Company::AssignmentVIP()
 		if (VWaitingC.GetSize() == T->getcap() || VWaitingC.GetSize() > T->getcap())
 		{
 			for (int i = 0; i < T->getcap(); i++)
-				(
-					VWaitingC.dequeue(C);
-			T->loadC(C);
+			{
+				VWaitingC.dequeue(C);
+				T->loadC(C);
 
-			)
+			}
 		}
 	}
 }
@@ -247,11 +247,11 @@ void Company::AssignmentSpecial()
 		if (SWaitingC.GetSize() == T->getcap() || SWaitingC.GetSize() > T->getcap())
 		{
 			for (int i = 0; i < T->getcap(); i++)
-				(
-					SWaitingC.dequeue(C);
-			        T->loadC(C);
+			{
+				SWaitingC.dequeue(C);
+				T->loadC(C);
 
-			)
+			}
 		}
 	}
 }
@@ -266,11 +266,11 @@ void Company::AssignmentNormal()
 		if (NWaitingC.GetSize() == T->getcap() || NWaitingC.GetSize() > T->getcap())
 		{
 			for (int i = 0; i < T->getcap(); i++)
-				(
-					C = NWaitingC.remRet1();
-			        T->loadC(C);
+			{
+				C = NWaitingC.remRet1();
+				T->loadC(C);
 
-			)
+			}
 		}
 	}
 }
