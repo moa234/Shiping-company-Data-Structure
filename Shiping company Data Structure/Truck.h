@@ -1,4 +1,5 @@
 #pragma once
+#include "Time.h"
 #include "DEFS.h"
 #include "Cargo.h"
 #include "PriorityQueue.h"
@@ -6,8 +7,8 @@
 class Truck
 {
     int TCap;           // Truck Capacity
-    int MTime;          // Maintenance Time
-    int Mjourney;       //Number of journies for maintenance
+    Time MTime;          //time That Truck entered maintainence
+    int CheckUpDuration;//check up duration for maintenance
     int Currjourney;    //The current counter for journies done by truck
     int speed;          // Speed of truck
     int DI;             //Delivery interval.
@@ -25,9 +26,10 @@ class Truck
     Time maxCargoLT;    //max cargo load time
 
 public:
-    Truck( int speed, int Tcap, int Mjourney, Itemtype type,int ID);
-    Truck(); 
+    Truck(int speed, int Tcap, int CheckUpDuration, Itemtype type,int ID);
+    //Truck(); 
     int getcap() const;
+    Itemtype GetType();//get type of truck
     void updateDI();
     bool loadC(Cargo*& c);
     int getspeed() const;
@@ -37,12 +39,15 @@ public:
     void setDI(int DeliveryT); //setter for delivery interval
     void IncementJ(); // increment number of journies
     friend std::ostream& operator <<(std::ostream& f, Truck* C); 
-
     bool peekTopC(Cargo* c);
+    void SetStartLoading(const Time& T);
     Time getStartLoading() const;// returns time when the loading started
+    void EndLoading();
     Time getMaxCLT() const;//returns max cargo load time
     bool dequeuetop(Cargo*& c);//dequeue top cargo from truck
     int getCurrj()const;
-    int getMj()const;
-
+    int getMj()const; //to be deleted
+    void SetMTime(Time T);
+    bool InMaintainence(const Time& T); //to check whether truck finished maintaince or not
+    void EndMaitainence();
 };

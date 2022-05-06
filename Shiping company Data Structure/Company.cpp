@@ -23,8 +23,6 @@ void Company::ReadFile(ifstream& fin)
 
 	ReadTrucks(fin);
 	int d, h;
-	int numjourn;
-	fin >> numjourn;
 	fin >> d >> h;
 	AutoP = d;
 	maxW = h;
@@ -55,11 +53,11 @@ void Company::ReadTrucks(ifstream& fin)
 {
 	int data[4][3]; // one row for count of vechiles,then another for speed,then another for capacity,then another for maintainence
 					// one coloum contains complete data of a truck type
-	int checkduration;
 	int ids = 0;
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 3; j++)
 			fin >> data[i][j];
+	fin >> MaintainenceLimit;
 	for (int i = 0; i < 3; i++)
 	{
 		Itemtype type = Normal;
@@ -182,7 +180,7 @@ void Company::AddVIPList(Cargo* ptr)
 
 void Company::Timer()
 {
-
+	AssignmentVIP();
 	Event* nxt;
 	while (Events.peek(nxt) && nxt->GetTime() == timer)
 	{
@@ -190,7 +188,7 @@ void Company::Timer()
 		nxt->excute(this);
 		delete nxt;
 	}
-	counter++;
+	/*counter++;
 	if (counter == 5)
 	{
 		Cargo* ptr = NWaitingC.remRet1();
@@ -201,7 +199,7 @@ void Company::Timer()
 		if (VWaitingC.dequeue(ptr))
 			VDeliveredC.enqueue(ptr);
 		counter = 0;
-	}
+	}*/
 
 }
 
@@ -209,6 +207,8 @@ bool Company::Assignment()
 {
 	while (!ReadyT[0].isempty() || !ReadyT[1].isempty() || !ReadyT[2].isempty())
 	{
+		//there is no need for while loop here as this conditions are handeled inside each
+		//assignment
 		AssignmentVIP();
 		AssignmentNormal();
 		AssignmentSpecial();
@@ -221,18 +221,52 @@ bool Company::Assignment()
 void Company::AssignmentVIP()
 {
 	Cargo* C;
-	while (!ReadyT[2].isempty())
+	bool flag = 1; //flag to stop assigning vip cargos
+	while ((!ReadyT[2].isempty() || !ReadyT[1].isempty() || !ReadyT[0].isempty()) && flag )//3 msh fadyeen(vip,normal,special) msh wahda + al flag
 	{
+		flag = 0;
 		Truck* T;
-		ReadyT[2].peek(T);
-		if (VWaitingC.GetSize() == T->getcap() || VWaitingC.GetSize() > T->getcap())
+		int AvailableCargos = VWaitingC.GetSize();
+		if (!ReadyT[2].isempty())//you have two conditions, think of it deeply 
 		{
+			ReadyT[2].peek(T);
+			if (AvailableCargos >= T->getcap())
+				ReadyT[2].dequeue(T);
+			else
+				continue;
+		}
+		else
+			if (!ReadyT[1].isempty())
+			{
+				ReadyT[1].peek(T);
+				if (AvailableCargos >= T->getcap())
+					ReadyT[1].dequeue(T);
+				else
+					continue;
+			}
+			else
+			{
+				ReadyT[0].peek(T);
+				if (AvailableCargos >= T->getcap())
+					ReadyT[0].dequeue(T);
+				else
+					continue;
+			}
+		if (AvailableCargos>= T->getcap())
+		{
+			//is equivilent to previous condition replace
+			//shoof ani truck fadya mn al 3 3la asas al criteria
+			//w 7ot fl fadya
+			flag = 1;
+			T->SetStartLoading(timer);// bnset an al truck bd2t amta t load
 			for (int i = 0; i < T->getcap(); i++)
 			{
 				VWaitingC.dequeue(C);
 				T->loadC(C);
-
 			}
+			LoadingT[T->GetType()].enqueue(T,-T->getMaxCLT().tohours());
+			//al satr dh mohem gdn fakrni ashrholk f vn
+			//b5tsar b7ot al truck fl loading
 		}
 	}
 }
@@ -240,12 +274,13 @@ void Company::AssignmentVIP()
 void Company::AssignmentSpecial()
 {
 	Cargo* C;
-	while (!ReadyT[1].isempty())
+	while (!ReadyT[1].isempty())//flag
 	{
 		Truck* T;
 		ReadyT[1].peek(T);
 		if (SWaitingC.GetSize() == T->getcap() || SWaitingC.GetSize() > T->getcap())
 		{
+			//condition as previous
 			for (int i = 0; i < T->getcap(); i++)
 			{
 				SWaitingC.dequeue(C);
@@ -259,7 +294,7 @@ void Company::AssignmentSpecial()
 void Company::AssignmentNormal()
 {
 	Cargo* C;
-	while (!ReadyT[0].isempty())
+	while (!ReadyT[0].isempty())//2 al bhtam behom normal w vip
 	{
 		Truck* T;
 		ReadyT[0].peek(T);
@@ -386,6 +421,24 @@ void Company::IncrementHour()
 {
 	timer.hour_incr();
 }
+void Company::Maintenance()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		if (!MaintainedT[i].isempty())
+		{
+			Truck* ptr;
+			bool itemfound=MaintainedT[i].peek(ptr);
+			while (itemfound && !ptr->InMaintainence(timer))
+			{
+				MaintainedT[i].dequeue(ptr);
+				ptr->EndMaitainence();
+				ReadyT[i].enqueue(ptr);
+				itemfound = MaintainedT[i].peek(ptr);
+			}
+		}
+	}
+}
 
 void Company::TruckControl()
 {
@@ -401,7 +454,7 @@ void Company::TruckControl()
 
 		while (x)
 		{
-			Truck* x2 = x;
+			//Truck* x2 = x;  no need for x2
 
 			Time Cargos_are_loaded = x->getMaxCLT() + x->getStartLoading();
 
@@ -411,15 +464,15 @@ void Company::TruckControl()
 				x->peekTopC(c);
 
 				LoadingT[i].dequeue(x);
-				In_TripT->enqueue(x, -(c->getdeldis()));
+				In_TripT[i].enqueue(x, -(c->getdeldis())); //they are 3 intrip not one
 			}
-			LoadingT[i].peek(x);
-			if (x2 == x)
+			bool existmore =LoadingT[i].peek(x);
+			if (!existmore)  //x2 == x old but you should check whether it returned true or false see implementation of peek
 				break;
 
 		}
 	}
-	for (int i = 0; i < 3; i++)
+	/*for (int i = 0; i < 3; i++)
 	{
 		//intrip->deliver
 		//		|
@@ -430,7 +483,7 @@ void Company::TruckControl()
 		while (t)
 		{
 			Cargo* r = nullptr;
-			t->peekTopC(r);
+			//t->peekTopC(r); no need for repeatition
 
 			if (!t->peekTopC(r))
 			{
@@ -460,5 +513,5 @@ void Company::TruckControl()
 
 			}
 		}
-	}
+	}*/
 }

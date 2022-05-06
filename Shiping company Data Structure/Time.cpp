@@ -52,7 +52,7 @@ void Time::SetHour(int num)
 	hour = num;
 }
 
-bool Time::operator==(const Time& t2)
+bool Time::operator==(const Time& t2) const
 {
 	return (day == t2.day && hour == t2.hour);
 }
@@ -63,31 +63,41 @@ bool Time::CompInRangeH(int h1, int h2)
 	return (h >= h1 && h <= h2);
 }
 
-Time Time::operator+(int t)
+Time Time::operator+(int t) const
 {
 	int h, d;
-	d = day + t;
-	if (d > 24)
+	d = day;
+	h = hour + t;
+	if (hour >= 24)
 	{
-		hour++;
-		day -= 24;
+		h = h % 24;
+		d += h / 24;
 	}
-	h = hour;
 	Time x(d, h);
 	return x;
 }
 
-Time Time::operator+(Time t)
+bool Time::operator>(const Time& t) const
+{
+	if (day > t.day)
+		return true;
+	if (t.day > day)
+		return false;
+	if (hour > t.hour)
+		return true;
+	return false; //case hour of second paramenter is greater
+}
+
+Time Time::operator+(const Time& t) const
 {
 	int h, d;
-	d = day + t.day;
 	h = hour + t.hour;
-	if (d > 24)
+	d = day + t.hour;
+	if (hour >= 24)
 	{
-		h++;
-		day -= 24;
+		h = h % 24;
+		d += h / 24;
 	}
-
 	Time x(d, h);
 	return x;
 }
