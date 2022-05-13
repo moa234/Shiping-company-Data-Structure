@@ -1,6 +1,5 @@
 #pragma once
 #include "DEFS.h"
-#include"Company.h"
 #include <iostream>
 #include <windows.h>
 using namespace std;
