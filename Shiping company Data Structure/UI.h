@@ -1,17 +1,14 @@
 #pragma once
 #include "DEFS.h"
-#include"Company.h"
 #include <iostream>
-#include <fstream>
 #include <windows.h>
 using namespace std;
 
 class UI
 {
 	Modetype mode; 
-	Company* ptr;
 public:
-	UI(Company* ptr); //constructor so that UI point to class to access functions
+	UI(); //constructor so that UI point to class to access functions
 	int readnumber(); //read number from the console
 	string readfilename(); //get the file name so company class can load this file 
 	void displayTime(Time t); //display format for time on console
@@ -30,7 +27,7 @@ public:
 	void PrintPQT(PriorityQueue<Truck*>& q);  //calls print function of List
 	void WaitOption(); //checks the interface mode to use correct 
 					   // wait option either delay 1 second or enter key 
-	void Interface(); //function responsible for coordinating 
+	//void Interface(); //function responsible for coordinating 
 					//between UI class and Company class for simulation
 };
 

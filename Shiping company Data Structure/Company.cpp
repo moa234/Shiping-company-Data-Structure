@@ -9,7 +9,7 @@ Company::Company()
 {
 	timer.SetDay(1); timer.SetHour(1);
 	counter = 0;
-	PUI = new UI(this);
+	PUI = new UI();
 }
 
 
@@ -414,7 +414,17 @@ void Company::CurrData()
 
 void Company::simulate()
 {
-	PUI->Interface();
+	PUI->readmode();
+	while (IsRemainingEvents())
+	{
+		if (GetTime().CompInRangeH(5, 23))//checks current hour is in range of working hours
+		{
+			PUI->WaitOption();
+			Timer();
+			CurrData();
+		}
+		IncrementHour();
+	}
 }
 
 void Company::IncrementHour()

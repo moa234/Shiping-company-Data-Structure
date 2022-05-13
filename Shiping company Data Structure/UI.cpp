@@ -1,8 +1,7 @@
 #include "UI.h"
 
-UI::UI(Company* ptr)
+UI::UI()
 {
-	this->ptr = ptr;
 }
 
 int UI::readnumber()
@@ -140,19 +139,4 @@ void UI::WaitOption()
 	}
 }
 
-
-void UI::Interface()
-{
-	readmode();
-	while(ptr->IsRemainingEvents())
-	{
-		if (ptr->GetTime().CompInRangeH(5, 23))//checks current hour is in range of working hours
-		{
-			WaitOption();
-			ptr->Timer();
-			ptr->CurrData();
-		}
-			ptr->IncrementHour();
-	}
-}
 
