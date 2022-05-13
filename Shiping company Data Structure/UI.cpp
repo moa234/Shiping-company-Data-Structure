@@ -141,18 +141,3 @@ void UI::WaitOption()
 }
 
 
-void UI::Interface()
-{
-	readmode();
-	while(ptr->IsRemainingEvents())
-	{
-		if (ptr->GetTime().CompInRangeH(5, 23))//checks current hour is in range of working hours
-		{
-			WaitOption();
-			ptr->Timer();
-			ptr->CurrData();
-		}
-			ptr->IncrementHour();
-	}
-}
-

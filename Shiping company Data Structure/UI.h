@@ -30,7 +30,7 @@ public:
 	void PrintPQT(PriorityQueue<Truck*>& q);  //calls print function of List
 	void WaitOption(); //checks the interface mode to use correct 
 					   // wait option either delay 1 second or enter key 
-	void Interface(); //function responsible for coordinating 
+	//void Interface(); //function responsible for coordinating 
 					//between UI class and Company class for simulation
 };
 
