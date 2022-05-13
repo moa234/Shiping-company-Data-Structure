@@ -1,8 +1,7 @@
 #include "UI.h"
 
-UI::UI(Company* ptr)
+UI::UI()
 {
-	this->ptr = ptr;
 }
 
 int UI::readnumber()

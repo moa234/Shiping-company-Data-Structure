@@ -9,9 +9,8 @@ using namespace std;
 class UI
 {
 	Modetype mode; 
-	Company* ptr;
 public:
-	UI(Company* ptr); //constructor so that UI point to class to access functions
+	UI(); //constructor so that UI point to class to access functions
 	int readnumber(); //read number from the console
 	string readfilename(); //get the file name so company class can load this file 
 	void displayTime(Time t); //display format for time on console

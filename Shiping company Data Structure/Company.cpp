@@ -9,7 +9,7 @@ Company::Company()
 {
 	timer.SetDay(1); timer.SetHour(1);
 	counter = 0;
-	PUI = new UI(this);
+	PUI = new UI();
 }
 
 
