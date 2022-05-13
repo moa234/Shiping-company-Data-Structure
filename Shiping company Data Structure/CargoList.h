@@ -2,6 +2,7 @@
 #include "List.h"
 class CargoList : public List<Cargo*>
 {
+
 	int getPos(int id)
 	{
 		Node<Cargo*>* currptr = headptr;
