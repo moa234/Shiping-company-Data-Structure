@@ -2,6 +2,12 @@
 #include "DEFS.h"
 #include <iostream>
 #include <windows.h>
+#include "Time.h"
+#include "Cargo.h"
+#include "Queue.h"
+#include "CargoList.h"
+#include "PriorityQueue.h"
+#include "Truck.h"
 using namespace std;
 
 class UI
