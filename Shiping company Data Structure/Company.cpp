@@ -223,9 +223,9 @@ void Company::AssignmentVIP()
 
 	Cargo* C;
 	bool flag = 1; //flag to stop assigning vip cargos
-	while ((!ReadyT[2].isempty() || !ReadyT[1].isempty() || !ReadyT[0].isempty()) && flag )//3 msh fadyeen(vip,normal,special) msh wahda + al flag
+	while ((!ReadyT[2].isempty() || !ReadyT[1].isempty() || !ReadyT[0].isempty()) && flag)//3 msh fadyeen(vip,normal,special) msh wahda + al flag
 	{
-		
+
 		Truck* T;
 		int AvailableCargos = VWaitingC.GetSize();
 		if (!ReadyT[2].isempty())//you have two conditions, think of it deeply 
@@ -236,29 +236,28 @@ void Company::AssignmentVIP()
 			else
 				continue;
 		}
-		else
-			if (!ReadyT[0].isempty())
-			{
-				ReadyT[0].peek(T);
-				if (AvailableCargos >= T->getcap())
-					ReadyT[0].dequeue(T);
-				else
-					continue;
-			}
+		else if (!ReadyT[0].isempty())
+		{
+			ReadyT[0].peek(T);
+			if (AvailableCargos >= T->getcap())
+				ReadyT[0].dequeue(T);
 			else
-			{
-				ReadyT[1].peek(T);
-				if (AvailableCargos >= T->getcap())
-					ReadyT[1].dequeue(T);
-				else
-					continue;
-			}
+				continue;
+		}
+		else
+		{
+			ReadyT[1].peek(T);
+			if (AvailableCargos >= T->getcap())
+				ReadyT[1].dequeue(T);
+			else
+				continue;
+		}
 		if (AvailableCargos >= T->getcap())
 		{
 			//is equivilent to previous condition replace
 			//shoof ani truck fadya mn al 3 3la asas al criteria
 			//w 7ot fl fadya
-			
+
 			T->SetStartLoading(timer);// bnset an al truck bd2t amta t load
 			for (int i = 0; i < T->getcap(); i++)
 			{
@@ -279,7 +278,7 @@ void Company::AssignmentSpecial()
 	Cargo* C;
 	while (!ReadyT[1].isempty())
 	{
-		
+
 		ReadyT[1].peek(T);
 		if (AvailableCargos >= T->getcap())
 		{
@@ -291,24 +290,24 @@ void Company::AssignmentSpecial()
 
 			}
 
-			
+
 		}
 		if (AvailableCargos >= T->getcap())
-		{ 
-		T->SetStartLoading(timer);
-		for (int i = 0; i < T->getcap(); i++)
 		{
-			SWaitingC.dequeue(C);
-			T->loadC(C);
-			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+			T->SetStartLoading(timer);
+			for (int i = 0; i < T->getcap(); i++)
+			{
+				SWaitingC.dequeue(C);
+				T->loadC(C);
+				LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+			}
 		}
-		}
-		
-		
-			
-			
-		
-			
+
+
+
+
+
+
 
 	}
 
@@ -319,23 +318,11 @@ void Company::AssignmentNormal()
 	Truck* T;
 	int AvailableCargos = NWaitingC.GetSize();
 	Cargo* C;
-	while (!ReadyT[0].isempty()|| !ReadyT[2].isempty())//2 al bhtam behom normal w vip
+	while (!ReadyT[0].isempty() || !ReadyT[2].isempty())//2 al bhtam behom normal w vip
 	{
 		if (!ReadyT[0].isempty())
 		{
-		ReadyT[0].peek(T);
-		if (AvailableCargos >= T->getcap())
-			for (int i = 0; i < T->getcap(); i++)
-			{
-				C = NWaitingC.remRet1();
-				T->loadC(C);
-
-			}
-
-
-		}
-		else if (!ReadyT[2].isempty())
-		{
+			ReadyT[0].peek(T);
 			if (AvailableCargos >= T->getcap())
 				for (int i = 0; i < T->getcap(); i++)
 				{
@@ -343,17 +330,30 @@ void Company::AssignmentNormal()
 					T->loadC(C);
 
 				}
-			
+
+
+		}
+		else if (!ReadyT[2].isempty())
+		{
+			ReadyT[2].peek(T);
+			if (AvailableCargos >= T->getcap())
+				for (int i = 0; i < T->getcap(); i++)
+				{
+					C = NWaitingC.remRet1();
+					T->loadC(C);
+
+				}
+
 		}
 		if (AvailableCargos >= T->getcap())
-		{ 
-		T->SetStartLoading(timer);
-		for (int i = 0; i < T->getcap(); i++)
 		{
-			NWaitingC.remRet1();
-			T->loadC(C);
-			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
-		}
+			T->SetStartLoading(timer);
+			for (int i = 0; i < T->getcap(); i++)
+			{
+				NWaitingC.remRet1();
+				T->loadC(C);
+				LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+			}
 		}
 	}
 }
@@ -532,7 +532,7 @@ void Company::TruckControl()
 	}
 	/*for (int i = 0; i < 3; i++)
 	{
-		
+
 
 		Truck* t = nullptr;
 		In_TripT[i].peek(t);
@@ -602,19 +602,19 @@ void Company::TruckControl()
 			}
 		}
 
-		if (t->Check_endtrip(timer))
-		{
-			t->IncementJ();
-			t->SetMTime(timer);
-			In_TripT[i].dequeue(t);
+		//if (t->Check_endtrip(timer))
+		//{
+		//	t->IncementJ();
+		//	t->SetMTime(timer);
+		//	In_TripT[i].dequeue(t);
 
-			if (t->getCurrj() == MaintainenceLimit)
-				MaintainedT[i].enqueue(t);
+		//	if (t->getCurrj() == MaintainenceLimit)
+		//		MaintainedT[i].enqueue(t);
 
-			else
-				ReadyT[i].enqueue(t);
+		//	else
+		//		ReadyT[i].enqueue(t);
 
-		}
+		//}
 
 	}
 }
