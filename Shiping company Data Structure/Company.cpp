@@ -220,6 +220,7 @@ bool Company::Assignment()
 
 void Company::AssignmentVIP()
 {
+
 	Cargo* C;
 	bool flag = 1; //flag to stop assigning vip cargos
 	while ((!ReadyT[2].isempty() || !ReadyT[1].isempty() || !ReadyT[0].isempty()) && flag )//3 msh fadyeen(vip,normal,special) msh wahda + al flag
