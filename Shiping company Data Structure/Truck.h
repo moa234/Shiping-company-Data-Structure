@@ -7,7 +7,7 @@
 class Truck
 {
     int TCap;           // Truck Capacity
-    Time MTime;          //time That Truck entered maintainence
+    Time MTime;         //time That Truck entered maintainence
     int CheckUpDuration;//check up duration for maintenance
     int Currjourney;    //The current counter for journies done by truck
     int speed;          // Speed of truck
@@ -24,7 +24,8 @@ class Truck
     bool loaded;
     Time StartLoading; //time where the truck started loading
     Time maxCargoLT;    //max cargo load time
-    Time Returntime; //
+
+    Time Returntime; //time when the truck finishes the trip and return to the company
 
 public:
     Truck(int speed, int Tcap, int CheckUpDuration, Itemtype type,int ID);

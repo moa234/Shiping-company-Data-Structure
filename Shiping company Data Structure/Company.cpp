@@ -485,9 +485,7 @@ void Company::TruckControl()
 	}
 	/*for (int i = 0; i < 3; i++)
 	{
-		//intrip->deliver
-		//		|
-		//		->empty truck->maint or ready
+		
 
 		Truck* t = nullptr;
 		In_TripT[i].peek(t);
@@ -507,7 +505,7 @@ void Company::TruckControl()
 					ReadyT[i].enqueue(t);
 
 			}
-			else if (timer == (r->getCDT() + t->getMaxCLT() + t->getStartLoading()))
+			else if (timer == r->getCDT())
 			{
 				t->dequeuetop(r);
 
@@ -559,10 +557,13 @@ void Company::TruckControl()
 
 		if (t->Check_endtrip(timer))
 		{
+			t->IncementJ();
+			t->SetMTime(timer);
 			In_TripT[i].dequeue(t);
 
 			if (t->getCurrj() == MaintainenceLimit)
 				MaintainedT[i].enqueue(t);
+
 			else
 				ReadyT[i].enqueue(t);
 
