@@ -55,4 +55,7 @@ public:
     int get_DDFC();
     void setReturn_time(const Time& T);
     Time getReturn_time()const;
+    bool Check_endtrip(const Time& T);
+    bool Check_Maintnance();
+
 };

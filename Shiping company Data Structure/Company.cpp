@@ -223,7 +223,7 @@ void Company::AssignmentVIP()
 
 	Cargo* C;
 	bool flag = 1; //flag to stop assigning vip cargos
-	while ((!ReadyT[2].isempty() || !ReadyT[1].isempty() || !ReadyT[0].isempty()) && flag )//3 msh fadyeen(vip,normal,special) msh wahda + al flag
+	while ((!ReadyT[2].isempty() || !ReadyT[1].isempty() || !ReadyT[0].isempty()) && flag)//3 msh fadyeen(vip,normal,special) msh wahda + al flag
 	{
 		flag = 0;
 		Truck* T;
@@ -527,10 +527,12 @@ void Company::TruckControl()
 	}*/
 	for (int i = 0; i < 3; i++)
 	{
-		Truck* t=nullptr;
-		Cargo* c=nullptr;
+		Truck* t = nullptr;
+		Cargo* c = nullptr;
 		In_TripT[i].peek(t);
 		t->peekTopC(c);
+
+
 		while (c->getCDT() == timer)
 		{
 			t->dequeuetop(c);
@@ -541,7 +543,7 @@ void Company::TruckControl()
 				VDeliveredC.enqueue(c);
 			else
 				SDeliveredC.enqueue(c);
-			
+
 			t->inc_tDC();
 
 			In_TripT[i].dequeue(t);
@@ -554,5 +556,17 @@ void Company::TruckControl()
 				In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
 			}
 		}
+
+		if (t->Check_endtrip(timer))
+		{
+			In_TripT[i].dequeue(t);
+
+			if (t->getCurrj() == MaintainenceLimit)
+				MaintainedT[i].enqueue(t);
+			else
+				ReadyT[i].enqueue(t);
+
+		}
+
 	}
 }
