@@ -159,18 +159,6 @@ void Truck::inc_tDC()
 	tDC++;
 }
 
-bool Truck::Check_endtrip(const Time& T)
-{
-	if (Returntime == T)
-	{
-		return true;
-	}
-	return false;
-
-}
-
-
-
 std::ostream& operator<<(std::ostream& f, Truck* C)
 {
 	if (!C->MovingC.isempty())
