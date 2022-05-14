@@ -222,10 +222,10 @@ void Company::AssignmentVIP()
 {
 
 	Cargo* C;
-	bool flag = 1; //flag to stop assigning vip cargos
-	while ((!ReadyT[2].isempty() || !ReadyT[1].isempty() || !ReadyT[0].isempty()) && flag )//3 msh fadyeen(vip,normal,special) msh wahda + al flag
+	
+	while ((!ReadyT[2].isempty() || !ReadyT[1].isempty() || !ReadyT[0].isempty()) )//3 msh fadyeen(vip,normal,special) msh wahda + al flag
 	{
-		flag = 0;
+		
 		Truck* T;
 		int AvailableCargos = VWaitingC.GetSize();
 		if (!ReadyT[2].isempty())//you have two conditions, think of it deeply 
@@ -258,7 +258,7 @@ void Company::AssignmentVIP()
 			//is equivilent to previous condition replace
 			//shoof ani truck fadya mn al 3 3la asas al criteria
 			//w 7ot fl fadya
-			flag = 1;
+			
 			T->SetStartLoading(timer);// bnset an al truck bd2t amta t load
 			for (int i = 0; i < T->getcap(); i++)
 			{
@@ -274,39 +274,86 @@ void Company::AssignmentVIP()
 
 void Company::AssignmentSpecial()
 {
+	Truck* T;
+	int AvailableCargos = SWaitingC.GetSize();
 	Cargo* C;
-	while (!ReadyT[1].isempty())//flag
+	while (!ReadyT[1].isempty())
 	{
-		Truck* T;
+		
 		ReadyT[1].peek(T);
-		if (SWaitingC.GetSize() == T->getcap() || SWaitingC.GetSize() > T->getcap())
+		if (AvailableCargos >= T->getcap())
 		{
-			//condition as previous
 			for (int i = 0; i < T->getcap(); i++)
 			{
 				SWaitingC.dequeue(C);
 				T->loadC(C);
+				T->SetStartLoading(timer);
 
 			}
+
+			
 		}
+		if (AvailableCargos >= T->getcap())
+		{ 
+		T->SetStartLoading(timer);
+		for (int i = 0; i < T->getcap(); i++)
+		{
+			SWaitingC.dequeue(C);
+			T->loadC(C);
+			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+		}
+		}
+		
+		
+			
+			
+		
+			
+
 	}
+
 }
 
 void Company::AssignmentNormal()
 {
+	Truck* T;
+	int AvailableCargos = NWaitingC.GetSize();
 	Cargo* C;
-	while (!ReadyT[0].isempty())//2 al bhtam behom normal w vip
+	while (!ReadyT[0].isempty()|| !ReadyT[2].isempty())//2 al bhtam behom normal w vip
 	{
-		Truck* T;
-		ReadyT[0].peek(T);
-		if (NWaitingC.GetSize() == T->getcap() || NWaitingC.GetSize() > T->getcap())
+		if (!ReadyT[0].isempty())
 		{
+		ReadyT[0].peek(T);
+		if (AvailableCargos >= T->getcap())
 			for (int i = 0; i < T->getcap(); i++)
 			{
 				C = NWaitingC.remRet1();
 				T->loadC(C);
 
 			}
+
+
+		}
+		else if (!ReadyT[2].isempty())
+		{
+			if (AvailableCargos >= T->getcap())
+				for (int i = 0; i < T->getcap(); i++)
+				{
+					C = NWaitingC.remRet1();
+					T->loadC(C);
+
+				}
+			
+		}
+		if (AvailableCargos >= T->getcap())
+		{ 
+		T->SetStartLoading(timer);
+		for (int i = 0; i < T->getcap(); i++)
+		{
+			NWaitingC.remRet1();
+			T->loadC(C);
+			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+		}
 		}
 	}
 }
