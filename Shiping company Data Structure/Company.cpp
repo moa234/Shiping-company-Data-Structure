@@ -252,7 +252,7 @@ void Company::AssignmentVIP()
 				else
 					continue;
 			}
-		if (AvailableCargos>= T->getcap())
+		if (AvailableCargos >= T->getcap())
 		{
 			//is equivilent to previous condition replace
 			//shoof ani truck fadya mn al 3 3la asas al criteria
@@ -264,7 +264,7 @@ void Company::AssignmentVIP()
 				VWaitingC.dequeue(C);
 				T->loadC(C);
 			}
-			LoadingT[T->GetType()].enqueue(T,-T->getMaxCLT().tohours());
+			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 			//al satr dh mohem gdn fakrni ashrholk f vn
 			//b5tsar b7ot al truck fl loading
 		}
@@ -438,7 +438,7 @@ void Company::Maintenance()
 		if (!MaintainedT[i].isempty())
 		{
 			Truck* ptr;
-			bool itemfound=MaintainedT[i].peek(ptr);
+			bool itemfound = MaintainedT[i].peek(ptr);
 			while (itemfound && !ptr->InMaintainence(timer))
 			{
 				MaintainedT[i].dequeue(ptr);
@@ -476,7 +476,7 @@ void Company::TruckControl()
 				LoadingT[i].dequeue(x);
 				In_TripT[i].enqueue(x, -(c->getdeldis())); //they are 3 intrip not one
 			}
-			bool existmore =LoadingT[i].peek(x);
+			bool existmore = LoadingT[i].peek(x);
 			if (!existmore)  //x2 == x old but you should check whether it returned true or false see implementation of peek
 				break;
 
@@ -524,4 +524,34 @@ void Company::TruckControl()
 			}
 		}
 	}*/
+	for (int i = 0; i < 3; i++)
+	{
+		Truck* t=nullptr;
+		Cargo* c=nullptr;
+		In_TripT[i].peek(t);
+		t->peekTopC(c);
+		while (c->getCDT() == timer)
+		{
+			t->dequeuetop(c);
+
+			if (i == 0)
+				NDeliveredC.enqueue(c);
+			else if (i == 1)
+				VDeliveredC.enqueue(c);
+			else
+				SDeliveredC.enqueue(c);
+			
+			t->inc_tDC();
+
+			In_TripT[i].dequeue(t);
+			if (t->peekTopC(c))
+				In_TripT[i].enqueue(t, -(c->getCDT().tohours()));
+			else
+			{
+				t->setReturn_time(timer);
+
+				In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
+			}
+		}
+	}
 }

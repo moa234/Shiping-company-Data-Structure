@@ -24,6 +24,7 @@ class Truck
     bool loaded;
     Time StartLoading; //time where the truck started loading
     Time maxCargoLT;    //max cargo load time
+    Time Returntime; //
 
 public:
     Truck(int speed, int Tcap, int CheckUpDuration, Itemtype type,int ID);
@@ -50,4 +51,8 @@ public:
     void SetMTime(Time T);
     bool InMaintainence(const Time& T); //to check whether truck finished maintaince or not
     void EndMaitainence();
+    void inc_tDC();//increment total cargos delivered
+    int get_DDFC();
+    void setReturn_time(const Time& T);
+    Time getReturn_time()const;
 };
