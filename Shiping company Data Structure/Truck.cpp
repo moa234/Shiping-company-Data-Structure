@@ -92,19 +92,19 @@ void Truck::EndLoading()
 	maxCargoLT.SetHour(0);
 }
 
-Time Truck::getMaxCLT() const 
+Time Truck::getMaxCLT() const
 {
 	return maxCargoLT;
 }
 
-bool Truck::dequeuetop(Cargo* & c)
+bool Truck::dequeuetop(Cargo*& c)
 {
-	
+
 	if (MovingC.dequeue(c))
 	{
 		return true;
 	}
-	return false ;
+	return false;
 
 }
 
@@ -139,6 +139,38 @@ void Truck::EndMaitainence()
 	MTime.SetHour(0);
 }
 
+int Truck::get_DDFC()
+{
+	return DDFC;
+}
+
+Time Truck::getReturn_time() const
+{
+	return Returntime;
+}
+
+void Truck::setReturn_time(const Time& T)
+{
+	Returntime = T + (DDFC / speed);
+}
+
+void Truck::inc_tDC()
+{
+	tDC++;
+}
+
+bool Truck::Check_endtrip(const Time& T)
+{
+	if (Returntime == T)
+	{
+		return true;
+	}
+	return false;
+
+}
+
+
+
 std::ostream& operator<<(std::ostream& f, Truck* C)
 {
 	if (!C->MovingC.isempty())
@@ -168,7 +200,7 @@ std::ostream& operator<<(std::ostream& f, Truck* C)
 			f << ")";
 		}
 	}
-	
+
 	return f;
 }
 
