@@ -315,7 +315,7 @@ void Company::AssignmentSpecial()
 
 void Company::AssignmentNormal()
 {
-	Truck* T;
+	Truck* T=nullptr;
 	int AvailableCargos = NWaitingC.GetSize();
 	Cargo* C;
 	while (!ReadyT[0].isempty() || !ReadyT[2].isempty())//2 al bhtam behom normal w vip
@@ -530,91 +530,58 @@ void Company::TruckControl()
 
 		}
 	}
-	/*for (int i = 0; i < 3; i++)
-	{
 
-
-		Truck* t = nullptr;
-		In_TripT[i].peek(t);
-		while (t)
-		{
-			Cargo* r = nullptr;
-			//t->peekTopC(r); no need for repeatition
-
-			if (!t->peekTopC(r))
-			{
-				In_TripT->dequeue(t);
-
-				if (t->getCurrj() == t->getMj())
-					MaintainedT[i].enqueue(t);
-
-				else
-					ReadyT[i].enqueue(t);
-
-			}
-			else if (timer == r->getCDT())
-			{
-				t->dequeuetop(r);
-
-				if (i == 0)
-					NDeliveredC.enqueue(r);
-				else if (i == 1)
-					VDeliveredC.enqueue(r);
-				else
-					SDeliveredC.enqueue(r);
-
-				t->peekTopC(r);
-				In_TripT[i].dequeue(t);
-				In_TripT[i].enqueue(t, -(r->getdeldis()));
-
-			}
-		}
-	}*/
 	for (int i = 0; i < 3; i++)
 	{
 		Truck* t = nullptr;
 		Cargo* c = nullptr;
+
 		In_TripT[i].peek(t);
-		t->peekTopC(c);
 
-
-		while (c->getCDT() == timer)
+		if (t->peekTopC(c))
 		{
-			t->dequeuetop(c);
-
-			if (i == 0)
-				NDeliveredC.enqueue(c);
-			else if (i == 1)
-				VDeliveredC.enqueue(c);
-			else
-				SDeliveredC.enqueue(c);
-
-			t->inc_tDC();
-
-			In_TripT[i].dequeue(t);
-			if (t->peekTopC(c))
-				In_TripT[i].enqueue(t, -(c->getCDT().tohours()));
-			else
+			while (c->getCDT() == timer)
 			{
-				t->setReturn_time(timer);
+				t->dequeuetop(c);
 
-				In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
+				if (i == 0)
+					NDeliveredC.enqueue(c);
+				else if (i == 1)
+					VDeliveredC.enqueue(c);
+				else
+					SDeliveredC.enqueue(c);
+
+				t->inc_tDC();
+
+				In_TripT[i].dequeue(t);
+				if (t->peekTopC(c))
+					In_TripT[i].enqueue(t, -(c->getCDT().tohours()));
+				else
+				{
+					t->setReturn_time(timer);
+
+					In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
+				}
+				In_TripT[i].peek(t);
+				if (t->peekTopC(c))
+					break;
 			}
+
 		}
-
-		//if (t->Check_endtrip(timer))
-		//{
-		//	t->IncementJ();
-		//	t->SetMTime(timer);
-		//	In_TripT[i].dequeue(t);
-
-		//	if (t->getCurrj() == MaintainenceLimit)
-		//		MaintainedT[i].enqueue(t);
-
-		//	else
-		//		ReadyT[i].enqueue(t);
-
-		//}
-
 	}
+
+	//if (t->Check_endtrip(timer))
+	//{
+	//	t->IncementJ();
+	//	t->SetMTime(timer);
+	//	In_TripT[i].dequeue(t);
+
+	//	if (t->getCurrj() == MaintainenceLimit)
+	//		MaintainedT[i].enqueue(t);
+
+	//	else
+	//		ReadyT[i].enqueue(t);
+
+	//}
+
 }
