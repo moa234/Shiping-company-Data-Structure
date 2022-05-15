@@ -563,7 +563,7 @@ void Company::TruckControl()
 					In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
 				}
 				In_TripT[i].peek(t);
-				if (t->peekTopC(c))
+				if (!t->peekTopC(c))
 					break;
 			}
 
