@@ -228,7 +228,7 @@ void Company::AssignmentVIP()
 {
 
 	Cargo* C;
-	Truck* T;
+	Truck* T = nullptr;
 	int AvailableCargos = VWaitingC.GetSize();
 	if (loadflag[VIP] == 0)
 	{
@@ -251,12 +251,12 @@ void Company::AssignmentVIP()
 				ReadyT[1].dequeue(T);
 		}
 
-		if (AvailableCargos >= T->getcap())
+		if (T && AvailableCargos >= T->getcap())
 		{
 			//is equivilent to previous condition replace
 			//shoof ani truck fadya mn al 3 3la asas al criteria
 			//w 7ot fl fadya
-			loadflag[VIP] = 1;
+
 			T->SetStartLoading(timer);// bnset an al truck bd2t amta t load
 			for (int i = 0; i < T->getcap(); i++)
 			{
@@ -268,7 +268,6 @@ void Company::AssignmentVIP()
 			//b5tsar b7ot al truck fl loading
 		}
 	}
-
 }
 
 void Company::AssignmentSpecial()
@@ -277,21 +276,20 @@ void Company::AssignmentSpecial()
 	int AvailableCargos = SWaitingC.GetSize();
 	Cargo* C;
 
-	ReadyT[1].peek(T);
-
-	if (AvailableCargos >= T->getcap() && loadflag[Special] == 0)
+	if (ReadyT[1].peek(T) && loadflag[Special] == 0)
 	{
-		ReadyT[1].dequeue(T);
-		T->SetStartLoading(timer);
-		for (int i = 0; i < T->getcap(); i++)
+		if (AvailableCargos >= T->getcap())
 		{
-			SWaitingC.dequeue(C);
-			T->loadC(C);
+			ReadyT[1].dequeue(T);
+			T->SetStartLoading(timer);
+			for (int i = 0; i < T->getcap(); i++)
+			{
+				SWaitingC.dequeue(C);
+				T->loadC(C);
+			}
+			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 		}
-		loadflag[Special] = 1;
-		LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 	}
-
 }
 
 void Company::AssignmentNormal()
