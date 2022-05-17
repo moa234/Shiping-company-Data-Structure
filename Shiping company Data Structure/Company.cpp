@@ -336,11 +336,9 @@ void Company::AssignmentNormal()
 void Company::autopromote()
 {
 	Cargo* c;
-	int count = NWaitingC.GetSize();
 	c = NWaitingC.getEntry1();
 	while (c->getWT().tohours() >= AutoP * 24)
 	{
-		c = NWaitingC.remRet1();
 		Time t;
 		Event* promote = new Promotion(c->getid(), 0);
 		promote->excute(this);
