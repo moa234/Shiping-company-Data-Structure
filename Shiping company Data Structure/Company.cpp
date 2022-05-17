@@ -10,6 +10,10 @@ Company::Company()
 	timer.SetDay(1); timer.SetHour(1);
 	counter = 0;
 	PUI = new UI();
+	for (int i = 0; i < 3; i++)
+	{
+		loadflag[i] = 0;
+	}
 }
 
 
@@ -226,42 +230,44 @@ void Company::AssignmentVIP()
 	Cargo* C;
 	Truck* T = nullptr;
 	int AvailableCargos = VWaitingC.GetSize();
-	if (!ReadyT[2].isempty())//you have two conditions, think of it deeply 
+	if (loadflag[VIP] == 0)
 	{
-		ReadyT[2].peek(T);
-		if (AvailableCargos >= T->getcap())
-			ReadyT[2].dequeue(T);
-	}
-	else if (!ReadyT[0].isempty())
-	{
-		ReadyT[0].peek(T);
-		if (AvailableCargos >= T->getcap())
-			ReadyT[0].dequeue(T);
-	}
-	else
-	{
-		ReadyT[1].peek(T);
-		if (AvailableCargos >= T->getcap())
-			ReadyT[1].dequeue(T);
-	}
-
-	if (T && AvailableCargos >= T->getcap())
-	{
-		//is equivilent to previous condition replace
-		//shoof ani truck fadya mn al 3 3la asas al criteria
-		//w 7ot fl fadya
-
-		T->SetStartLoading(timer);// bnset an al truck bd2t amta t load
-		for (int i = 0; i < T->getcap(); i++)
+		if (!ReadyT[2].isempty())//you have two conditions, think of it deeply 
 		{
-			VWaitingC.dequeue(C);
-			T->loadC(C);
+			ReadyT[2].peek(T);
+			if (AvailableCargos >= T->getcap())
+				ReadyT[2].dequeue(T);
 		}
-		LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
-		//al satr dh mohem gdn fakrni ashrholk f vn
-		//b5tsar b7ot al truck fl loading
-	}
+		else if (!ReadyT[0].isempty())
+		{
+			ReadyT[0].peek(T);
+			if (AvailableCargos >= T->getcap())
+				ReadyT[0].dequeue(T);
+		}
+		else
+		{
+			ReadyT[1].peek(T);
+			if (AvailableCargos >= T->getcap())
+				ReadyT[1].dequeue(T);
+		}
 
+		if (T && AvailableCargos >= T->getcap())
+		{
+			//is equivilent to previous condition replace
+			//shoof ani truck fadya mn al 3 3la asas al criteria
+			//w 7ot fl fadya
+			loadflag[VIP] = 1;
+			T->SetStartLoading(timer);// bnset an al truck bd2t amta t load
+			for (int i = 0; i < T->getcap(); i++)
+			{
+				VWaitingC.dequeue(C);
+				T->loadC(C);
+			}
+			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+			//al satr dh mohem gdn fakrni ashrholk f vn
+			//b5tsar b7ot al truck fl loading
+		}
+	}
 }
 
 void Company::AssignmentSpecial()
@@ -270,7 +276,7 @@ void Company::AssignmentSpecial()
 	int AvailableCargos = SWaitingC.GetSize();
 	Cargo* C;
 
-	if (ReadyT[1].peek(T))
+	if (ReadyT[1].peek(T) && loadflag[Special] == 0)
 	{
 		if (AvailableCargos >= T->getcap())
 		{
@@ -281,6 +287,7 @@ void Company::AssignmentSpecial()
 				SWaitingC.dequeue(C);
 				T->loadC(C);
 			}
+			loadflag[Special] = 1;
 			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 		}
 	}
@@ -291,41 +298,44 @@ void Company::AssignmentNormal()
 	Truck* T = nullptr;
 	int AvailableCargos = NWaitingC.GetSize();
 	Cargo* C;
-
-	if (!ReadyT[0].isempty())
+	if (loadflag[Normal] == 0)
 	{
-		ReadyT[0].peek(T);
-		if (AvailableCargos >= T->getcap())
+		if (!ReadyT[0].isempty())
 		{
-			ReadyT[0].dequeue(T);
-			T->SetStartLoading(timer);
-			for (int i = 0; i < T->getcap(); i++)
+			ReadyT[0].peek(T);
+			if (AvailableCargos >= T->getcap())
 			{
-
-				C = NWaitingC.remRet1();
-				T->loadC(C);
-			}
-			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
-
-		}
-
-	}
-	else if (!ReadyT[2].isempty())
-	{
-		ReadyT[2].peek(T);
-		if (AvailableCargos >= T->getcap())
-		{
-			ReadyT[2].dequeue(T);
-			T->SetStartLoading(timer);
-			for (int i = 0; i < T->getcap(); i++)
-			{
-				C = NWaitingC.remRet1();
-				T->loadC(C);
+				ReadyT[0].dequeue(T);
+				T->SetStartLoading(timer);
+				for (int i = 0; i < T->getcap(); i++)
+				{
+					C = NWaitingC.remRet1();
+					T->loadC(C);
+				}
+				loadflag[Normal] = 1;
+				LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 
 			}
-			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
-		}
 
+		}
+		else if (!ReadyT[2].isempty())
+		{
+			ReadyT[2].peek(T);
+			if (AvailableCargos >= T->getcap())
+			{
+				ReadyT[2].dequeue(T);
+				T->SetStartLoading(timer);
+				for (int i = 0; i < T->getcap(); i++)
+				{
+					C = NWaitingC.remRet1();
+					T->loadC(C);
+
+				}
+				loadflag[Normal] = 1;
+				LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+			}
+
+		}
 	}
 
 }

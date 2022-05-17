@@ -21,7 +21,7 @@ class Company
 	Time timer;												 //Object of time class to deal with day and hour easily
 	int counter;											 //counter for simulation function
 	int MaintainenceLimit;                                   //Number of journies to do maintainence
-
+	bool loadflag[3];
 	Queue<Event*> Events;									 //list of events
 	
 	Queue<Truck*> ReadyT[3];								 //three Queues for ready trucks grouped in array
