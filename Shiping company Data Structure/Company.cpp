@@ -224,7 +224,7 @@ void Company::AssignmentVIP()
 {
 
 	Cargo* C;
-	Truck* T;
+	Truck* T = nullptr;
 	int AvailableCargos = VWaitingC.GetSize();
 	if (!ReadyT[2].isempty())//you have two conditions, think of it deeply 
 	{
@@ -245,7 +245,7 @@ void Company::AssignmentVIP()
 			ReadyT[1].dequeue(T);
 	}
 
-	if (AvailableCargos >= T->getcap())
+	if (T && AvailableCargos >= T->getcap())
 	{
 		//is equivilent to previous condition replace
 		//shoof ani truck fadya mn al 3 3la asas al criteria
@@ -270,20 +270,20 @@ void Company::AssignmentSpecial()
 	int AvailableCargos = SWaitingC.GetSize();
 	Cargo* C;
 
-	ReadyT[1].peek(T);
-
-	if (AvailableCargos >= T->getcap())
+	if (ReadyT[1].peek(T))
 	{
-		ReadyT[1].dequeue(T);
-		T->SetStartLoading(timer);
-		for (int i = 0; i < T->getcap(); i++)
+		if (AvailableCargos >= T->getcap())
 		{
-			SWaitingC.dequeue(C);
-			T->loadC(C);
+			ReadyT[1].dequeue(T);
+			T->SetStartLoading(timer);
+			for (int i = 0; i < T->getcap(); i++)
+			{
+				SWaitingC.dequeue(C);
+				T->loadC(C);
+			}
+			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 		}
-		LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 	}
-
 }
 
 void Company::AssignmentNormal()
