@@ -24,7 +24,7 @@ public:
 	Time getCDT();
 	Time getWT();
 	void setWT(Time& t);
-	void setCDT(Time& t);
+	void setCDT(int t);
 	void settype(Itemtype t);
 	int getloadt();
 	int getdeldis();

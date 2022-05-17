@@ -192,5 +192,22 @@ std::ostream& operator<<(std::ostream& f, Truck* C)
 	return f;
 }
 
-
+void Truck::updateCDT(Time& currTime)
+{
+	PriorityQueue<Cargo*> temp;
+	Cargo* c;
+	int tload = 0;
+	for (int i = 0; i < TCap; i++)
+	{
+		MovingC.dequeue(c);
+		tload += c->getloadt();
+		c->setCDT(currTime.tohours() + (c->getdeldis() / speed) + tload);
+		temp.enqueue(c, -c->getCDT().tohours());
+	}
+	for (int i = 0; i < TCap; i++)
+	{
+		temp.dequeue(c);
+		MovingC.enqueue(c, -c->getCDT().tohours());
+	}
+}
 

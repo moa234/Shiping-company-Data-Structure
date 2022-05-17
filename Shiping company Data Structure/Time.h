@@ -13,6 +13,7 @@ public:
 	int tohours(); //convert day and hour to hours only
 	void SetDay(int num);
 	void SetHour(int num);
+	void toTime(int t);
 	bool operator == (const Time& t2)const; //overloading comparison operator == 
 	bool CompInRangeH(int h1,int h2); //compares current hour whether it is in range of two other hours
 	Time operator +(int t) const;

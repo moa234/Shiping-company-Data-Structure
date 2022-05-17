@@ -52,6 +52,12 @@ void Time::SetHour(int num)
 	hour = num;
 }
 
+void Time::toTime(int t)
+{
+	day = t / 24;
+	hour = t - (day * 24);
+}
+
 bool Time::operator==(const Time& t2) const
 {
 	return (day == t2.day && hour == t2.hour);

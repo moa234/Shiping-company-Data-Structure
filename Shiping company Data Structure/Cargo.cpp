@@ -55,9 +55,9 @@ void Cargo::setWT(Time& t)
 	WT = t;
 }
 
-void Cargo::setCDT(Time& t)
+void Cargo::setCDT(int t)
 {
-	CDT = t;
+	CDT.toTime(t);
 }
 
 void Cargo::settype(Itemtype t)
