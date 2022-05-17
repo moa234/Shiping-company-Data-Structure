@@ -154,7 +154,7 @@ void Truck::setReturn_time(const Time& T)
 	Returntime = T + (DDFC / speed);
 }
 
-void Truck::inc_tDC()
+void Truck::inc_tDC() 
 {
 	tDC++;
 }

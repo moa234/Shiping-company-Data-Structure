@@ -304,9 +304,6 @@ void Company::AssignmentNormal()
 
 				C = NWaitingC.remRet1();
 				T->loadC(C);
-
-
-
 			}
 			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 
@@ -476,15 +473,16 @@ void Company::TruckControl()
 
 		if (!x)
 			continue;
-
-		while (x)
+		bool moretrucks = 1;
+		while (moretrucks && x)
 		{
 			//Truck* x2 = x;  no need for x2
 
 			Time Cargos_are_loaded = x->getMaxCLT() + x->getStartLoading();
-
+			moretrucks = 0;
 			if (Cargos_are_loaded == timer)
 			{
+				moretrucks = 1;
 				Cargo* c = nullptr;
 				x->peekTopC(c);
 
@@ -503,38 +501,41 @@ void Company::TruckControl()
 		Truck* t = nullptr;
 		Cargo* c = nullptr;
 
-		In_TripT[i].peek(t);
-
-		if (t->peekTopC(c))
+		bool moretrucks = 1;
+		while (moretrucks && In_TripT[i].peek(t))
 		{
-			while (c->getCDT() == timer)
+			moretrucks = 0;
+			if (t->peekTopC(c))
 			{
-				t->dequeuetop(c);
+				while (c->getCDT() == timer)
+				{
+					moretrucks = 1;
+					t->dequeuetop(c);
+					if (i == 0)
+						NDeliveredC.enqueue(c);
+					else if (i == 1)
+						VDeliveredC.enqueue(c);
+					else
+						SDeliveredC.enqueue(c);
 
-				if (i == 0)
-					NDeliveredC.enqueue(c);
-				else if (i == 1)
-					VDeliveredC.enqueue(c);
-				else
-					SDeliveredC.enqueue(c);
-
-				t->inc_tDC();
-
+					t->inc_tDC();
+					t->peekTopC(c);
+				}
+			}
+			if (moretrucks == 1)
+			{
 				In_TripT[i].dequeue(t);
 				if (t->peekTopC(c))
 					In_TripT[i].enqueue(t, -(c->getCDT().tohours()));
 				else
 				{
-					t->setReturn_time(timer);
-
+					t->setReturn_time(timer); //add distance time to it
 					In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
 				}
-				In_TripT[i].peek(t);
-				if (!t->peekTopC(c))
-					break;
 			}
 
 		}
+
 	}
 
 	//if (t->Check_endtrip(timer))
