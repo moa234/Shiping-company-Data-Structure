@@ -498,6 +498,9 @@ void Company::TruckControl()
 
 				LoadingT[i].dequeue(x);
 				In_TripT[i].enqueue(x, -(c->getdeldis())); //they are 3 intrip not one
+				x->EndLoading();
+				x->updateCDT(timer);
+				loadflag[c->gettype()] = 0;
 			}
 			bool existmore = LoadingT[i].peek(x);
 			if (!existmore)  //x2 == x old but you should check whether it returned true or false see implementation of peek
@@ -531,35 +534,42 @@ void Company::TruckControl()
 					t->inc_tDC();
 					t->peekTopC(c);
 				}
-			}
-			if (moretrucks == 1)
-			{
-				In_TripT[i].dequeue(t);
-				if (t->peekTopC(c))
-					In_TripT[i].enqueue(t, -(c->getCDT().tohours()));
-				else
+				if (moretrucks == 1)
 				{
-					t->setReturn_time(timer); //add distance time to it
-					In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
+					In_TripT[i].dequeue(t);
+					if (t->peekTopC(c))
+						In_TripT[i].enqueue(t, -(c->getCDT().tohours()));
+					else
+					{
+						t->setReturn_time(timer); //add distance time to it
+						In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
+					}
 				}
 			}
+			else
+			{
+				if (t->getReturn_time() == timer)
+				{
+					moretrucks = 1;
+					In_TripT[i].dequeue(t);
+					t->IncementJ();
+					if (t->getCurrj() == MaintainenceLimit)
+					{
+						MaintainedT[i].enqueue(t);
+						t->SetMTime(timer);
+					}
+					else
+					{
+						ReadyT[i].enqueue(t);
+					}
+
+				}
+			}
+			
 
 		}
 
 	}
 
-	//if (t->Check_endtrip(timer))
-	//{
-	//	t->IncementJ();
-	//	t->SetMTime(timer);
-	//	In_TripT[i].dequeue(t);
-
-	//	if (t->getCurrj() == MaintainenceLimit)
-	//		MaintainedT[i].enqueue(t);
-
-	//	else
-	//		ReadyT[i].enqueue(t);
-
-	//}
 
 }

@@ -88,8 +88,6 @@ void Truck::EndLoading()
 {
 	StartLoading.SetDay(0);
 	StartLoading.SetHour(0);
-	maxCargoLT.SetDay(0);
-	maxCargoLT.SetHour(0);
 }
 
 Time Truck::getMaxCLT() const
