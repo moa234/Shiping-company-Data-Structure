@@ -256,7 +256,7 @@ void Company::AssignmentVIP()
 			//is equivilent to previous condition replace
 			//shoof ani truck fadya mn al 3 3la asas al criteria
 			//w 7ot fl fadya
-
+			loadflag[VIP] = 1;
 			T->SetStartLoading(timer);// bnset an al truck bd2t amta t load
 			for (int i = 0; i < T->getcap(); i++)
 			{
@@ -287,6 +287,7 @@ void Company::AssignmentSpecial()
 				SWaitingC.dequeue(C);
 				T->loadC(C);
 			}
+			loadflag[Special] = 1;
 			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 		}
 	}
