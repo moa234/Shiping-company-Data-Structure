@@ -498,6 +498,9 @@ void Company::TruckControl()
 
 				LoadingT[i].dequeue(x);
 				In_TripT[i].enqueue(x, -(c->getdeldis())); //they are 3 intrip not one
+				x->EndLoading();
+				x->updateCDT(timer);
+				loadflag[c->gettype()] = 0;
 			}
 			bool existmore = LoadingT[i].peek(x);
 			if (!existmore)  //x2 == x old but you should check whether it returned true or false see implementation of peek
@@ -568,18 +571,5 @@ void Company::TruckControl()
 
 	}
 
-	//if (t->Check_endtrip(timer))
-	//{
-	//	t->IncementJ();
-	//	t->SetMTime(timer);
-	//	In_TripT[i].dequeue(t);
-
-	//	if (t->getCurrj() == MaintainenceLimit)
-	//		MaintainedT[i].enqueue(t);
-
-	//	else
-	//		ReadyT[i].enqueue(t);
-
-	//}
 
 }
