@@ -20,7 +20,7 @@ class Truck
     int tDC;            //total cargos delivered
     int tl;
     int DDFC = 0;       // delivery distance of furthest cargo
-
+    Time maxCDT;
     bool loaded;
     Time StartLoading; //time where the truck started loading
     Time maxCargoLT;    //max cargo load time
@@ -55,6 +55,6 @@ public:
     void updateCDT(Time& currTime);
     //increment total cargos delivered
     int get_DDFC();
-    void setReturn_time(const Time& T);
+    void updateReturn_time();
     Time getReturn_time()const;
 };

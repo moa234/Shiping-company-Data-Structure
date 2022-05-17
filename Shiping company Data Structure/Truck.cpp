@@ -1,6 +1,6 @@
 #include "Truck.h"
 
-Truck::Truck( int speed, int Tcap, int Mjourney, Itemtype type,int ID)
+Truck::Truck(int speed, int Tcap, int Mjourney, Itemtype type, int ID)
 {
 	this->TCap = Tcap;
 	this->speed = speed;
@@ -126,7 +126,7 @@ void Truck::SetMTime(Time T)
 
 bool Truck::InMaintainence(const Time& T)
 {
-	if (T == (MTime+CheckUpDuration))
+	if (T == (MTime + CheckUpDuration))
 	{
 		return false;
 	}
@@ -149,12 +149,12 @@ Time Truck::getReturn_time() const
 	return Returntime;
 }
 
-void Truck::setReturn_time(const Time& T)
+void Truck::updateReturn_time()
 {
-	Returntime = T + (DDFC / speed);
+	Returntime = maxCDT + (DDFC / speed);
 }
 
-void Truck::inc_tDC() 
+void Truck::inc_tDC()
 {
 	tDC++;
 }
@@ -208,6 +208,10 @@ void Truck::updateCDT(Time& currTime)
 	{
 		temp.dequeue(c);
 		MovingC.enqueue(c, -c->getCDT().tohours());
+		if (i == TCap - 1)
+		{
+			maxCDT = c->getCDT();
+		}
 	}
 }
 
