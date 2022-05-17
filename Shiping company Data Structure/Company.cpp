@@ -233,25 +233,20 @@ void Company::AssignmentVIP()
 			ReadyT[2].peek(T);
 			if (AvailableCargos >= T->getcap())
 				ReadyT[2].dequeue(T);
-			else
-				continue;
 		}
 		else if (!ReadyT[0].isempty())
 		{
 			ReadyT[0].peek(T);
 			if (AvailableCargos >= T->getcap())
 				ReadyT[0].dequeue(T);
-			else
-				continue;
 		}
 		else
 		{
 			ReadyT[1].peek(T);
 			if (AvailableCargos >= T->getcap())
 				ReadyT[1].dequeue(T);
-			else
-				continue;
 		}
+		flag = 0;
 		if (AvailableCargos >= T->getcap())
 		{
 			//is equivilent to previous condition replace
