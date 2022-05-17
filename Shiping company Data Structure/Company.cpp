@@ -295,7 +295,7 @@ void Company::AssignmentSpecial()
 
 void Company::AssignmentNormal()
 {
-	Truck* T=nullptr;
+	Truck* T = nullptr;
 	int AvailableCargos = NWaitingC.GetSize();
 	Cargo* C;
 	while (!ReadyT[0].isempty() || !ReadyT[2].isempty())//2 al bhtam behom normal w vip
@@ -304,19 +304,30 @@ void Company::AssignmentNormal()
 		{
 			ReadyT[0].peek(T);
 			if (AvailableCargos >= T->getcap())
+			{
+				ReadyT[0].dequeue(T);
+				T->SetStartLoading(timer);
 				for (int i = 0; i < T->getcap(); i++)
 				{
+
 					C = NWaitingC.remRet1();
 					T->loadC(C);
+
+
 
 				}
 
 
+			}
+			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 		}
 		else if (!ReadyT[2].isempty())
 		{
 			ReadyT[2].peek(T);
 			if (AvailableCargos >= T->getcap())
+			{
+				ReadyT[2].dequeue(T);
+				T->SetStartLoading(timer);
 				for (int i = 0; i < T->getcap(); i++)
 				{
 					C = NWaitingC.remRet1();
@@ -324,17 +335,20 @@ void Company::AssignmentNormal()
 
 				}
 
+			}
+			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 		}
 		if (AvailableCargos >= T->getcap())
 		{
+			ReadyT[1].dequeue(T);
 			T->SetStartLoading(timer);
 			for (int i = 0; i < T->getcap(); i++)
 			{
 				NWaitingC.remRet1();
 				T->loadC(C);
-				LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 			}
 		}
+		LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 	}
 }
 
