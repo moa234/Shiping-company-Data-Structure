@@ -333,27 +333,21 @@ void Company::AssignmentNormal()
 
 }
 
-/*void Company::autopromote()
+void Company::autopromote()
 {
 	Cargo* c;
 	int count = NWaitingC.GetSize();
-	for (int i = 0; i < count; i++)
+	c = NWaitingC.getEntry1();
+	while (c->getWT().tohours() >= AutoP * 24)
 	{
-		NWaitingC.dequeue(c);
-		if (c->getWT().tohours() >= AutoP)
-		{
-			Time t;
-			Event* promote = new Promotion(t,c->getid(), 0);
-			promote->excute(this);
-			delete promote;
-		}
-		else
-		{
-			NWaitingC.enqueue(c);
-		}
-
+		c = NWaitingC.remRet1();
+		Time t;
+		Event* promote = new Promotion(c->getid(), 0);
+		promote->excute(this);
+		delete promote;
+		c = NWaitingC.getEntry1();
 	}
-}*/
+}
 void Company::LoadFile()
 {
 	ifstream fin(PUI->readfilename());

@@ -7,6 +7,11 @@ Promotion::Promotion(Time et, int id, int extra)
 	ID = id;
 	extracost = extra;
 }
+Promotion::Promotion(int id, int extra)
+{
+	ID = id;
+	extracost = extra;
+}
 
 void Promotion::excute(Company* MainPtr)
 {
