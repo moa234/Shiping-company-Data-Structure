@@ -181,6 +181,7 @@ void Company::AddVIPList(Cargo* ptr)
 void Company::Timer()
 {
 	AssignmentVIP();
+	AssignmentSpecial();
 	Event* nxt;
 	while (Events.peek(nxt) && nxt->GetTime() == timer)
 	{
@@ -275,35 +276,19 @@ void Company::AssignmentSpecial()
 	{
 
 		ReadyT[1].peek(T);
+
 		if (AvailableCargos >= T->getcap())
 		{
-			for (int i = 0; i < T->getcap(); i++)
-			{
-				SWaitingC.dequeue(C);
-				T->loadC(C);
-				T->SetStartLoading(timer);
-
-			}
-
-
-		}
-		if (AvailableCargos >= T->getcap())
-		{
+			ReadyT[1].dequeue(T);
 			T->SetStartLoading(timer);
 			for (int i = 0; i < T->getcap(); i++)
 			{
 				SWaitingC.dequeue(C);
 				T->loadC(C);
-				LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 			}
+			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 		}
-
-
-
-
-
-
-
+		break;
 	}
 
 }
