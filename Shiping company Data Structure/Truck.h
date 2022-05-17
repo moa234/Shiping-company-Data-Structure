@@ -51,7 +51,9 @@ public:
     void SetMTime(Time T);
     bool InMaintainence(const Time& T); //to check whether truck finished maintaince or not
     void EndMaitainence();
-    void inc_tDC();//increment total cargos delivered
+    void inc_tDC();
+    void updateCDT(Time& currTime);
+    //increment total cargos delivered
     int get_DDFC();
     void setReturn_time(const Time& T);
     Time getReturn_time()const;
