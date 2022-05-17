@@ -39,7 +39,10 @@ bool Truck::loadC(Cargo*& c)
 			DDFC = c->getdeldis();
 		tl = tl + c->getloadt();
 		if (c->getloadt() > maxCargoLT.tohours())
-			maxCargoLT = c->getCDT();
+		{
+			maxCargoLT.toTime(c->getloadt());
+		}
+			
 		this->updateDI();
 	}
 	return canadd;
