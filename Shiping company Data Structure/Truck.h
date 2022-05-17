@@ -20,7 +20,6 @@ class Truck
     int tDC;            //total cargos delivered
     int tl;
     int DDFC = 0;       // delivery distance of furthest cargo
-
     bool loaded;
     Time StartLoading; //time where the truck started loading
     Time maxCargoLT;    //max cargo load time

@@ -531,18 +531,38 @@ void Company::TruckControl()
 					t->inc_tDC();
 					t->peekTopC(c);
 				}
-			}
-			if (moretrucks == 1)
-			{
-				In_TripT[i].dequeue(t);
-				if (t->peekTopC(c))
-					In_TripT[i].enqueue(t, -(c->getCDT().tohours()));
-				else
+				if (moretrucks == 1)
 				{
-					t->setReturn_time(timer); //add distance time to it
-					In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
+					In_TripT[i].dequeue(t);
+					if (t->peekTopC(c))
+						In_TripT[i].enqueue(t, -(c->getCDT().tohours()));
+					else
+					{
+						t->setReturn_time(timer); //add distance time to it
+						In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
+					}
 				}
 			}
+			else
+			{
+				if (t->getReturn_time() == timer)
+				{
+					moretrucks = 1;
+					In_TripT[i].dequeue(t);
+					t->IncementJ();
+					if (t->getCurrj() == MaintainenceLimit)
+					{
+						MaintainedT[i].enqueue(t);
+						t->SetMTime(timer);
+					}
+					else
+					{
+						ReadyT[i].enqueue(t);
+					}
+
+				}
+			}
+			
 
 		}
 
