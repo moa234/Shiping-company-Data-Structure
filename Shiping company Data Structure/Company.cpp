@@ -181,6 +181,8 @@ void Company::AddVIPList(Cargo* ptr)
 void Company::Timer()
 {
 	AssignmentVIP();
+	AssignmentSpecial();
+	AssignmentNormal();
 	Event* nxt;
 	while (Events.peek(nxt) && nxt->GetTime() == timer)
 	{
@@ -222,53 +224,44 @@ void Company::AssignmentVIP()
 {
 
 	Cargo* C;
-	bool flag = 1; //flag to stop assigning vip cargos
-	while ((!ReadyT[2].isempty() || !ReadyT[1].isempty() || !ReadyT[0].isempty()) && flag)//3 msh fadyeen(vip,normal,special) msh wahda + al flag
+	Truck* T;
+	int AvailableCargos = VWaitingC.GetSize();
+	if (!ReadyT[2].isempty())//you have two conditions, think of it deeply 
 	{
-
-		Truck* T;
-		int AvailableCargos = VWaitingC.GetSize();
-		if (!ReadyT[2].isempty())//you have two conditions, think of it deeply 
-		{
-			ReadyT[2].peek(T);
-			if (AvailableCargos >= T->getcap())
-				ReadyT[2].dequeue(T);
-			else
-				continue;
-		}
-		else if (!ReadyT[0].isempty())
-		{
-			ReadyT[0].peek(T);
-			if (AvailableCargos >= T->getcap())
-				ReadyT[0].dequeue(T);
-			else
-				continue;
-		}
-		else
-		{
-			ReadyT[1].peek(T);
-			if (AvailableCargos >= T->getcap())
-				ReadyT[1].dequeue(T);
-			else
-				continue;
-		}
+		ReadyT[2].peek(T);
 		if (AvailableCargos >= T->getcap())
-		{
-			//is equivilent to previous condition replace
-			//shoof ani truck fadya mn al 3 3la asas al criteria
-			//w 7ot fl fadya
-
-			T->SetStartLoading(timer);// bnset an al truck bd2t amta t load
-			for (int i = 0; i < T->getcap(); i++)
-			{
-				VWaitingC.dequeue(C);
-				T->loadC(C);
-			}
-			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
-			//al satr dh mohem gdn fakrni ashrholk f vn
-			//b5tsar b7ot al truck fl loading
-		}
+			ReadyT[2].dequeue(T);
 	}
+	else if (!ReadyT[0].isempty())
+	{
+		ReadyT[0].peek(T);
+		if (AvailableCargos >= T->getcap())
+			ReadyT[0].dequeue(T);
+	}
+	else
+	{
+		ReadyT[1].peek(T);
+		if (AvailableCargos >= T->getcap())
+			ReadyT[1].dequeue(T);
+	}
+
+	if (AvailableCargos >= T->getcap())
+	{
+		//is equivilent to previous condition replace
+		//shoof ani truck fadya mn al 3 3la asas al criteria
+		//w 7ot fl fadya
+
+		T->SetStartLoading(timer);// bnset an al truck bd2t amta t load
+		for (int i = 0; i < T->getcap(); i++)
+		{
+			VWaitingC.dequeue(C);
+			T->loadC(C);
+		}
+		LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+		//al satr dh mohem gdn fakrni ashrholk f vn
+		//b5tsar b7ot al truck fl loading
+	}
+
 }
 
 void Company::AssignmentSpecial()
@@ -276,109 +269,83 @@ void Company::AssignmentSpecial()
 	Truck* T;
 	int AvailableCargos = SWaitingC.GetSize();
 	Cargo* C;
-	while (!ReadyT[1].isempty())
+
+	ReadyT[1].peek(T);
+
+	if (AvailableCargos >= T->getcap())
 	{
-
-		ReadyT[1].peek(T);
-		if (AvailableCargos >= T->getcap())
+		ReadyT[1].dequeue(T);
+		T->SetStartLoading(timer);
+		for (int i = 0; i < T->getcap(); i++)
 		{
-			for (int i = 0; i < T->getcap(); i++)
-			{
-				SWaitingC.dequeue(C);
-				T->loadC(C);
-				T->SetStartLoading(timer);
-
-			}
-
-
+			SWaitingC.dequeue(C);
+			T->loadC(C);
 		}
-		if (AvailableCargos >= T->getcap())
-		{
-			T->SetStartLoading(timer);
-			for (int i = 0; i < T->getcap(); i++)
-			{
-				SWaitingC.dequeue(C);
-				T->loadC(C);
-				LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
-			}
-		}
-
-
-
-
-
-
-
+		LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
 	}
 
 }
 
 void Company::AssignmentNormal()
 {
-	Truck* T;
+	Truck* T = nullptr;
 	int AvailableCargos = NWaitingC.GetSize();
 	Cargo* C;
-	while (!ReadyT[0].isempty() || !ReadyT[2].isempty())//2 al bhtam behom normal w vip
+
+	if (!ReadyT[0].isempty())
 	{
-		if (!ReadyT[0].isempty())
-		{
-			ReadyT[0].peek(T);
-			if (AvailableCargos >= T->getcap())
-				for (int i = 0; i < T->getcap(); i++)
-				{
-					C = NWaitingC.remRet1();
-					T->loadC(C);
-
-				}
-
-
-		}
-		else if (!ReadyT[2].isempty())
-		{
-			ReadyT[2].peek(T);
-			if (AvailableCargos >= T->getcap())
-				for (int i = 0; i < T->getcap(); i++)
-				{
-					C = NWaitingC.remRet1();
-					T->loadC(C);
-
-				}
-
-		}
+		ReadyT[0].peek(T);
 		if (AvailableCargos >= T->getcap())
 		{
+			ReadyT[0].dequeue(T);
 			T->SetStartLoading(timer);
 			for (int i = 0; i < T->getcap(); i++)
 			{
-				NWaitingC.remRet1();
+
+				C = NWaitingC.remRet1();
 				T->loadC(C);
-				LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+
+
+
 			}
+			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+
 		}
+
 	}
+	else if (!ReadyT[2].isempty())
+	{
+		ReadyT[2].peek(T);
+		if (AvailableCargos >= T->getcap())
+		{
+			ReadyT[2].dequeue(T);
+			T->SetStartLoading(timer);
+			for (int i = 0; i < T->getcap(); i++)
+			{
+				C = NWaitingC.remRet1();
+				T->loadC(C);
+
+			}
+			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+		}
+
+	}
+
 }
 
-/*void Company::autopromote()
+void Company::autopromote()
 {
 	Cargo* c;
-	int count = NWaitingC.GetSize();
-	for (int i = 0; i < count; i++)
+	c = NWaitingC.getEntry1();
+	while (c->getWT().tohours() >= AutoP * 24)
 	{
-		NWaitingC.dequeue(c);
-		if (c->getWT().tohours() >= AutoP)
-		{
-			Time t;
-			Event* promote = new Promotion(t,c->getid(), 0);
-			promote->excute(this);
-			delete promote;
-		}
-		else
-		{
-			NWaitingC.enqueue(c);
-		}
-
+		Time t;
+		Event* promote = new Promotion(c->getid(), 0);
+		promote->excute(this);
+		delete promote;
+		c = NWaitingC.getEntry1();
 	}
-}*/
+}
 void Company::LoadFile()
 {
 	ifstream fin(PUI->readfilename());
@@ -530,91 +497,58 @@ void Company::TruckControl()
 
 		}
 	}
-	/*for (int i = 0; i < 3; i++)
-	{
 
-
-		Truck* t = nullptr;
-		In_TripT[i].peek(t);
-		while (t)
-		{
-			Cargo* r = nullptr;
-			//t->peekTopC(r); no need for repeatition
-
-			if (!t->peekTopC(r))
-			{
-				In_TripT->dequeue(t);
-
-				if (t->getCurrj() == t->getMj())
-					MaintainedT[i].enqueue(t);
-
-				else
-					ReadyT[i].enqueue(t);
-
-			}
-			else if (timer == r->getCDT())
-			{
-				t->dequeuetop(r);
-
-				if (i == 0)
-					NDeliveredC.enqueue(r);
-				else if (i == 1)
-					VDeliveredC.enqueue(r);
-				else
-					SDeliveredC.enqueue(r);
-
-				t->peekTopC(r);
-				In_TripT[i].dequeue(t);
-				In_TripT[i].enqueue(t, -(r->getdeldis()));
-
-			}
-		}
-	}*/
 	for (int i = 0; i < 3; i++)
 	{
 		Truck* t = nullptr;
 		Cargo* c = nullptr;
+
 		In_TripT[i].peek(t);
-		t->peekTopC(c);
 
-
-		while (c->getCDT() == timer)
+		if (t->peekTopC(c))
 		{
-			t->dequeuetop(c);
-
-			if (i == 0)
-				NDeliveredC.enqueue(c);
-			else if (i == 1)
-				VDeliveredC.enqueue(c);
-			else
-				SDeliveredC.enqueue(c);
-
-			t->inc_tDC();
-
-			In_TripT[i].dequeue(t);
-			if (t->peekTopC(c))
-				In_TripT[i].enqueue(t, -(c->getCDT().tohours()));
-			else
+			while (c->getCDT() == timer)
 			{
-				t->setReturn_time(timer);
+				t->dequeuetop(c);
 
-				In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
+				if (i == 0)
+					NDeliveredC.enqueue(c);
+				else if (i == 1)
+					VDeliveredC.enqueue(c);
+				else
+					SDeliveredC.enqueue(c);
+
+				t->inc_tDC();
+
+				In_TripT[i].dequeue(t);
+				if (t->peekTopC(c))
+					In_TripT[i].enqueue(t, -(c->getCDT().tohours()));
+				else
+				{
+					t->setReturn_time(timer);
+
+					In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
+				}
+				In_TripT[i].peek(t);
+				if (!t->peekTopC(c))
+					break;
 			}
+
 		}
-
-		//if (t->Check_endtrip(timer))
-		//{
-		//	t->IncementJ();
-		//	t->SetMTime(timer);
-		//	In_TripT[i].dequeue(t);
-
-		//	if (t->getCurrj() == MaintainenceLimit)
-		//		MaintainedT[i].enqueue(t);
-
-		//	else
-		//		ReadyT[i].enqueue(t);
-
-		//}
-
 	}
+
+	//if (t->Check_endtrip(timer))
+	//{
+	//	t->IncementJ();
+	//	t->SetMTime(timer);
+	//	In_TripT[i].dequeue(t);
+
+	//	if (t->getCurrj() == MaintainenceLimit)
+	//		MaintainedT[i].enqueue(t);
+
+	//	else
+	//		ReadyT[i].enqueue(t);
+
+	//}
+
 }

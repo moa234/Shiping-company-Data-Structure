@@ -62,6 +62,14 @@ public:
 		}
 		return nullptr;
 	}
+	Cargo* getEntry1()
+	{
+		if (count >= 1)
+		{
+			return headptr->getitem();
+		}
+		return nullptr;
+	}
 	Cargo* remRet1()
 	{
 		if (count >= 1)
