@@ -40,7 +40,7 @@ public:
     void setDI(int DeliveryT); //setter for delivery interval
     void IncementJ(); // increment number of journies
     friend std::ostream& operator <<(std::ostream& f, Truck* C); 
-    bool peekTopC(Cargo* c);
+    bool peekTopC(Cargo*& c);
     void SetStartLoading(const Time& T);
     Time getStartLoading() const;// returns time when the loading started
     void EndLoading();

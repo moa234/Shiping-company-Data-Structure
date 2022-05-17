@@ -65,7 +65,7 @@ void Truck::IncementJ()
 	Currjourney++;
 }
 
-bool Truck::peekTopC(Cargo* c)
+bool Truck::peekTopC(Cargo*& c)
 {
 	if (MovingC.peek(c))
 	{
