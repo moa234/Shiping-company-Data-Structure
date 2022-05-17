@@ -184,9 +184,7 @@ void Company::AddVIPList(Cargo* ptr)
 
 void Company::Timer()
 {
-	AssignmentVIP();
-	AssignmentSpecial();
-	AssignmentNormal();
+	Assignment();
 	Event* nxt;
 	while (Events.peek(nxt) && nxt->GetTime() == timer)
 	{
@@ -209,18 +207,14 @@ void Company::Timer()
 
 }
 
-bool Company::Assignment()
+void Company::Assignment()
 {
-	while (!ReadyT[0].isempty() || !ReadyT[1].isempty() || !ReadyT[2].isempty())
-	{
-		//there is no need for while loop here as this conditions are handeled inside each
-		//assignment
-		AssignmentVIP();
-		AssignmentNormal();
-		AssignmentSpecial();
-		return true;
-	}
-	return false;
+
+	Maintenance();
+	AssignmentVIP();
+	AssignmentSpecial();
+	AssignmentNormal();
+	TruckControl();
 }
 
 
@@ -501,6 +495,7 @@ void Company::TruckControl()
 				x->EndLoading();
 				x->updateCDT(timer);
 				loadflag[c->gettype()] = 0;
+				x->updateReturn_time();
 			}
 			bool existmore = LoadingT[i].peek(x);
 			if (!existmore)  //x2 == x old but you should check whether it returned true or false see implementation of peek
@@ -541,7 +536,6 @@ void Company::TruckControl()
 						In_TripT[i].enqueue(t, -(c->getCDT().tohours()));
 					else
 					{
-						t->setReturn_time(timer); //add distance time to it
 						In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
 					}
 				}
@@ -565,7 +559,7 @@ void Company::TruckControl()
 
 				}
 			}
-			
+
 
 		}
 

@@ -98,7 +98,7 @@ Time Time::operator+(const Time& t) const
 {
 	int h, d;
 	h = hour + t.hour;
-	d = day + t.hour;
+	d = day + t.day;
 	if (hour >= 24)
 	{
 		h = h % 24;
