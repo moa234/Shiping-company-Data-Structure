@@ -28,6 +28,9 @@
     <Filter Include="UI">
       <UniqueIdentifier>{a31526db-4957-48bf-a579-ad7d65c410cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Simulation">
+      <UniqueIdentifier>{e63d46ba-a551-4489-b5c6-47fba0304948}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cargo.h">
@@ -95,9 +98,6 @@
     <ClCompile Include="Truck.cpp">
       <Filter>Trucks</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
-      <Filter>Trucks</Filter>
-    </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>Event</Filter>
     </ClCompile>
@@ -119,13 +119,16 @@
     <ClCompile Include="UI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Simulation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt">
-      <Filter>Trucks</Filter>
+      <Filter>Simulation</Filter>
     </Text>
     <Text Include="test2.txt">
-      <Filter>Trucks</Filter>
+      <Filter>Simulation</Filter>
     </Text>
   </ItemGroup>
 </Project>
