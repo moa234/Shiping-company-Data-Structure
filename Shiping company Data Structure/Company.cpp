@@ -343,14 +343,17 @@ void Company::autopromote()
 {
 	Cargo* c;
 	c = NWaitingC.getEntry1();
-	while (c->getWT().tohours() >= AutoP * 24)
+	if (c)
 	{
-		//(c->getprept() + timer).tohours() >= AutoP   shoof kda ya moaaz?salah.
-		Time t;
-		Event* promote = new Promotion(c->getid(), 0);
-		promote->excute(this);
-		delete promote;
-		c = NWaitingC.getEntry1();
+		while ((c->getprept() + timer).tohours() >= AutoP * 24)
+		{
+			//(c->getprept() + timer).tohours() >= AutoP   shoof kda ya moaaz?salah.
+			Time t;
+			Event* promote = new Promotion(c->getid(), 0);
+			promote->excute(this);
+			delete promote;
+			c = NWaitingC.getEntry1();
+		}
 	}
 }
 void Company::LoadFile()
