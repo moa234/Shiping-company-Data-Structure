@@ -537,9 +537,9 @@ void Company::TruckControl()
 				{
 					moretrucks = 1;
 					t->dequeuetop(c);
-					if (i == 0)
+					if (i == Normal)
 						NDeliveredC.enqueue(c);
-					else if (i == 1)
+					else if (i == VIP)
 						VDeliveredC.enqueue(c);
 					else
 						SDeliveredC.enqueue(c);
