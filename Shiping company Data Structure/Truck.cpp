@@ -9,6 +9,7 @@ Truck::Truck(int speed, int Tcap, int Mjourney, Itemtype type, int ID)
 	Currjourney = 0;
 	this->ID = ID;
 	maxCargoLT.SetDay(0); maxCargoLT.SetHour(0);
+	tDC = 0;
 }
 
 /*Truck::Truck()

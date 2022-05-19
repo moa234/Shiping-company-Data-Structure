@@ -523,7 +523,7 @@ void Company::TruckControl()
 			moretrucks = 0;
 			if (t->peekTopC(c))
 			{
-				while (c->getCDT() == timer)
+				while (c->getCDT() == timer && t->peekTopC(c))
 				{
 					moretrucks = 1;
 					t->dequeuetop(c);
@@ -535,7 +535,7 @@ void Company::TruckControl()
 						SDeliveredC.enqueue(c);
 
 					t->inc_tDC();
-					t->peekTopC(c);
+					
 				}
 				if (moretrucks == 1)
 				{
