@@ -1,6 +1,6 @@
 #include "Truck.h"
 
-Truck::Truck(int speed, int Tcap, int Mjourney, Itemtype type, int ID)
+Truck::Truck(int speed, int Tcap, int CheckUpDuration, Itemtype type, int ID)
 {
 	this->TCap = Tcap;
 	this->speed = speed;

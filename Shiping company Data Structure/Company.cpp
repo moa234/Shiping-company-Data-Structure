@@ -471,7 +471,7 @@ void Company::Maintenance()
 		{
 			Truck* ptr;
 			bool itemfound = MaintainedT[i].peek(ptr);
-			while (itemfound && !ptr->InMaintainence(timer))
+ 			while (itemfound && !ptr->InMaintainence(timer))
 			{
 				
 				MaintainedT[i].dequeue(ptr);
