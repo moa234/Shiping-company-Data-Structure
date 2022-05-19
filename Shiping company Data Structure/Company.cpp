@@ -190,6 +190,7 @@ void Company::Timer()
 		cin >> x;
 	}
 	Assignment();
+	//autopromote();
 	Event* nxt;
 	while (Events.peek(nxt) && nxt->GetTime() == timer)
 	{
@@ -345,7 +346,7 @@ void Company::autopromote()
 	c = NWaitingC.getEntry1();
 	if (c)
 	{
-		while ((c->getprept() + timer).tohours() >= AutoP * 24)
+		while ((timer.tohours() - c->getprept().tohours()) >= AutoP * 24)
 		{
 			//(c->getprept() + timer).tohours() >= AutoP   shoof kda ya moaaz?salah.
 			Time t;
@@ -353,6 +354,10 @@ void Company::autopromote()
 			promote->excute(this);
 			delete promote;
 			c = NWaitingC.getEntry1();
+			if (!c)
+			{
+				break;
+			}
 		}
 	}
 }
