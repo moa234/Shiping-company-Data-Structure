@@ -184,6 +184,11 @@ void Company::AddVIPList(Cargo* ptr)
 
 void Company::Timer()
 {
+	if (timer.GetDay() == 3 && timer.GetHour() == 7)
+	{
+		int x;
+		cin >> x;
+	}
 	Assignment();
 	Event* nxt;
 	while (Events.peek(nxt) && nxt->GetTime() == timer)
@@ -209,7 +214,7 @@ void Company::Timer()
 
 void Company::Assignment()
 {
-
+	
 	Maintenance();
 	AssignmentVIP();
 	AssignmentSpecial();
@@ -340,6 +345,7 @@ void Company::autopromote()
 	c = NWaitingC.getEntry1();
 	while (c->getWT().tohours() >= AutoP * 24)
 	{
+		//(c->getprept() + timer).tohours() >= AutoP   shoof kda ya moaaz?salah.
 		Time t;
 		Event* promote = new Promotion(c->getid(), 0);
 		promote->excute(this);
@@ -457,6 +463,7 @@ void Company::Maintenance()
 			bool itemfound = MaintainedT[i].peek(ptr);
 			while (itemfound && !ptr->InMaintainence(timer))
 			{
+				
 				MaintainedT[i].dequeue(ptr);
 				ptr->EndMaitainence();
 				ReadyT[i].enqueue(ptr);
@@ -470,6 +477,7 @@ void Company::TruckControl()
 {
 	for (int i = 0; i < 3; i++)
 	{
+		
 		//loading->in_trip
 
 		Truck* x = nullptr;
@@ -508,10 +516,10 @@ void Company::TruckControl()
 	{
 		Truck* t = nullptr;
 		Cargo* c = nullptr;
-
 		bool moretrucks = 1;
 		while (moretrucks && In_TripT[i].peek(t))
 		{
+
 			moretrucks = 0;
 			if (t->peekTopC(c))
 			{
