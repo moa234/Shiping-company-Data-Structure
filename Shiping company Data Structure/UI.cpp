@@ -18,6 +18,7 @@ string UI::readfilename()
 	string name;
 	cout << "Enter file name: ";
 	cin >> name;
+	name += ".txt";
 	cout << endl;
 	return name;
 }

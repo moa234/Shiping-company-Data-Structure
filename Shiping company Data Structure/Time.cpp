@@ -74,10 +74,10 @@ Time Time::operator+(int t) const
 	int h, d;
 	d = day;
 	h = hour + t;
-	if (hour >= 24)
+	if (h >= 24)
 	{
-		h = h % 24;
 		d += h / 24;
+		h = h % 24;
 	}
 	Time x(d, h);
 	return x;
@@ -99,10 +99,10 @@ Time Time::operator+(const Time& t) const
 	int h, d;
 	h = hour + t.hour;
 	d = day + t.day;
-	if (hour >= 24)
+	if (h >= 24)
 	{
-		h = h % 24;
 		d += h / 24;
+		h = h % 24;
 	}
 	Time x(d, h);
 	return x;

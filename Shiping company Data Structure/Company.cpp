@@ -184,11 +184,11 @@ void Company::AddVIPList(Cargo* ptr)
 
 void Company::Timer()
 {
-	if (timer.GetDay() == 3 && timer.GetHour() == 7)
+	/*if (timer.GetDay() == 10 && timer.GetHour() == 0)
 	{
 		int x;
 		cin >> x;
-	}
+	}*/
 	Assignment();
 	//autopromote();
 	Event* nxt;
@@ -217,9 +217,13 @@ void Company::Assignment()
 {
 	
 	Maintenance();
-	AssignmentVIP();
-	AssignmentSpecial();
-	AssignmentNormal();
+	if (GetTime().CompInRangeH(5, 23))//checks current hour is in range of working hours
+	{
+		AssignmentVIP();
+		AssignmentSpecial();
+		AssignmentNormal();
+		autopromote();
+	}
 	TruckControl();
 }
 
@@ -244,7 +248,7 @@ void Company::AssignmentVIP()
 			if (AvailableCargos >= T->getcap())
 				ReadyT[0].dequeue(T);
 		}
-		else
+		else if (!ReadyT[1].isempty())
 		{
 			ReadyT[1].peek(T);
 			if (AvailableCargos >= T->getcap())
@@ -263,7 +267,7 @@ void Company::AssignmentVIP()
 				VWaitingC.dequeue(C);
 				T->loadC(C);
 			}
-			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+			LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours()+timer.tohours()));
 			//al satr dh mohem gdn fakrni ashrholk f vn
 			//b5tsar b7ot al truck fl loading
 		}
@@ -288,7 +292,7 @@ void Company::AssignmentSpecial()
 				T->loadC(C);
 			}
 			loadflag[Special] = 1;
-			LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+			LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
 		}
 	}
 }
@@ -313,7 +317,7 @@ void Company::AssignmentNormal()
 					T->loadC(C);
 				}
 				loadflag[Normal] = 1;
-				LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+				LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
 
 			}
 
@@ -332,7 +336,7 @@ void Company::AssignmentNormal()
 
 				}
 				loadflag[Normal] = 1;
-				LoadingT[T->GetType()].enqueue(T, -T->getMaxCLT().tohours());
+				LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
 			}
 
 		}
@@ -447,12 +451,10 @@ void Company::simulate()
 	PUI->readmode();
 	while (IsRemainingEvents())
 	{
-		if (GetTime().CompInRangeH(5, 23))//checks current hour is in range of working hours
-		{
-			PUI->WaitOption();
-			Timer();
-			CurrData();
-		}
+		
+		PUI->WaitOption();
+		Timer();
+		CurrData();
 		IncrementHour();
 	}
 }
@@ -503,15 +505,15 @@ void Company::TruckControl()
 			if (Cargos_are_loaded == timer)
 			{
 				moretrucks = 1;
-				Cargo* c = nullptr;
-				x->peekTopC(c);
 
 				LoadingT[i].dequeue(x);
-				In_TripT[i].enqueue(x, -(c->getdeldis())); //they are 3 intrip not one
-				x->EndLoading();
 				x->updateCDT(timer);
-				loadflag[c->gettype()] = 0;
+				x->EndLoading();
 				x->updateReturn_time();
+				Cargo* c = nullptr;
+				x->peekTopC(c);
+				In_TripT[i].enqueue(x, -(c->getCDT().tohours())); //they are 3 intrip not one
+				loadflag[c->gettype()] = 0;
 			}
 			bool existmore = LoadingT[i].peek(x);
 			if (!existmore)  //x2 == x old but you should check whether it returned true or false see implementation of peek
@@ -531,7 +533,7 @@ void Company::TruckControl()
 			moretrucks = 0;
 			if (t->peekTopC(c))
 			{
-				while (c->getCDT() == timer && t->peekTopC(c))
+				while (t->peekTopC(c) && c->getCDT() == timer)
 				{
 					moretrucks = 1;
 					t->dequeuetop(c);

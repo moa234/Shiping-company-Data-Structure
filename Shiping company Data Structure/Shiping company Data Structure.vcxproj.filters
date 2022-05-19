@@ -124,5 +124,8 @@
     <Text Include="test.txt">
       <Filter>Trucks</Filter>
     </Text>
+    <Text Include="test2.txt">
+      <Filter>Trucks</Filter>
+    </Text>
   </ItemGroup>
 </Project>
