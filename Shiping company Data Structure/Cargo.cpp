@@ -52,7 +52,7 @@ Time Cargo::getWT()
 
 void Cargo::setWT(Time& t)
 {
-	WT = t;
+	WT = t - Pt;
 }
 
 void Cargo::setCDT(int t)

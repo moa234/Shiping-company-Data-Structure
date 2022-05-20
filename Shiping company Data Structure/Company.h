@@ -49,7 +49,7 @@ public:
 
 	bool IsRemainingEvents(); //Checking whether the program finishes or not 
 							  //by checking empety conditions for reponsible lists
-	//void savefile(ofstream& fout);
+	void savefile(ofstream& fout);
 	void autopromote();
 
 	Cargo* getNCargo(int id); //gets the cargo with specific id from 

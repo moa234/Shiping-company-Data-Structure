@@ -39,19 +39,19 @@ bool Company::IsRemainingEvents()
 	return Events.GetSize() + NWaitingC.GetSize() + VWaitingC.GetSize() + SWaitingC.GetSize() != 0;
 }
 
-//void Company::savefile(ofstream& fout)
-//{
-//	fout << "CDT" << "\tID" << "\tPT" << "\tWT" << "\tTID" << endl;
-//	int count = DeliveredC.GetSize();
-//	Cargo* c;
-//	for (int i = 0; i < count; i++)
-//	{
-//		DeliveredC.dequeue(c);
-//		fout << c->getCDT().GetDay() << ":" << c->getCDT().GetHour() << "\t" << c->getprept().GetDay() << ":"
-//			<< c->getprept().GetHour() << "\t" << c->getWT().GetDay() << ":" << c->getWT().GetHour() << "\t" << c->getTID() << endl;
-//		DeliveredC.enqueue(c);
-//	}
-//}
+void Company::savefile(ofstream& fout)
+{
+	fout << "CDT" << "\tID" << "\tPT" << "\tWT" << "\tTID" << endl;
+	int count = DeliveredC.GetSize();
+	Cargo* c;
+	for (int i = 0; i < count; i++)
+	{
+		DeliveredC.dequeue(c);
+		fout << c->getCDT().GetDay() << ":" << c->getCDT().GetHour() << "\t" << c->getprept().GetDay() << ":"
+			<< c->getprept().GetHour() << "\t" << c->getWT().GetDay() << ":" << c->getWT().GetHour() << "\t" << c->getTID() << endl;
+		DeliveredC.enqueue(c);
+	}
+}
 
 void Company::ReadTrucks(ifstream& fin)
 {
@@ -265,6 +265,7 @@ void Company::AssignmentVIP()
 			for (int i = 0; i < T->getcap(); i++)
 			{
 				VWaitingC.dequeue(C);
+				C->setWT(timer)
 				T->loadC(C);
 			}
 			LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
