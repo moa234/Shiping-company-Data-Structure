@@ -43,7 +43,7 @@ public:
     bool peekTopC(Cargo*& c);
     void SetStartLoading(const Time& T);
     Time getStartLoading() const;// returns time when the loading started
-    void EndLoading();
+    void EndLoading(Time& currTime);
     Time getMaxCLT() const;//returns max cargo load time
     bool dequeuetop(Cargo*& c);//dequeue top cargo from truck
     int getCurrj()const;

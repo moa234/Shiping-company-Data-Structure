@@ -88,10 +88,14 @@ Time Truck::getStartLoading() const
 	return StartLoading;
 }
 
-void Truck::EndLoading()
+void Truck::EndLoading(Time& currTime)
 {
+	updateCDT(currTime);
+
 	StartLoading.SetDay(0);
 	StartLoading.SetHour(0);
+
+	updateReturn_time();
 }
 
 Time Truck::getMaxCLT() const

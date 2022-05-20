@@ -507,9 +507,7 @@ void Company::TruckControl()
 				moretrucks = 1;
 
 				LoadingT[i].dequeue(x);
-				x->updateCDT(timer);
-				x->EndLoading();
-				x->updateReturn_time();
+				x->EndLoading(timer);
 				Cargo* c = nullptr;
 				x->peekTopC(c);
 				In_TripT[i].enqueue(x, -(c->getCDT().tohours())); //they are 3 intrip not one
@@ -537,9 +535,9 @@ void Company::TruckControl()
 				{
 					moretrucks = 1;
 					t->dequeuetop(c);
-					if (i == Normal)
+					if (c->gettype() == Normal)
 						NDeliveredC.enqueue(c);
-					else if (i == VIP)
+					else if (c->gettype() == VIP)
 						VDeliveredC.enqueue(c);
 					else
 						SDeliveredC.enqueue(c);
