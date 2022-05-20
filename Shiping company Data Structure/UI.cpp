@@ -85,6 +85,12 @@ void UI::PrintQC(Queue<Cargo*>& q, Itemtype t)
 	PrintBracketEnd(t);
 }
 
+void UI::PrintDQC(Queue<Cargo*>& q)
+{
+	q.print();
+
+}
+
 void UI::PrintLC(CargoList& q, Itemtype t)
 {
 	PrintBracketStart(t);

@@ -32,7 +32,7 @@ public:
     int getcap() const;
     Itemtype GetType();//get type of truck
     void updateDI();
-    bool loadC(Cargo*& c);
+    bool loadC(Cargo*& c, Time& t);
     int getspeed() const;
     int getid() const;
     //Cargo* PeekTopCargo();

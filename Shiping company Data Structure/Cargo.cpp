@@ -9,6 +9,7 @@ Cargo::Cargo(Itemtype t,int ID, int Dis, int Lt, int cost, Time time)
 	this->Lt = Lt;
 	this->cost = cost;
 	Pt = time;
+	delivered = 0;
 }
 
 Cargo::Cargo()
@@ -65,6 +66,11 @@ void Cargo::settype(Itemtype t)
 	type = t;
 }
 
+void Cargo::setdelivered(bool t)
+{
+	delivered = t;
+}
+
 int Cargo::getloadt()
 {
 	return Lt;
@@ -91,7 +97,27 @@ int Cargo::getcost()
 
 std::ostream& operator<<(std::ostream& f, const Cargo* C)
 {
+	if (C->delivered)
+	{
+		f << " ";
+		if (C->type == Normal)
+			f << "[";
+		if (C->type == Special)
+			f << "(";
+		if (C->type == VIP)
+			f << "{";
+	}
 	f << C->getid();
+	if (C->delivered)
+	{
+		if (C->type == Normal)
+			f << "]";
+		if (C->type == Special)
+			f << ")";
+		if (C->type == VIP)
+			f << "}";
+		
+	}
 	return f;
 }
 

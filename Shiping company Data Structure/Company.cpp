@@ -14,6 +14,9 @@ Company::Company()
 	{
 		loadflag[i] = 0;
 	}
+	countND = 0;
+	countVD = 0;
+	countSD = 0;
 }
 
 
@@ -49,10 +52,12 @@ void Company::savefile(ofstream& fout)
 	for (int i = 0; i < count; i++)
 	{
 		DeliveredC.dequeue(c);
-		fout << c->getCDT().GetDay() << ":" << c->getCDT().GetHour() << "\t" << c->getprept().GetDay() << ":"
+		fout << c->getCDT().GetDay() << ":" << c->getCDT().GetHour() << "\t" << c->getid() << "\t" << c->getprept().GetDay() << ":"
 			<< c->getprept().GetHour() << "\t" << c->getWT().GetDay() << ":" << c->getWT().GetHour() << "\t" << c->getTID() << endl;
-		DeliveredC.enqueue(c);
 	}
+	fout << "...................................................." << endl;
+	fout << "...................................................." << endl;
+	fout << "Cargos: " << count << " [N: " << countND << ", S: " << countSD << ", V: " << countVD << "]" << endl;
 }
 
 void Company::ReadTrucks(ifstream& fin)
@@ -284,8 +289,7 @@ void Company::AssignmentVIP()
 			for (int i = 0; i < T->getcap(); i++)
 			{
 				VWaitingC.dequeue(C);
-				C->setWT(timer)
-				T->loadC(C);
+				T->loadC(C, timer);
 			}
 			LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
 			//al satr dh mohem gdn fakrni ashrholk f vn
@@ -310,7 +314,7 @@ void Company::AssignmentSpecial(bool MaxWA )
 			for (int i = 0; i < size; i++)
 			{
 				SWaitingC.dequeue(C);
-				T->loadC(C);
+				T->loadC(C, timer);
 			}
 			loadflag[Special] = 1;
 			LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
@@ -336,7 +340,7 @@ void Company::AssignmentNormal(bool MaxWA )
 				for (int i = 0; i < size; i++)
 				{
 					C = NWaitingC.remRet1();
-					T->loadC(C);
+					T->loadC(C, timer);
 				}
 				loadflag[Normal] = 1;
 				LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
@@ -355,7 +359,7 @@ void Company::AssignmentNormal(bool MaxWA )
 				for (int i = 0; i < size; i++)
 				{
 					C = NWaitingC.remRet1();
-					T->loadC(C);
+					T->loadC(C, timer);
 
 				}
 				loadflag[Normal] = 1;
@@ -452,13 +456,9 @@ void Company::CurrData()
 	PUI->PrintEQT(MaintainedT[2], VIP);
 	PUI->displayline();
 
-	PUI->displayNum(NDeliveredC.GetSize() + SDeliveredC.GetSize() + VDeliveredC.GetSize());
+	PUI->displayNum(DeliveredC.GetSize());
 	PUI->displaytext(" Delivered Cargos: ");
-	PUI->PrintQC(NDeliveredC, Normal);
-	PUI->displaytext(" ");
-	PUI->PrintQC(SDeliveredC, Special);
-	PUI->displaytext(" ");
-	PUI->PrintQC(VDeliveredC, VIP);
+	PUI->PrintDQC(DeliveredC);
 	PUI->displayline();
 
 
@@ -476,6 +476,8 @@ void Company::simulate()
 		CurrData();
 		IncrementHour();
 	}
+	ofstream fout("save.txt");
+	savefile(fout);
 }
 
 void Company::IncrementHour()
@@ -553,13 +555,14 @@ void Company::TruckControl()
 			{
 				moretrucks = 1;
 				t->dequeuetop(c);
+				c->setdelivered(1);
 				if (c->gettype() == Normal)
-					NDeliveredC.enqueue(c);
-				else if (c->gettype() == VIP)
-					VDeliveredC.enqueue(c);
-				else
-					SDeliveredC.enqueue(c);
-
+					countND += 1;
+				if (c->gettype() == VIP)
+					countVD += 1;
+				if (c->gettype() == Special)
+					countSD += 1;
+				DeliveredC.enqueue(c);
 				t->inc_tDC();
 
 			}

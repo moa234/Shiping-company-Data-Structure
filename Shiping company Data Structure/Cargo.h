@@ -13,6 +13,7 @@ class Cargo
 	Time WT;		//waiting time
 	Itemtype type;	//type of cargo (normal, vip, special)
 	int TID;		//truck id when loaded
+	bool delivered;
 public:
 	Cargo(Itemtype t, int ID, int Dis, int Lt, int cost, Time time);
 	Cargo();
@@ -26,6 +27,7 @@ public:
 	void setWT(Time& t);
 	void setCDT(int t);
 	void settype(Itemtype t);
+	void setdelivered(bool t);
 	int getloadt();
 	int getdeldis();
 	int getcost();

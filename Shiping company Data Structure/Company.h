@@ -22,6 +22,10 @@ class Company
 	int counter;											 //counter for simulation function
 	int MaintainenceLimit;                                   //Number of journies to do maintainence
 	bool loadflag[3];
+	int countND;
+	int countVD;
+	int countSD;
+
 	Queue<Event*> Events;									 //list of events
 	
 	Queue<Truck*> ReadyT[3];								 //three Queues for ready trucks grouped in array
@@ -33,9 +37,7 @@ class Company
 	Queue<Cargo*> SWaitingC;								 //List for Special Waiting Cargos
 	PriorityQueue<Cargo*> VWaitingC;						 //List for VIP Waiting Cargo
 	
-	Queue<Cargo*> NDeliveredC;								 //List for Normal Delivered Cargos
-	Queue<Cargo*> SDeliveredC;								 //List for Special Delivered Cargos
-	Queue<Cargo*> VDeliveredC;								 //List for VIP Delivered Cargos
+	Queue<Cargo*> DeliveredC;								 //List for Delivered Cargos
 	
 	void ReadTrucks(ifstream& fin);							 //utility function to read trucks info from file
 	void ReadEvents(ifstream& fin);							 //utility function to read events info from file
