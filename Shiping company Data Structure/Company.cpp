@@ -215,6 +215,7 @@ void Company::Timer()
 
 void Company::Assignment()
 {
+
 	Maintenance();
 	if (GetTime().CompInRangeH(5, 23))//checks current hour is in range of working hours
 	{
@@ -266,7 +267,7 @@ void Company::AssignmentVIP()
 				VWaitingC.dequeue(C);
 				T->loadC(C);
 			}
-			LoadingT[T->GetType()].enqueue(T);
+			LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
 			//al satr dh mohem gdn fakrni ashrholk f vn
 			//b5tsar b7ot al truck fl loading
 		}
@@ -291,7 +292,7 @@ void Company::AssignmentSpecial()
 				T->loadC(C);
 			}
 			loadflag[Special] = 1;
-			LoadingT[T->GetType()].enqueue(T);
+			LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
 		}
 	}
 }
@@ -316,7 +317,7 @@ void Company::AssignmentNormal()
 					T->loadC(C);
 				}
 				loadflag[Normal] = 1;
-				LoadingT[T->GetType()].enqueue(T);
+				LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
 
 			}
 
@@ -335,7 +336,7 @@ void Company::AssignmentNormal()
 
 				}
 				loadflag[Normal] = 1;
-				LoadingT[T->GetType()].enqueue(T);
+				LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
 			}
 
 		}
@@ -385,11 +386,11 @@ void Company::CurrData()
 
 	PUI->displayNum(LoadingT[0].GetSize() + LoadingT[1].GetSize() + LoadingT[2].GetSize());
 	PUI->displaytext(" Loading Trucks: ");
-	PUI->PrintQT(LoadingT[0]);
+	PUI->PrintPQT(LoadingT[0]);
 	PUI->displaytext(" ");
-	PUI->PrintQT(LoadingT[1]);
+	PUI->PrintPQT(LoadingT[1]);
 	PUI->displaytext(" ");
-	PUI->PrintQT(LoadingT[2]);
+	PUI->PrintPQT(LoadingT[2]);
 
 	if (LoadingT[0].isempty() && LoadingT[1].isempty() && LoadingT[2].isempty())
 	{
@@ -557,7 +558,7 @@ void Company::TruckControl()
 				moretrucks = 1;
 				In_TripT.dequeue(t);
 				t->IncementJ();
-				if (t->getCurrj() % MaintainenceLimit == 0)
+				if (t->getCurrj() == MaintainenceLimit)
 				{
 					if (t->GetType() == VIP)
 					{
