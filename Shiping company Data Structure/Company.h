@@ -57,14 +57,14 @@ public:
 	void AddNormList(Cargo* ptr); //adds a cargo to Normal Cargo List
 	void AddSpeList(Cargo* ptr); //adds a cargo to Special Cargo List
 	void AddVIPList(Cargo* ptr); //adds a cargo to VIP Cargo List
-	
+	void MaxWAssignment();
 	void CurrData(); //Function to be called to send current data to UI to be printed on screen
 	void simulate(); //to start simulation
 	void IncrementHour(); //increment the current hour
 	void Assignment();
 	void AssignmentVIP();
-	void AssignmentNormal();
-	void AssignmentSpecial();
+	void AssignmentNormal(bool MaxWA=0);
+	void AssignmentSpecial(bool MaxWA=0);
 	void Maintenance();
 	void TruckControl();
 };

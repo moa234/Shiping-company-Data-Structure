@@ -36,7 +36,9 @@ void Company::ReadFile(ifstream& fin)
 
 bool Company::IsRemainingEvents()
 {
-	return Events.GetSize() + NWaitingC.GetSize() + VWaitingC.GetSize() + SWaitingC.GetSize() != 0;
+	bool cond1 = LoadingT[VIP].GetSize() + LoadingT[Special].GetSize() + LoadingT[Normal].GetSize()+MaintainedT[VIP].GetSize() + MaintainedT[Special].GetSize()+ MaintainedT[Normal].GetSize();
+	bool cond2 = In_TripT.GetSize() + Events.GetSize() + NWaitingC.GetSize() + VWaitingC.GetSize() + SWaitingC.GetSize();
+	return cond1||cond2;
 }
 
 //void Company::savefile(ofstream& fout)
@@ -182,9 +184,25 @@ void Company::AddVIPList(Cargo* ptr)
 	VWaitingC.enqueue(ptr, cost);
 }
 
+void Company::MaxWAssignment()
+{
+	bool morecargos = 1;
+	Cargo* C = nullptr;
+	while (SWaitingC.peek(C) && (timer - (C->getprept())) >= maxW)
+	{
+		AssignmentSpecial(1);
+	}
+	C = NWaitingC.getEntry1();
+	while (C && (timer - (C->getprept())) >= maxW)
+	{
+		AssignmentNormal(1);
+		C = NWaitingC.getEntry1();
+	}
+}
+
 void Company::Timer()
 {
-	/*if (timer.GetDay() == 10 && timer.GetHour() == 0)
+	/*if (timer.GetDay() == 1 && timer.GetHour() == 9)
 	{
 		int x;
 		cin >> x;
@@ -223,6 +241,7 @@ void Company::Assignment()
 		AssignmentSpecial();
 		AssignmentNormal();
 		autopromote();
+		MaxWAssignment();
 	}
 	TruckControl();
 }
@@ -274,19 +293,20 @@ void Company::AssignmentVIP()
 	}
 }
 
-void Company::AssignmentSpecial()
+void Company::AssignmentSpecial(bool MaxWA )
 {
 	Truck* T;
 	int AvailableCargos = SWaitingC.GetSize();
 	Cargo* C;
 
-	if (ReadyT[1].peek(T) && loadflag[Special] == 0)
+	if ((ReadyT[1].peek(T) && loadflag[Special] == 0) || MaxWA)
 	{
-		if (AvailableCargos >= T->getcap())
+		if (AvailableCargos >= T->getcap() || MaxWA)
 		{
 			ReadyT[1].dequeue(T);
 			T->SetStartLoading(timer);
-			for (int i = 0; i < T->getcap(); i++)
+			int size = (MaxWA ? min(SWaitingC.GetSize(), T->getcap()) : T->getcap());
+			for (int i = 0; i < size; i++)
 			{
 				SWaitingC.dequeue(C);
 				T->loadC(C);
@@ -297,21 +317,22 @@ void Company::AssignmentSpecial()
 	}
 }
 
-void Company::AssignmentNormal()
+void Company::AssignmentNormal(bool MaxWA )
 {
 	Truck* T = nullptr;
 	int AvailableCargos = NWaitingC.GetSize();
 	Cargo* C;
-	if (loadflag[Normal] == 0)
+	if (loadflag[Normal] == 0 || MaxWA)
 	{
 		if (!ReadyT[0].isempty())
 		{
 			ReadyT[0].peek(T);
-			if (AvailableCargos >= T->getcap())
+			if (AvailableCargos >= T->getcap() || MaxWA)
 			{
 				ReadyT[0].dequeue(T);
 				T->SetStartLoading(timer);
-				for (int i = 0; i < T->getcap(); i++)
+				int size = (MaxWA ? min(NWaitingC.GetSize(), T->getcap()) : T->getcap());
+				for (int i = 0; i < size; i++)
 				{
 					C = NWaitingC.remRet1();
 					T->loadC(C);
@@ -325,11 +346,12 @@ void Company::AssignmentNormal()
 		else if (!ReadyT[2].isempty())
 		{
 			ReadyT[2].peek(T);
-			if (AvailableCargos >= T->getcap())
+			if (AvailableCargos >= T->getcap() || MaxWA)
 			{
 				ReadyT[2].dequeue(T);
 				T->SetStartLoading(timer);
-				for (int i = 0; i < T->getcap(); i++)
+				int size = (MaxWA ? min(NWaitingC.GetSize(), T->getcap()) : T->getcap());
+				for (int i = 0; i < size; i++)
 				{
 					C = NWaitingC.remRet1();
 					T->loadC(C);

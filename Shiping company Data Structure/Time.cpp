@@ -108,3 +108,22 @@ Time Time::operator+(const Time& t) const
 	return x;
 }
 
+Time Time::operator-(const Time& t) const
+{
+	int h, d;
+	h = hour - t.hour;
+	d = day - t.day;
+	if (h < 0)
+	{
+		d --;
+		h = h+24;
+	}
+	Time x(d, h);
+	return x;
+}
+
+bool Time::operator>=(const int& t) 
+{
+	return (tohours() >= t);
+}
+
