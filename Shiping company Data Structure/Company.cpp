@@ -558,7 +558,7 @@ void Company::TruckControl()
 				moretrucks = 1;
 				In_TripT.dequeue(t);
 				t->IncementJ();
-				if (t->getCurrj() == MaintainenceLimit)
+				if (t->getCurrj() % MaintainenceLimit == 0)
 				{
 					if (t->GetType() == VIP)
 					{
