@@ -203,18 +203,19 @@ void Truck::updateCDT(Time& currTime)
 	PriorityQueue<Cargo*> temp;
 	Cargo* c;
 	int tload = 0;
-	for (int i = 0; i < TCap; i++)
+	int size = MovingC.GetSize();
+	for (int i = 0; i < size; i++)
 	{
 		MovingC.dequeue(c);
 		tload += c->getloadt();
 		c->setCDT(currTime.tohours() + (c->getdeldis() / speed) + tload);
 		temp.enqueue(c, -c->getCDT().tohours());
 	}
-	for (int i = 0; i < TCap; i++)
+	for (int i = 0; i < size; i++)
 	{
 		temp.dequeue(c);
 		MovingC.enqueue(c, -c->getCDT().tohours());
-		if (i == TCap - 1)
+		if (i == size - 1)
 		{
 			maxCDT = c->getCDT();
 		}
