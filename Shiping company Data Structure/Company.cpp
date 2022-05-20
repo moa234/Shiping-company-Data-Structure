@@ -215,7 +215,7 @@ void Company::Timer()
 
 void Company::Assignment()
 {
-	
+
 	Maintenance();
 	if (GetTime().CompInRangeH(5, 23))//checks current hour is in range of working hours
 	{
@@ -267,7 +267,7 @@ void Company::AssignmentVIP()
 				VWaitingC.dequeue(C);
 				T->loadC(C);
 			}
-			LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours()+timer.tohours()));
+			LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
 			//al satr dh mohem gdn fakrni ashrholk f vn
 			//b5tsar b7ot al truck fl loading
 		}
@@ -415,13 +415,9 @@ void Company::CurrData()
 	PUI->PrintEQT(ReadyT[2], VIP);
 	PUI->displayline();
 
-	PUI->displayNum(In_TripT[0].GetSize() + In_TripT[1].GetSize() + In_TripT[2].GetSize());
+	PUI->displayNum(In_TripT.GetSize());
 	PUI->displaytext(" Moving Cargos: ");
-	PUI->PrintPQT(In_TripT[0]);
-	PUI->displaytext(" ");
-	PUI->PrintPQT(In_TripT[1]);
-	PUI->displaytext(" ");
-	PUI->PrintPQT(In_TripT[2]);
+	PUI->PrintPQT(In_TripT);
 	PUI->displayline();
 
 	PUI->displayNum(MaintainedT[0].GetSize() + MaintainedT[1].GetSize() + MaintainedT[2].GetSize());
@@ -451,7 +447,7 @@ void Company::simulate()
 	PUI->readmode();
 	while (IsRemainingEvents())
 	{
-		
+
 		PUI->WaitOption();
 		Timer();
 		CurrData();
@@ -471,9 +467,9 @@ void Company::Maintenance()
 		{
 			Truck* ptr;
 			bool itemfound = MaintainedT[i].peek(ptr);
- 			while (itemfound && !ptr->InMaintainence(timer))
+			while (itemfound && !ptr->InMaintainence(timer))
 			{
-				
+
 				MaintainedT[i].dequeue(ptr);
 				ptr->EndMaitainence();
 				ReadyT[i].enqueue(ptr);
@@ -487,7 +483,7 @@ void Company::TruckControl()
 {
 	for (int i = 0; i < 3; i++)
 	{
-		
+
 		//loading->in_trip
 
 		Truck* x = nullptr;
@@ -510,7 +506,7 @@ void Company::TruckControl()
 				x->EndLoading(timer);
 				Cargo* c = nullptr;
 				x->peekTopC(c);
-				In_TripT[i].enqueue(x, -(c->getCDT().tohours())); //they are 3 intrip not one
+				In_TripT.enqueue(x, -(c->getCDT().tohours())); //they are 3 intrip not one
 				loadflag[c->gettype()] = 0;
 			}
 			bool existmore = LoadingT[i].peek(x);
@@ -520,64 +516,85 @@ void Company::TruckControl()
 		}
 	}
 
-	for (int i = 0; i < 3; i++)
+
+	Truck* t = nullptr;
+	Cargo* c = nullptr;
+	bool moretrucks = 1;
+	while (moretrucks && In_TripT.peek(t))
 	{
-		Truck* t = nullptr;
-		Cargo* c = nullptr;
-		bool moretrucks = 1;
-		while (moretrucks && In_TripT[i].peek(t))
+
+		moretrucks = 0;
+		if (t->peekTopC(c))
 		{
-
-			moretrucks = 0;
-			if (t->peekTopC(c))
+			while (t->peekTopC(c) && c->getCDT() == timer)
 			{
-				while (t->peekTopC(c) && c->getCDT() == timer)
-				{
-					moretrucks = 1;
-					t->dequeuetop(c);
-					if (c->gettype() == Normal)
-						NDeliveredC.enqueue(c);
-					else if (c->gettype() == VIP)
-						VDeliveredC.enqueue(c);
-					else
-						SDeliveredC.enqueue(c);
+				moretrucks = 1;
+				t->dequeuetop(c);
+				if (c->gettype() == Normal)
+					NDeliveredC.enqueue(c);
+				else if (c->gettype() == VIP)
+					VDeliveredC.enqueue(c);
+				else
+					SDeliveredC.enqueue(c);
 
-					t->inc_tDC();
-					
-				}
-				if (moretrucks == 1)
+				t->inc_tDC();
+
+			}
+			if (moretrucks == 1)
+			{
+				In_TripT.dequeue(t);
+				if (t->peekTopC(c))
+					In_TripT.enqueue(t, -(c->getCDT().tohours()));
+				else
 				{
-					In_TripT[i].dequeue(t);
-					if (t->peekTopC(c))
-						In_TripT[i].enqueue(t, -(c->getCDT().tohours()));
-					else
-					{
-						In_TripT[i].enqueue(t, -(t->getReturn_time().tohours()));
-					}
+					In_TripT.enqueue(t, -(t->getReturn_time().tohours()));
 				}
 			}
-			else
-			{
-				if (t->getReturn_time() == timer)
-				{
-					moretrucks = 1;
-					In_TripT[i].dequeue(t);
-					t->IncementJ();
-					if (t->getCurrj() == MaintainenceLimit)
-					{
-						MaintainedT[i].enqueue(t);
-						t->SetMTime(timer);
-					}
-					else
-					{
-						ReadyT[i].enqueue(t);
-					}
-
-				}
-			}
-
-
 		}
+		else
+		{
+			if (t->getReturn_time() == timer)
+			{
+				moretrucks = 1;
+				In_TripT.dequeue(t);
+				t->IncementJ();
+				if (t->getCurrj() == MaintainenceLimit)
+				{
+					if (t->GetType() == VIP)
+					{
+						MaintainedT[VIP].enqueue(t);
+					}
+					else if (t->GetType() == Normal)
+					{
+						MaintainedT[Normal].enqueue(t);
+					}
+					else
+					{
+						MaintainedT[Special].enqueue(t);
+					}
+					t->SetMTime(timer);
+				}
+				else
+				{
+					if (t->GetType() == VIP)
+					{
+						ReadyT[VIP].enqueue(t);
+					}
+					else if (t->GetType() == Normal)
+					{
+						ReadyT[Normal].enqueue(t);
+					}
+					else
+					{
+						ReadyT[Special].enqueue(t);
+					}
+				}
+
+			}
+		}
+
+
+
 
 	}
 

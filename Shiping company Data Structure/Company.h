@@ -27,7 +27,7 @@ class Company
 	Queue<Truck*> ReadyT[3];								 //three Queues for ready trucks grouped in array
 	Queue<Truck*> MaintainedT[3];							 //three Queues for Maintained trucks grouped in array
 	PriorityQueue<Truck*> LoadingT[3];						 //three PriorityQueues for Loading trucks grouped in array
-	PriorityQueue<Truck*> In_TripT[3];	   					 //three PriorityQueues for Moving trucks grouped in array
+	PriorityQueue<Truck*> In_TripT;	   					 //three PriorityQueues for Moving trucks grouped in array
 	
 	CargoList NWaitingC;									 //Linked List for Normal Waiting Cargo
 	Queue<Cargo*> SWaitingC;								 //List for Special Waiting Cargos
