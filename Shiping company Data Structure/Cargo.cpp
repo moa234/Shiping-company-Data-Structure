@@ -10,6 +10,7 @@ Cargo::Cargo(Itemtype t,int ID, int Dis, int Lt, int cost, Time time)
 	this->cost = cost;
 	Pt = time;
 	delivered = 0;
+	autop = 0;
 }
 
 Cargo::Cargo()
@@ -69,6 +70,16 @@ void Cargo::settype(Itemtype t)
 void Cargo::setdelivered(bool t)
 {
 	delivered = t;
+}
+
+void Cargo::setautop(bool t)
+{
+	autop = t;
+}
+
+bool Cargo::getautop()
+{
+	return autop;
 }
 
 int Cargo::getloadt()

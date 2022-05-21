@@ -22,9 +22,7 @@ class Company
 	int counter;											 //counter for simulation function
 	int MaintainenceLimit;                                   //Number of journies to do maintainence
 	bool loadflag[3];
-	int countND;
-	int countVD;
-	int countSD;
+
 
 	Queue<Event*> Events;									 //list of events
 	

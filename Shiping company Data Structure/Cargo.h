@@ -14,6 +14,7 @@ class Cargo
 	Itemtype type;	//type of cargo (normal, vip, special)
 	int TID;		//truck id when loaded
 	bool delivered;
+	bool autop;
 public:
 	Cargo(Itemtype t, int ID, int Dis, int Lt, int cost, Time time);
 	Cargo();
@@ -28,6 +29,8 @@ public:
 	void setCDT(int t);
 	void settype(Itemtype t);
 	void setdelivered(bool t);
+	void setautop(bool t);
+	bool getautop();
 	int getloadt();
 	int getdeldis();
 	int getcost();
