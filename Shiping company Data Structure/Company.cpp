@@ -81,7 +81,11 @@ void Company::savefile(ofstream& fout)
 	fout << "Cargo Avg Wait: " << totalwait.GetDay() << ":" << totalwait.GetHour() << endl;
 
 	totalnor += countND;
-	fout << "Auto-promoted Cargos: " << ((totalnor > 0)? ((float)totalautoP / totalnor * 100) : 0) << "%" << endl;
+	fout << "Auto-promoted Cargos: " << ((totalnor > 0)? ((float)totalautoP / totalnor * 100) : 0) << "% from total " << totalnor  << endl;
+
+	int countt = ReadyT[Normal].GetSize() + ReadyT[VIP].GetSize() + ReadyT[Special].GetSize();
+	fout << "Trucks: " << countt << " [N: " << ReadyT[Normal].GetSize() << ", S: " << ReadyT[Special].GetSize() << ", V: " << ReadyT[VIP].GetSize() << "]" << endl;
+
 
 }
 

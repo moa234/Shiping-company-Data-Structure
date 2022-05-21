@@ -14,4 +14,5 @@ CDT	ID	PT	WT	TID
 ....................................
 Cargos: 11 [N: 6, S: 3, V: 2]
 Cargo Avg Wait: 0:2
-Auto-promoted Cargos: 0%
+Auto-promoted Cargos: 0% from total 6
+Trucks: 8 [N: 1, S: 3, V: 4]
