@@ -21,9 +21,29 @@ int Truck::getcap() const
 	return TCap;
 }
 
-Itemtype Truck::GetType()
+int Truck::getCurrj() const
 {
-	return type;
+	return Currjourney;
+}
+
+int Truck::get_DDFC()
+{
+	return DDFC;
+}
+
+int Truck::getid() const
+{
+	return ID;
+}
+
+int Truck::getMj() const
+{
+	return CheckUpDuration;
+}
+
+int Truck::getspeed() const
+{
+	return speed;
 }
 
 Itemtype Truck::GetCargoType()
@@ -31,14 +51,111 @@ Itemtype Truck::GetCargoType()
 	return Ctype;
 }
 
+Itemtype Truck::GetType()
+{
+	return type;
+}
+
+Time Truck::getMaxCLT() const
+{
+	return maxCargoLT;
+}
+
+Time Truck::getReturn_time() const
+{
+	return Returntime;
+}
+
+Time Truck::getStartLoading() const
+{
+	return StartLoading;
+}
+
 void Truck::SetCargoType(Itemtype type)
 {
 	Ctype = type;
 }
 
+void Truck::setDI(int DeliveryT)
+{
+	DI = DeliveryT;
+}
+
+void Truck::SetMTime(Time T)
+{
+	MTime = T;
+}
+
+void Truck::SetStartLoading(const Time& T, Itemtype ctype)
+{
+	StartLoading = T;
+	SetCargoType(ctype);
+}
+
+
+void Truck::inc_tDC()
+{
+	tDC++;
+}
+
+void Truck::IncementJ()
+{
+	Currjourney++;
+}
+
+void Truck::updateCDT(Time& currTime)
+{
+	PriorityQueue<Cargo*> temp;
+	Cargo* c;
+	int tload = 0;
+	int size = MovingC.GetSize();
+	for (int i = 0; i < size; i++)
+	{
+		MovingC.dequeue(c);
+		tload += c->getloadt();
+		c->setCDT(currTime.tohours() + (c->getdeldis() / speed) + tload);
+		temp.enqueue(c, -c->getCDT().tohours());
+	}
+	for (int i = 0; i < size; i++)
+	{
+		temp.dequeue(c);
+		MovingC.enqueue(c, -c->getCDT().tohours());
+		if (i == size - 1)
+		{
+			maxCDT = c->getCDT();
+		}
+	}
+}
+
 void Truck::updateDI()
 {
 	DI = 2 * (DDFC / speed) + tl;
+}
+
+void Truck::updateReturn_time()
+{
+	Returntime = maxCDT + (DDFC / speed);
+}
+
+
+bool Truck::dequeuetop(Cargo*& c)
+{
+
+	if (MovingC.dequeue(c))
+	{
+		return true;
+	}
+	return false;
+
+}
+
+bool Truck::InMaintainence(const Time& T)
+{
+	if (T == (MTime + CheckUpDuration))
+	{
+		return false;
+	}
+	return true;
 }
 
 bool Truck::loadC(Cargo*& c, Time& t)
@@ -56,29 +173,9 @@ bool Truck::loadC(Cargo*& c, Time& t)
 
 		this->updateDI();
 		c->setWT(t);
-		c->setTID(ID);	
+		c->setTID(ID);
 	}
 	return canadd;
-}
-
-int Truck::getspeed() const
-{
-	return speed;
-}
-
-int Truck::getid() const
-{
-	return ID;
-}
-
-void Truck::setDI(int DeliveryT)
-{
-	DI = DeliveryT;
-}
-
-void Truck::IncementJ()
-{
-	Currjourney++;
 }
 
 bool Truck::peekTopC(Cargo*& c)
@@ -90,15 +187,10 @@ bool Truck::peekTopC(Cargo*& c)
 	return false;
 }
 
-void Truck::SetStartLoading(const Time& T,Itemtype ctype)
+void Truck::EndMaitainence()
 {
-	StartLoading = T;
-	SetCargoType(ctype);
-}
-
-Time Truck::getStartLoading() const
-{
-	return StartLoading;
+	MTime.SetDay(0);
+	MTime.SetHour(0);
 }
 
 void Truck::EndLoading(Time& currTime)
@@ -109,73 +201,6 @@ void Truck::EndLoading(Time& currTime)
 	StartLoading.SetHour(0);
 
 	updateReturn_time();
-}
-
-Time Truck::getMaxCLT() const
-{
-	return maxCargoLT;
-}
-
-bool Truck::dequeuetop(Cargo*& c)
-{
-
-	if (MovingC.dequeue(c))
-	{
-		return true;
-	}
-	return false;
-
-}
-
-int Truck::getCurrj() const
-{
-	return Currjourney;
-}
-
-int Truck::getMj() const
-{
-	return CheckUpDuration;
-}
-
-void Truck::SetMTime(Time T)
-{
-	MTime = T;
-}
-
-
-bool Truck::InMaintainence(const Time& T)
-{
-	if (T == (MTime + CheckUpDuration))
-	{
-		return false;
-	}
-	return true;
-}
-
-void Truck::EndMaitainence()
-{
-	MTime.SetDay(0);
-	MTime.SetHour(0);
-}
-
-int Truck::get_DDFC()
-{
-	return DDFC;
-}
-
-Time Truck::getReturn_time() const
-{
-	return Returntime;
-}
-
-void Truck::updateReturn_time()
-{
-	Returntime = maxCDT + (DDFC / speed);
-}
-
-void Truck::inc_tDC()
-{
-	tDC++;
 }
 
 std::ostream& operator<<(std::ostream& f, Truck* C)
@@ -210,28 +235,3 @@ std::ostream& operator<<(std::ostream& f, Truck* C)
 
 	return f;
 }
-
-void Truck::updateCDT(Time& currTime)
-{
-	PriorityQueue<Cargo*> temp;
-	Cargo* c;
-	int tload = 0;
-	int size = MovingC.GetSize();
-	for (int i = 0; i < size; i++)
-	{
-		MovingC.dequeue(c);
-		tload += c->getloadt();
-		c->setCDT(currTime.tohours() + (c->getdeldis() / speed) + tload);
-		temp.enqueue(c, -c->getCDT().tohours());
-	}
-	for (int i = 0; i < size; i++)
-	{
-		temp.dequeue(c);
-		MovingC.enqueue(c, -c->getCDT().tohours());
-		if (i == size - 1)
-		{
-			maxCDT = c->getCDT();
-		}
-	}
-}
-
