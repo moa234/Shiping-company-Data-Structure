@@ -4,50 +4,37 @@
 #include <ostream>
 class Cargo
 {
-	int cost;		//cost of delivering
-	int deldis;		//delivery distance in km
-	int ID;			//unique id
-	int TID;		//truck id when loaded
 	int Lt;			//Load time
-
-	Time CDT;		//delivery time 
 	Time Pt;		//Preparation time
+	int deldis;		//delivery distance in km
+	int cost;		//cost of delivering
+	int ID;			//unique id
+	Time CDT;		//delivery time 
 	Time WT;		//waiting time
-	
 	Itemtype type;	//type of cargo (normal, vip, special)
-
-	bool autop;
+	int TID;		//truck id when loaded
 	bool delivered;
-
+	bool autop;
 public:
-//Constructor
 	Cargo(Itemtype t, int ID, int Dis, int Lt, int cost, Time time);
 	Cargo();
-
-//Getters
-	int getcost();
-	int getdeldis();
 	int getid() const;
-	int getloadt();
 	int getTID() const;
-
-	Time getCDT();
-	Time getprept();
-	Time getWT();
-
-	Itemtype gettype();
-
-	bool getautop();
-
-//Setters
-	void setautop(bool t);
-	void setCDT(int t);
-	void setdelivered(bool t);
 	void setTID(int id);
-	void settype(Itemtype t);
+	Itemtype gettype();
+	Time getprept();
+	Time getCDT();
+	Time getWT();
 	void setWT(Time& t);
-
+	void setCDT(int t);
+	void settype(Itemtype t);
+	void setdelivered(bool t);
+	void setautop(bool t);
+	bool getautop();
+	int getloadt();
+	int getdeldis();
+	int getcost();
 	void inccost(int c);
-	
 	friend std::ostream& operator <<(std::ostream& f, const Cargo* C);
+
 };

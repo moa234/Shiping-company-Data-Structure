@@ -17,29 +17,29 @@ Cargo::Cargo()
 {
 }
 
-int Cargo::getcost()
-{
-	return cost;
-}
-
-int Cargo::getdeldis()
-{
-	return deldis;
-}
-
 int Cargo::getid() const
 {
 	return ID;
 }
 
-int Cargo::getloadt()
-{
-	return Lt;
-}
-
 int Cargo::getTID() const
 {
 	return TID;
+}
+
+void Cargo::setTID(int id)
+{
+	TID = id;
+}
+
+Itemtype Cargo::gettype()
+{
+	return type;
+}
+
+Time Cargo::getprept()
+{
+	return Pt;
 }
 
 Time Cargo::getCDT()
@@ -52,24 +52,9 @@ Time Cargo::getWT()
 	return WT;
 }
 
-Time Cargo::getprept()
+void Cargo::setWT(Time& t)
 {
-	return Pt;
-}
-
-Itemtype Cargo::gettype()
-{
-	return type;
-}
-
-bool Cargo::getautop()
-{
-	return autop;
-}
-
-void Cargo::setautop(bool t)
-{
-	autop = t;
+	WT = t - Pt;
 }
 
 void Cargo::setCDT(int t)
@@ -77,30 +62,49 @@ void Cargo::setCDT(int t)
 	CDT.toTime(t);
 }
 
-void Cargo::setdelivered(bool t)
-{
-	delivered = t;
-}
-
-void Cargo::setTID(int id)
-{
-	TID = id;
-}
-
 void Cargo::settype(Itemtype t)
 {
 	type = t;
 }
 
-void Cargo::setWT(Time& t)
+void Cargo::setdelivered(bool t)
 {
-	WT = t - Pt;
+	delivered = t;
+}
+
+void Cargo::setautop(bool t)
+{
+	autop = t;
+}
+
+bool Cargo::getautop()
+{
+	return autop;
+}
+
+int Cargo::getloadt()
+{
+	return Lt;
+}
+
+
+
+
+int Cargo::getdeldis()
+{
+	return deldis;
 }
 
 void Cargo::inccost(int c)
 {
 	cost += c;
 }
+
+int Cargo::getcost()
+{
+	return cost;
+}
+
 
 std::ostream& operator<<(std::ostream& f, const Cargo* C)
 {
@@ -127,3 +131,5 @@ std::ostream& operator<<(std::ostream& f, const Cargo* C)
 	}
 	return f;
 }
+
+
