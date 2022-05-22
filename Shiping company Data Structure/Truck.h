@@ -6,58 +6,74 @@
 #include <iostream>
 class Truck
 {
-    int TCap;           // Truck Capacity
-    Time MTime;          //time That Truck entered maintainence
     int CheckUpDuration;//check up duration for maintenance
     int Currjourney;    //The current counter for journies done by truck
-    int speed;          // Speed of truck
     int DI;             //Delivery interval.
+    int DDFC = 0;       // delivery distance of furthest cargo
     int ID;             //unique id
-    Itemtype type;      //type of truck
-    Itemtype Ctype;     //type of cargo truck is carrying
-    PriorityQueue<Cargo*> MovingC;  //list of moving cargos inside the truck
+    int speed;          // Speed of truck
     int TActive;        //truck active time
-    int util;           // truck utilization
+    int TCap;           // Truck Capacity
     int tDC;            //total cargos delivered
     int tl;
-    int DDFC = 0;       // delivery distance of furthest cargo
-    Time maxCDT;
+    int util;           // truck utilization
+
+    Itemtype Ctype;     //type of cargo truck is carrying
+    Itemtype type;      //type of truck
+
     bool loaded;
+
+    Time MTime;          //time That Truck entered maintainence
+    Time maxCDT;
     Time StartLoading; //time where the truck started loading
     Time maxCargoLT;    //max cargo load time
     Time Returntime; //
 
+    PriorityQueue<Cargo*> MovingC;  //list of moving cargos inside the truck
+
 public:
     Truck(int speed, int Tcap, int CheckUpDuration, Itemtype type,int ID);
-    //Truck(); 
+    
+    //Getters
     int getcap() const;
-    Itemtype GetType();//get type of truck
-    Itemtype GetCargoType();
-    void SetCargoType(Itemtype type);
-    void updateDI();
-    bool loadC(Cargo*& c, Time& t);
-    int getspeed() const;
+    int getCurrj()const;
+    int get_DDFC();
     int getid() const;
+    int getMj()const; //to be deleted
+    int getspeed() const;
+
+    Itemtype GetCargoType();
+    Itemtype GetType();//get type of truck
+
+    Time getMaxCLT() const;//returns max cargo load time
+    Time getReturn_time()const;
+    Time getStartLoading() const;// returns time when the loading started
+
+    //Setters
+    void SetCargoType(Itemtype type);
+    void setDI(int DeliveryT); //setter for delivery interval
+    void SetMTime(Time T);
+    void SetStartLoading(const Time& T, Itemtype ctype);
+
+    //Updaters
+    void inc_tDC();
+    void IncementJ(); // increment number of journies
+    void updateCDT(Time& currTime);
+    void updateDI();
+    void updateReturn_time();
+
+    bool dequeuetop(Cargo*& c);//dequeue top cargo from truck
+    bool InMaintainence(const Time& T); //to check whether truck finished maintaince or not    void EndLoading(Time& currTime);
+    bool loadC(Cargo*& c, Time& t);
+    bool peekTopC(Cargo*& c);
+
+    void EndMaitainence();
+
+    friend std::ostream& operator <<(std::ostream& f, Truck* C);
+
+
+    //Truck(); 
+    //increment total cargos delivered
     //Cargo* PeekTopCargo();
     //dequeue cargo
-    void setDI(int DeliveryT); //setter for delivery interval
-    void IncementJ(); // increment number of journies
-    friend std::ostream& operator <<(std::ostream& f, Truck* C); 
-    bool peekTopC(Cargo*& c);
-    void SetStartLoading(const Time& T,Itemtype ctype);
-    Time getStartLoading() const;// returns time when the loading started
-    void EndLoading(Time& currTime);
-    Time getMaxCLT() const;//returns max cargo load time
-    bool dequeuetop(Cargo*& c);//dequeue top cargo from truck
-    int getCurrj()const;
-    int getMj()const; //to be deleted
-    void SetMTime(Time T);
-    bool InMaintainence(const Time& T); //to check whether truck finished maintaince or not
-    void EndMaitainence();
-    void inc_tDC();
-    void updateCDT(Time& currTime);
-    //increment total cargos delivered
-    int get_DDFC();
-    void updateReturn_time();
-    Time getReturn_time()const;
 };
