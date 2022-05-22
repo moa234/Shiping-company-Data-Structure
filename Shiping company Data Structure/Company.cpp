@@ -330,11 +330,11 @@ void Company::AssignmentSpecial()
 	int AvailableCargos = SWaitingC.GetSize();
 	Cargo* C;
 
-	if (ReadyT[1].peek(T) && loadflag[Special] == 0)
+	if (ReadyT[Special].peek(T) && loadflag[Special] == 0)
 	{
 		if (AvailableCargos >= T->getcap() && !LoadingS)
 		{
-			ReadyT[1].dequeue(T);
+			ReadyT[Special].dequeue(T);
 			LoadingS = T;
 			T->SetStartLoading(timer);
 			loadflag[Special] = 1;
@@ -349,12 +349,12 @@ void Company::AssignmentNormal()
 	Cargo* C;
 	if (loadflag[Normal] == 0 )
 	{
-		if (!ReadyT[0].isempty() && !LoadingN)
+		if (!ReadyT[Normal].isempty() && !LoadingN)
 		{
-			ReadyT[0].peek(T);
+			ReadyT[Normal].peek(T);
 			if (AvailableCargos >= T->getcap() )
 			{
-				ReadyT[0].dequeue(T);
+				ReadyT[Normal].dequeue(T);
 				T->SetStartLoading(timer);
 				LoadingN = T;
 				loadflag[Normal] = 1;
@@ -362,12 +362,12 @@ void Company::AssignmentNormal()
 			}
 
 		}
-		else if (!ReadyT[2].isempty() && !LoadingV)
+		else if (!ReadyT[VIP].isempty() && !LoadingV)
 		{
-			ReadyT[2].peek(T);
+			ReadyT[VIP].peek(T);
 			if (AvailableCargos >= T->getcap())
 			{
-				ReadyT[2].dequeue(T);
+				ReadyT[VIP].dequeue(T);
 				T->SetStartLoading(timer);
 				loadflag[Normal] = 1;
 				LoadingV = T;
