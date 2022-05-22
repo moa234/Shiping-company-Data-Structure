@@ -67,6 +67,7 @@ public:
 	void AssignmentVIP();
 	void AssignmentNormal();
 	void AssignmentSpecial();
+	void AssignmentCargo();
 	void Maintenance();
 	void TruckControl();
 };

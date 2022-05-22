@@ -275,6 +275,7 @@ void Company::Assignment()
 		AssignmentVIP();
 		AssignmentSpecial();
 		AssignmentNormal();
+		AssignmentCargo();
 		autopromote();
 		MaxWAssignment();
 	}
