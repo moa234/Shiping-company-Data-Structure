@@ -26,7 +26,9 @@ class Company
 	
 	Queue<Truck*> ReadyT[3];								 //three Queues for ready trucks grouped in array
 	Queue<Truck*> MaintainedT[3];							 //three Queues for Maintained trucks grouped in array
-	PriorityQueue<Truck*> LoadingT[3];						 //three PriorityQueues for Loading trucks grouped in array
+	Truck* LoadingN;
+	Truck* LoadingS;
+	Truck* LoadingV;
 	PriorityQueue<Truck*> In_TripT;	   					 //three PriorityQueues for Moving trucks grouped in array
 	
 	CargoList NWaitingC;									 //Linked List for Normal Waiting Cargo
@@ -63,8 +65,8 @@ public:
 	void IncrementHour(); //increment the current hour
 	void Assignment();
 	void AssignmentVIP();
-	void AssignmentNormal(bool MaxWA=0);
-	void AssignmentSpecial(bool MaxWA=0);
+	void AssignmentNormal();
+	void AssignmentSpecial();
 	void Maintenance();
 	void TruckControl();
 };

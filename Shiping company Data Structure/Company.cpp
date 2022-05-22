@@ -10,6 +10,7 @@ Company::Company()
 	timer.SetDay(1); timer.SetHour(1);
 	counter = 0;
 	PUI = new UI();
+	LoadingN = nullptr; LoadingS = nullptr; LoadingV = nullptr;
 	for (int i = 0; i < 3; i++)
 	{
 		loadflag[i] = 0;
@@ -36,9 +37,9 @@ void Company::ReadFile(ifstream& fin)
 
 bool Company::IsRemainingEvents()
 {
-	bool cond1 = LoadingT[VIP].GetSize() + LoadingT[Special].GetSize() + LoadingT[Normal].GetSize()+MaintainedT[VIP].GetSize() + MaintainedT[Special].GetSize()+ MaintainedT[Normal].GetSize();
-	bool cond2 = In_TripT.GetSize() + Events.GetSize() + NWaitingC.GetSize() + VWaitingC.GetSize() + SWaitingC.GetSize();
-	return cond1||cond2;
+	bool cond1 = (LoadingN ? 1 : 0) || (LoadingS ? 1 : 0) || (LoadingV ? 1 : 0) || MaintainedT[VIP].GetSize() || MaintainedT[Special].GetSize() || MaintainedT[Normal].GetSize();
+	bool cond2 = In_TripT.GetSize() || Events.GetSize() || NWaitingC.GetSize() || VWaitingC.GetSize() || SWaitingC.GetSize();
+	return cond1 || cond2;
 }
 
 //void Company::savefile(ofstream& fout)
@@ -249,116 +250,93 @@ void Company::Assignment()
 
 void Company::AssignmentVIP()
 {
-
 	Cargo* C;
 	Truck* T = nullptr;
 	int AvailableCargos = VWaitingC.GetSize();
 	if (loadflag[VIP] == 0)
 	{
-		if (!ReadyT[2].isempty())//you have two conditions, think of it deeply 
+		if (!ReadyT[VIP].isempty() && !LoadingV)//you have two conditions, think of it deeply 
 		{
-			ReadyT[2].peek(T);
+			ReadyT[VIP].peek(T);
 			if (AvailableCargos >= T->getcap())
-				ReadyT[2].dequeue(T);
-		}
-		else if (!ReadyT[0].isempty())
-		{
-			ReadyT[0].peek(T);
-			if (AvailableCargos >= T->getcap())
-				ReadyT[0].dequeue(T);
-		}
-		else if (!ReadyT[1].isempty())
-		{
-			ReadyT[1].peek(T);
-			if (AvailableCargos >= T->getcap())
-				ReadyT[1].dequeue(T);
-		}
-
-		if (T && AvailableCargos >= T->getcap())
-		{
-			//is equivilent to previous condition replace
-			//shoof ani truck fadya mn al 3 3la asas al criteria
-			//w 7ot fl fadya
-			loadflag[VIP] = 1;
-			T->SetStartLoading(timer);// bnset an al truck bd2t amta t load
-			for (int i = 0; i < T->getcap(); i++)
 			{
-				VWaitingC.dequeue(C);
-				T->loadC(C);
+				ReadyT[VIP].dequeue(T);
+				LoadingV = T;
 			}
-			LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
-			//al satr dh mohem gdn fakrni ashrholk f vn
-			//b5tsar b7ot al truck fl loading
+		}
+		else if (!ReadyT[Normal].isempty() && !LoadingN)
+		{
+			ReadyT[Normal].peek(T);
+			if (AvailableCargos >= T->getcap())
+			{
+				ReadyT[Normal].dequeue(T);
+				LoadingN = T;
+			}
+		}
+		else if (!ReadyT[Special].isempty() && !LoadingS)
+		{
+			ReadyT[Special].peek(T);
+			if (AvailableCargos >= T->getcap())
+			{
+				ReadyT[Special].dequeue(T);
+				LoadingS = T;
+			}
+		}
+		if (T != nullptr)
+		{
+			T->SetStartLoading(timer);
+			loadflag[VIP] = 1;
 		}
 	}
 }
 
-void Company::AssignmentSpecial(bool MaxWA )
+void Company::AssignmentSpecial()
 {
 	Truck* T;
 	int AvailableCargos = SWaitingC.GetSize();
 	Cargo* C;
 
-	if ((ReadyT[1].peek(T) && loadflag[Special] == 0) || MaxWA)
+	if (ReadyT[1].peek(T) && loadflag[Special] == 0)
 	{
-		if (AvailableCargos >= T->getcap() || MaxWA)
+		if (AvailableCargos >= T->getcap() && !LoadingS)
 		{
 			ReadyT[1].dequeue(T);
+			LoadingS = T;
 			T->SetStartLoading(timer);
-			int size = (MaxWA ? min(SWaitingC.GetSize(), T->getcap()) : T->getcap());
-			for (int i = 0; i < size; i++)
-			{
-				SWaitingC.dequeue(C);
-				T->loadC(C);
-			}
 			loadflag[Special] = 1;
-			LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
 		}
 	}
 }
 
-void Company::AssignmentNormal(bool MaxWA )
+void Company::AssignmentNormal()
 {
 	Truck* T = nullptr;
 	int AvailableCargos = NWaitingC.GetSize();
 	Cargo* C;
-	if (loadflag[Normal] == 0 || MaxWA)
+	if (loadflag[Normal] == 0 )
 	{
-		if (!ReadyT[0].isempty())
+		if (!ReadyT[0].isempty() && !LoadingN)
 		{
 			ReadyT[0].peek(T);
-			if (AvailableCargos >= T->getcap() || MaxWA)
+			if (AvailableCargos >= T->getcap() )
 			{
 				ReadyT[0].dequeue(T);
 				T->SetStartLoading(timer);
-				int size = (MaxWA ? min(NWaitingC.GetSize(), T->getcap()) : T->getcap());
-				for (int i = 0; i < size; i++)
-				{
-					C = NWaitingC.remRet1();
-					T->loadC(C);
-				}
+				LoadingN = T;
 				loadflag[Normal] = 1;
-				LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
 
 			}
 
 		}
-		else if (!ReadyT[2].isempty())
+		else if (!ReadyT[2].isempty() && !LoadingV)
 		{
 			ReadyT[2].peek(T);
-			if (AvailableCargos >= T->getcap() || MaxWA)
+			if (AvailableCargos >= T->getcap())
 			{
 				ReadyT[2].dequeue(T);
 				T->SetStartLoading(timer);
-				int size = (MaxWA ? min(NWaitingC.GetSize(), T->getcap()) : T->getcap());
-				for (int i = 0; i < size; i++)
-				{
-					C = NWaitingC.remRet1();
-					T->loadC(C);
-
-				}
 				loadflag[Normal] = 1;
-				LoadingT[T->GetType()].enqueue(T, -(T->getMaxCLT().tohours() + timer.tohours()));
+				LoadingV = T;
 			}
 
 		}
