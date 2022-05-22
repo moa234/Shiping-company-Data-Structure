@@ -14,6 +14,7 @@ class Truck
     int DI;             //Delivery interval.
     int ID;             //unique id
     Itemtype type;      //type of truck
+    Itemtype Ctype;     //type of cargo truck is carrying
     PriorityQueue<Cargo*> MovingC;  //list of moving cargos inside the truck
     int TActive;        //truck active time
     int util;           // truck utilization
@@ -31,6 +32,8 @@ public:
     //Truck(); 
     int getcap() const;
     Itemtype GetType();//get type of truck
+    Itemtype GetCargoType();
+    void SetCargoType(Itemtype type);
     void updateDI();
     bool loadC(Cargo*& c, Time& t);
     int getspeed() const;
@@ -41,7 +44,7 @@ public:
     void IncementJ(); // increment number of journies
     friend std::ostream& operator <<(std::ostream& f, Truck* C); 
     bool peekTopC(Cargo*& c);
-    void SetStartLoading(const Time& T);
+    void SetStartLoading(const Time& T,Itemtype ctype);
     Time getStartLoading() const;// returns time when the loading started
     void EndLoading(Time& currTime);
     Time getMaxCLT() const;//returns max cargo load time

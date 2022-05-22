@@ -68,6 +68,7 @@ public:
 	void AssignmentNormal();
 	void AssignmentSpecial();
 	void AssignmentCargo();
+	Truck* MapTruckToCargo(Itemtype ctype);
 	void Maintenance();
 	void TruckControl();
 };

@@ -26,6 +26,16 @@ Itemtype Truck::GetType()
 	return type;
 }
 
+Itemtype Truck::GetCargoType()
+{
+	return Ctype;
+}
+
+void Truck::SetCargoType(Itemtype type)
+{
+	Ctype = type;
+}
+
 void Truck::updateDI()
 {
 	DI = 2 * (DDFC / speed) + tl;
@@ -80,9 +90,10 @@ bool Truck::peekTopC(Cargo*& c)
 	return false;
 }
 
-void Truck::SetStartLoading(const Time& T)
+void Truck::SetStartLoading(const Time& T,Itemtype ctype)
 {
 	StartLoading = T;
+	SetCargoType(ctype);
 }
 
 Time Truck::getStartLoading() const

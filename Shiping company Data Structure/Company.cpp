@@ -319,7 +319,7 @@ void Company::AssignmentVIP()
 		}
 		if (T != nullptr)
 		{
-			T->SetStartLoading(timer);
+			T->SetStartLoading(timer,VIP);
 			loadflag[VIP] = 1;
 		}
 	}
@@ -337,12 +337,29 @@ void Company::AssignmentSpecial()
 		{
 			ReadyT[Special].dequeue(T);
 			LoadingS = T;
-			T->SetStartLoading(timer);
+			T->SetStartLoading(timer,Special);
 			loadflag[Special] = 1;
 		}
 	}
 }
 
+void Company::AssignmentCargo()
+{
+	//mapping
+	Truck* LNcargos = nullptr;
+	Truck* LScargos = nullptr;
+	Truck* LVcargos = nullptr;
+	if (LoadingN)
+	{
+		if (LoadingN->GetCargoType() == Normal)
+			LNcargos = LoadingN;
+		if(LoadingN->GetCargoType() == Special)
+	}
+}
+Truck* Company::MapTruckToCargo(Itemtype ctype)
+{
+
+}
 void Company::AssignmentNormal()
 {
 	Truck* T = nullptr;
@@ -356,7 +373,7 @@ void Company::AssignmentNormal()
 			if (AvailableCargos >= T->getcap() )
 			{
 				ReadyT[Normal].dequeue(T);
-				T->SetStartLoading(timer);
+				T->SetStartLoading(timer,Normal);
 				LoadingN = T;
 				loadflag[Normal] = 1;
 
@@ -369,7 +386,7 @@ void Company::AssignmentNormal()
 			if (AvailableCargos >= T->getcap())
 			{
 				ReadyT[VIP].dequeue(T);
-				T->SetStartLoading(timer);
+				T->SetStartLoading(timer,Normal);
 				loadflag[Normal] = 1;
 				LoadingV = T;
 			}
