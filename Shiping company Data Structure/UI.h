@@ -25,6 +25,7 @@ public:
 	void PrintBracketStart(Itemtype t); //print the suitable bracket openeing for item
 	void PrintBracketEnd(Itemtype t); //print the suitable bracket closing for item
 	void PrintQC(Queue<Cargo*>& q,Itemtype t); //calls print function of List
+	void PrintDQC(Queue<Cargo*>& q);
 	void PrintLC(CargoList& q, Itemtype t);  //calls print function of List
 	void PrintPQC(PriorityQueue<Cargo*>& q, Itemtype t);  //calls print function of List
 	void PrintEQT(Queue<Truck*>& q, Itemtype t);  //calls print function of List

@@ -42,19 +42,53 @@ bool Company::IsRemainingEvents()
 	return cond1 || cond2;
 }
 
-//void Company::savefile(ofstream& fout)
-//{
-//	fout << "CDT" << "\tID" << "\tPT" << "\tWT" << "\tTID" << endl;
-//	int count = DeliveredC.GetSize();
-//	Cargo* c;
-//	for (int i = 0; i < count; i++)
-//	{
-//		DeliveredC.dequeue(c);
-//		fout << c->getCDT().GetDay() << ":" << c->getCDT().GetHour() << "\t" << c->getprept().GetDay() << ":"
-//			<< c->getprept().GetHour() << "\t" << c->getWT().GetDay() << ":" << c->getWT().GetHour() << "\t" << c->getTID() << endl;
-//		DeliveredC.enqueue(c);
-//	}
-//}
+void Company::savefile(ofstream& fout)
+{
+	fout << "CDT" << "\tID" << "\tPT" << "\tWT" << "\tTID" << endl;
+	int count = DeliveredC.GetSize();
+	Cargo* c;
+	int countND = 0;
+	int countVD = 0;
+	int countSD = 0;
+	int totalnor = 0;
+	Time totalwait(0, 0);
+	int totalautoP = 0;
+	for (int i = 0; i < count; i++)
+	{
+		DeliveredC.dequeue(c);
+		if (c->gettype() == Normal)
+			countND += 1;
+		if (c->gettype() == VIP)
+		{
+			countVD += 1;
+			if (c->getautop())
+			{
+				totalautoP += 1;
+				totalnor += 1;
+			}
+		}
+		if (c->gettype() == Special)
+			countSD += 1;
+		totalwait = totalwait + c->getWT();
+		fout << c->getCDT().GetDay() << ":" << c->getCDT().GetHour() << "\t" << c->getid() << "\t" << c->getprept().GetDay() << ":"
+			<< c->getprept().GetHour() << "\t" << c->getWT().GetDay() << ":" << c->getWT().GetHour() << "\t" << c->getTID() << endl;
+	}
+	fout << "...................................." << endl;
+	fout << "...................................." << endl;
+
+	fout << "Cargos: " << count << " [N: " << countND << ", S: " << countSD << ", V: " << countVD << "]" << endl;
+
+	totalwait.toTime(totalwait.tohours() / count);
+	fout << "Cargo Avg Wait: " << totalwait.GetDay() << ":" << totalwait.GetHour() << endl;
+
+	totalnor += countND;
+	fout << "Auto-promoted Cargos: " << ((totalnor > 0)? ((float)totalautoP / totalnor * 100) : 0) << "% from total " << totalnor  << endl;
+
+	int countt = ReadyT[Normal].GetSize() + ReadyT[VIP].GetSize() + ReadyT[Special].GetSize();
+	fout << "Trucks: " << countt << " [N: " << ReadyT[Normal].GetSize() << ", S: " << ReadyT[Special].GetSize() << ", V: " << ReadyT[VIP].GetSize() << "]" << endl;
+
+
+}
 
 void Company::ReadTrucks(ifstream& fin)
 {
@@ -189,12 +223,12 @@ void Company::MaxWAssignment()
 {
 	bool morecargos = 1;
 	Cargo* C = nullptr;
-	while (SWaitingC.peek(C) && (timer - (C->getprept())) >= maxW)
+	while (SWaitingC.peek(C) && ((timer - (C->getprept())) >= maxW) && ReadyT[Special].GetSize())
 	{
 		AssignmentSpecial(1);
 	}
 	C = NWaitingC.getEntry1();
-	while (C && (timer - (C->getprept())) >= maxW)
+	while (C && (timer - ((C->getprept())) >= maxW) && (ReadyT[Normal].GetSize() || ReadyT[Special].GetSize()))
 	{
 		AssignmentNormal(1);
 		C = NWaitingC.getEntry1();
@@ -203,13 +237,13 @@ void Company::MaxWAssignment()
 
 void Company::Timer()
 {
-	/*if (timer.GetDay() == 1 && timer.GetHour() == 9)
+	/*if (timer.GetDay() == 5 && timer.GetHour() == 16)
 	{
 		int x;
 		cin >> x;
 	}*/
 	Assignment();
-	//autopromote();
+	autopromote();
 	Event* nxt;
 	while (Events.peek(nxt) && nxt->GetTime() == timer)
 	{
@@ -356,6 +390,7 @@ void Company::autopromote()
 			Time t;
 			Event* promote = new Promotion(c->getid(), 0);
 			promote->excute(this);
+			c->setautop(1);
 			delete promote;
 			c = NWaitingC.getEntry1();
 			if (!c)
@@ -429,13 +464,9 @@ void Company::CurrData()
 	PUI->PrintEQT(MaintainedT[2], VIP);
 	PUI->displayline();
 
-	PUI->displayNum(NDeliveredC.GetSize() + SDeliveredC.GetSize() + VDeliveredC.GetSize());
+	PUI->displayNum(DeliveredC.GetSize());
 	PUI->displaytext(" Delivered Cargos: ");
-	PUI->PrintQC(NDeliveredC, Normal);
-	PUI->displaytext(" ");
-	PUI->PrintQC(SDeliveredC, Special);
-	PUI->displaytext(" ");
-	PUI->PrintQC(VDeliveredC, VIP);
+	PUI->PrintDQC(DeliveredC);
 	PUI->displayline();
 
 
@@ -453,6 +484,8 @@ void Company::simulate()
 		CurrData();
 		IncrementHour();
 	}
+	ofstream fout("save.txt");
+	savefile(fout);
 }
 
 void Company::IncrementHour()
@@ -530,13 +563,8 @@ void Company::TruckControl()
 			{
 				moretrucks = 1;
 				t->dequeuetop(c);
-				if (c->gettype() == Normal)
-					NDeliveredC.enqueue(c);
-				else if (c->gettype() == VIP)
-					VDeliveredC.enqueue(c);
-				else
-					SDeliveredC.enqueue(c);
-
+				c->setdelivered(1);
+				DeliveredC.enqueue(c);
 				t->inc_tDC();
 
 			}

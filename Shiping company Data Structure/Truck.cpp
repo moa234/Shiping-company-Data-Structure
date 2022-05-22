@@ -31,7 +31,7 @@ void Truck::updateDI()
 	DI = 2 * (DDFC / speed) + tl;
 }
 
-bool Truck::loadC(Cargo*& c)
+bool Truck::loadC(Cargo*& c, Time& t)
 {
 	bool canadd = MovingC.enqueue(c, -c->getdeldis());
 	if (canadd)
@@ -43,8 +43,10 @@ bool Truck::loadC(Cargo*& c)
 		{
 			maxCargoLT.toTime(c->getloadt());
 		}
-			
+
 		this->updateDI();
+		c->setWT(t);
+		c->setTID(ID);	
 	}
 	return canadd;
 }
