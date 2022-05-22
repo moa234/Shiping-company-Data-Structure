@@ -68,6 +68,7 @@ public:
     bool peekTopC(Cargo*& c);
 
     void EndMaitainence();
+    void EndLoading(Time& currTime);
 
     friend std::ostream& operator <<(std::ostream& f, Truck* C);
 
