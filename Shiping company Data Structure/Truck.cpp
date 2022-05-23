@@ -8,6 +8,8 @@ Truck::Truck(int speed, int Tcap, int CheckUpDuration, Itemtype type, int ID)
 	this->type = type;
 	Currjourney = 0;
 	this->ID = ID;
+	PreviousLoadC.SetDay(0);
+	PreviousLoadC.SetHour(0);
 	maxCargoLT.SetDay(0); maxCargoLT.SetHour(0);
 	tDC = 0;
 }
@@ -71,6 +73,16 @@ Time Truck::getStartLoading() const
 	return StartLoading;
 }
 
+void Truck::SetPrevLoad(Time T)
+{
+	PreviousLoadC = T;
+}
+
+Time Truck::GetPrevLoad()
+{
+	return PreviousLoadC;
+}
+
 void Truck::SetCargoType(Itemtype type)
 {
 	Ctype = type;
@@ -90,6 +102,7 @@ void Truck::SetStartLoading(const Time& T, Itemtype ctype)
 {
 	StartLoading = T;
 	SetCargoType(ctype);
+	SetPrevLoad(T);
 }
 
 
@@ -187,6 +200,11 @@ bool Truck::peekTopC(Cargo*& c)
 	return false;
 }
 
+bool Truck::FullCapacity()
+{
+	return (MovingC.GetSize()==TCap);
+}
+
 void Truck::EndMaitainence()
 {
 	MTime.SetDay(0);
@@ -199,7 +217,8 @@ void Truck::EndLoading(Time& currTime)
 
 	StartLoading.SetDay(0);
 	StartLoading.SetHour(0);
-
+	PreviousLoadC.SetDay(0);
+	PreviousLoadC.SetHour(0);
 	updateReturn_time();
 }
 
@@ -230,6 +249,18 @@ std::ostream& operator<<(std::ostream& f, Truck* C)
 			f << "(";
 			C->MovingC.print();
 			f << ")";
+		}
+	}
+	else
+	{
+		if (!(C->GetPrevLoad() == Time(0, 0)))
+		{
+			if (C->GetCargoType() == Normal)
+				f << "[]";
+			if (C->GetCargoType() == Special)
+				f << "()";
+			if (C->GetCargoType() == VIP)
+				f << "{}";
 		}
 	}
 

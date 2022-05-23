@@ -48,6 +48,5 @@ public:
 	void setWT(Time& t);
 
 	void inccost(int c);
-	
 	friend std::ostream& operator <<(std::ostream& f, const Cargo* C);
 };

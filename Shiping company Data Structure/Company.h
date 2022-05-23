@@ -59,16 +59,21 @@ public:
 	void AddNormList(Cargo* ptr); //adds a cargo to Normal Cargo List
 	void AddSpeList(Cargo* ptr); //adds a cargo to Special Cargo List
 	void AddVIPList(Cargo* ptr); //adds a cargo to VIP Cargo List
-	void MaxWAssignment();
 	void CurrData(); //Function to be called to send current data to UI to be printed on screen
 	void simulate(); //to start simulation
 	void IncrementHour(); //increment the current hour
 	void Assignment();
 	void AssignmentVIP();
-	void AssignmentNormal();
-	void AssignmentSpecial();
-	void AssignmentCargo();
-	Truck* MapTruckToCargo(Itemtype ctype);
+	void AssignmentNormal(bool maxw=0);
+	void AssignmentSpecial(bool maxw=0);
+	bool MaxWaitCheck(Itemtype ctype);
+	void MaxWaitAssign(Itemtype ctype);
+	bool MaxWaitExceed(Cargo* C);
+	void AssignmentCargo(Itemtype ctype);
+	void CheckEndLoading(Truck*& T,bool maxw=0);
+	Cargo* DequeueTopCargo(Itemtype ctype);
+	Cargo* PeekTopCargo(Itemtype ctype);
+	Truck*& MapTruckToCargo(Itemtype ctype);
 	void Maintenance();
 	void TruckControl();
 };

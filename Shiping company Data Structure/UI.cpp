@@ -130,6 +130,13 @@ void UI::PrintPQT(PriorityQueue<Truck*>& q)
 	q.print();
 }
 
+void UI::PrintT(Truck* T)
+{
+	if (T == nullptr)
+		return;
+	cout << T;
+}
+
 
 
 

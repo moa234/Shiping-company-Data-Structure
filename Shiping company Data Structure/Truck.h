@@ -28,7 +28,7 @@ class Truck
     Time StartLoading; //time where the truck started loading
     Time maxCargoLT;    //max cargo load time
     Time Returntime; //
-
+    Time PreviousLoadC; //loadtime that previous cargo finishes at
     PriorityQueue<Cargo*> MovingC;  //list of moving cargos inside the truck
 
 public:
@@ -42,12 +42,14 @@ public:
     int getMj()const; //to be deleted
     int getspeed() const;
 
-    Itemtype GetCargoType();
+    Itemtype GetCargoType(); //get type of cargo
     Itemtype GetType();//get type of truck
 
     Time getMaxCLT() const;//returns max cargo load time
     Time getReturn_time()const;
     Time getStartLoading() const;// returns time when the loading started
+    void SetPrevLoad(Time T);
+    Time GetPrevLoad();
 
     //Setters
     void SetCargoType(Itemtype type);
@@ -66,15 +68,11 @@ public:
     bool InMaintainence(const Time& T); //to check whether truck finished maintaince or not    void EndLoading(Time& currTime);
     bool loadC(Cargo*& c, Time& t);
     bool peekTopC(Cargo*& c);
-
+    bool FullCapacity();
     void EndMaitainence();
     void EndLoading(Time& currTime);
 
     friend std::ostream& operator <<(std::ostream& f, Truck* C);
 
 
-    //Truck(); 
-    //increment total cargos delivered
-    //Cargo* PeekTopCargo();
-    //dequeue cargo
 };
