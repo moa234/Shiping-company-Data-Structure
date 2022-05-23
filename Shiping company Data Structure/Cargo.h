@@ -17,6 +17,7 @@ class Cargo
 	Itemtype type;	//type of cargo (normal, vip, special)
 
 	bool autop;
+	bool prom;
 	bool delivered;
 
 public:
@@ -38,9 +39,11 @@ public:
 	Itemtype gettype();
 
 	bool getautop();
+	bool getprom();
 
 //Setters
 	void setautop(bool t);
+	void setprom(bool t);
 	void setCDT(int t);
 	void setdelivered(bool t);
 	void setTID(int id);

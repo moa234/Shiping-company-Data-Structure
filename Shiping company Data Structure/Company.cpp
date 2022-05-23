@@ -62,10 +62,9 @@ void Company::savefile(ofstream& fout)
 		{
 			countVD += 1;
 			if (c->getautop())
-			{
 				totalautoP += 1;
+			if (c->getprom())
 				totalnor += 1;
-			}
 		}
 		if (c->gettype() == Special)
 			countSD += 1;

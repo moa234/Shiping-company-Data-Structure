@@ -11,6 +11,7 @@ Cargo::Cargo(Itemtype t,int ID, int Dis, int Lt, int cost, Time time)
 	Pt = time;
 	delivered = 0;
 	autop = 0;
+	prom = 0;
 }
 
 Cargo::Cargo()
@@ -67,9 +68,19 @@ bool Cargo::getautop()
 	return autop;
 }
 
+bool Cargo::getprom()
+{
+	return prom;
+}
+
 void Cargo::setautop(bool t)
 {
 	autop = t;
+}
+
+void Cargo::setprom(bool t)
+{
+	prom = t;
 }
 
 void Cargo::setCDT(int t)

@@ -20,6 +20,7 @@ void Promotion::excute(Company* MainPtr)
 	{
 		promoted->inccost(extracost);
 		promoted->settype(VIP);
+		promoted->setprom(1);
 		MainPtr->AddVIPList(promoted);
 	}
 }
