@@ -103,7 +103,10 @@ void Truck::SetStartLoading(const Time& T, Itemtype ctype)
 	StartLoading = T;
 	SetCargoType(ctype);
 	SetPrevLoad(T);
+	loading = 1;
 }
+
+
 
 
 void Truck::inc_tDC()
@@ -149,6 +152,13 @@ void Truck::updateReturn_time()
 {
 	Returntime = maxCDT + (DDFC / speed);
 }
+
+int Truck::GetCargoSize()
+{
+	return MovingC.GetSize();
+}
+
+
 
 
 bool Truck::dequeuetop(Cargo*& c)
@@ -202,7 +212,7 @@ bool Truck::peekTopC(Cargo*& c)
 
 bool Truck::FullCapacity()
 {
-	return (MovingC.GetSize()==TCap);
+	return (MovingC.GetSize() == TCap);
 }
 
 void Truck::EndMaitainence()
@@ -213,13 +223,16 @@ void Truck::EndMaitainence()
 
 void Truck::EndLoading(Time& currTime)
 {
-	updateCDT(currTime);
-
+	loading = 0;
 	StartLoading.SetDay(0);
 	StartLoading.SetHour(0);
 	PreviousLoadC.SetDay(0);
 	PreviousLoadC.SetHour(0);
-	updateReturn_time();
+	if (GetCargoSize() != 0)
+	{
+		updateCDT(currTime);
+		updateReturn_time();
+	}
 }
 
 std::ostream& operator<<(std::ostream& f, Truck* C)
@@ -253,7 +266,7 @@ std::ostream& operator<<(std::ostream& f, Truck* C)
 	}
 	else
 	{
-		if (!(C->GetPrevLoad() == Time(0, 0)))
+		if (C->loading && (C->GetCargoSize()==0))
 		{
 			if (C->GetCargoType() == Normal)
 				f << "[]";

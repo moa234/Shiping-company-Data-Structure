@@ -286,7 +286,7 @@ void Company::AssignmentVIP()
 				LoadingV->SetStartLoading(timer, VIP);
 				loadflag[VIP] = 1;
 			}
-			
+
 		}
 		else if (!ReadyT[Normal].isempty() && !LoadingN)
 		{
@@ -310,7 +310,7 @@ void Company::AssignmentVIP()
 				loadflag[VIP] = 1;
 			}
 		}
-		
+
 	}
 }
 
@@ -376,14 +376,16 @@ void Company::AssignmentCargo(Itemtype ctype)
 	}
 	Truck*& Tcargo = MapTruckToCargo(ctype);
 	Cargo* C = PeekTopCargo(ctype);
+
 	bool isloaded = 0;
-	if (C->getloadt() <= (timer - Tcargo->GetPrevLoad()).GetHour())
+	if (C && (C->getloadt() <= (timer - Tcargo->GetPrevLoad()).GetHour()))
 	{
 		C = DequeueTopCargo(ctype);
 		Tcargo->loadC(C, timer);
+		Tcargo->SetPrevLoad(timer);
 		isloaded = 1;
 	}
-	CheckEndLoading(Tcargo, isMaxW&&isloaded);
+	CheckEndLoading(Tcargo, isMaxW && isloaded);
 }
 void Company::CheckEndLoading(Truck*& T, bool maxw)
 {
@@ -395,6 +397,30 @@ void Company::CheckEndLoading(Truck*& T, bool maxw)
 		In_TripT.enqueue(T, -(c->getCDT().tohours())); //they are 3 intrip not one
 		loadflag[T->GetCargoType()] = 0;
 		T = nullptr;
+	}
+	else
+	{ //Handling Case of Promotion or Cancelling during loading
+		if (T->GetCargoType() == Normal && NWaitingC.GetSize() == 0)
+		{
+
+			if (T->GetCargoSize() == 0)
+			{
+				T->EndLoading(timer);
+				ReadyT[T->GetType()].enqueue(T);
+				loadflag[Normal] = 0;
+				T = nullptr;
+			}
+			else
+			{
+				T->EndLoading(timer);
+				Cargo* c = nullptr;
+				T->peekTopC(c);
+				In_TripT.enqueue(T, -(c->getCDT().tohours())); //they are 3 intrip not one
+				loadflag[T->GetCargoType()] = 0;
+				T = nullptr;
+			}
+
+		}
 	}
 }
 Cargo* Company::DequeueTopCargo(Itemtype ctype)

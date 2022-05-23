@@ -21,7 +21,7 @@ class Truck
     Itemtype Ctype;     //type of cargo truck is carrying
     Itemtype type;      //type of truck
 
-    bool loaded;
+    bool loading;
 
     Time MTime;          //time That Truck entered maintainence
     Time maxCDT;
@@ -58,12 +58,13 @@ public:
     void SetStartLoading(const Time& T, Itemtype ctype);
 
     //Updaters
+
     void inc_tDC();
     void IncementJ(); // increment number of journies
     void updateCDT(Time& currTime);
     void updateDI();
     void updateReturn_time();
-
+    int GetCargoSize();
     bool dequeuetop(Cargo*& c);//dequeue top cargo from truck
     bool InMaintainence(const Time& T); //to check whether truck finished maintaince or not    void EndLoading(Time& currTime);
     bool loadC(Cargo*& c, Time& t);
