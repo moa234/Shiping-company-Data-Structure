@@ -231,11 +231,11 @@ void Company::AddVIPList(Cargo* ptr)
 
 void Company::Timer()
 {
-	if (timer.GetDay() == 6 && timer.GetHour() == 20)
+	/*if (timer.GetDay() == 6 && timer.GetHour() == 20)
 	{
 		int x;
 		cin >> x;
-	}
+	}*/
 	Assignment();
 	Event* nxt;
 	while (Events.peek(nxt) && nxt->GetTime() == timer)
