@@ -25,20 +25,20 @@ class Company
 
 
 	Queue<Event*> Events;									 //list of events
-	
+
 	Queue<Truck*> ReadyT[3];								 //three Queues for ready trucks grouped in array
 	Queue<Truck*> MaintainedT[3];							 //three Queues for Maintained trucks grouped in array
 	Truck* LoadingN;
 	Truck* LoadingS;
 	Truck* LoadingV;
 	PriorityQueue<Truck*> In_TripT;	   					 //three PriorityQueues for Moving trucks grouped in array
-	
+
 	CargoList NWaitingC;									 //Linked List for Normal Waiting Cargo
 	Queue<Cargo*> SWaitingC;								 //List for Special Waiting Cargos
 	PriorityQueue<Cargo*> VWaitingC;						 //List for VIP Waiting Cargo
-	
+
 	Queue<Cargo*> DeliveredC;								 //List for Delivered Cargos
-	
+
 	void ReadTrucks(ifstream& fin);							 //utility function to read trucks info from file
 	void ReadEvents(ifstream& fin);							 //utility function to read events info from file
 public:
@@ -46,7 +46,7 @@ public:
 	Time GetTime(); //getter for current time
 	void Timer(); //function responsible for executing events corresponding to current hour
 
-	void ReadFile(ifstream& fin); 
+	void ReadFile(ifstream& fin);
 	void LoadFile();
 
 	bool IsRemainingEvents(); //Checking whether the program finishes or not 
@@ -55,7 +55,7 @@ public:
 	void autopromote();
 
 	Cargo* getNCargo(int id); //gets the cargo with specific id from 
-	
+
 	void AddNormList(Cargo* ptr); //adds a cargo to Normal Cargo List
 	void AddSpeList(Cargo* ptr); //adds a cargo to Special Cargo List
 	void AddVIPList(Cargo* ptr); //adds a cargo to VIP Cargo List
@@ -64,17 +64,21 @@ public:
 	void IncrementHour(); //increment the current hour
 	void Assignment();
 	void AssignmentVIP();
-	void AssignmentNormal(bool maxw=0);
-	void AssignmentSpecial(bool maxw=0);
+	void AssignmentNormal(bool maxw = 0);
+	void AssignmentSpecial(bool maxw = 0);
 	bool MaxWaitCheck(Itemtype ctype);
 	void MaxWaitAssign(Itemtype ctype);
 	bool MaxWaitExceed(Cargo* C);
 	void AssignmentCargo(Itemtype ctype);
-	void CheckEndLoading(Truck*& T,bool maxw=0);
+	void CheckEndLoading(Truck*& T, bool maxw = 0);
 	Cargo* DequeueTopCargo(Itemtype ctype);
 	Cargo* PeekTopCargo(Itemtype ctype);
 	Truck*& MapTruckToCargo(Itemtype ctype);
 	void Maintenance();
+	void cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c);
+	void addtomaintain(Truck*& t);
+	void addtoready(Truck*& t);
+	void returnTruck(Truck*& t, bool& morecargos);
 	void TruckControl();
 };
 

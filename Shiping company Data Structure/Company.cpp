@@ -215,8 +215,8 @@ void Company::AddSpeList(Cargo* ptr)
 
 void Company::AddVIPList(Cargo* ptr)
 {
-	int cost = ptr->getcost();
-	VWaitingC.enqueue(ptr, cost);
+	float cost = ptr->getcost();
+	VWaitingC.enqueue(ptr, cost/(ptr->getdeldis() * ptr->getprept().tohours()));
 	if (loadflag[VIP])
 	{
 		Cargo* c;
@@ -638,87 +638,100 @@ void Company::Maintenance()
 
 				MaintainedT[i].dequeue(ptr);
 				ptr->EndMaitainence();
-				ReadyT[i].enqueue(ptr);
+				addtoready(ptr);
 				itemfound = MaintainedT[i].peek(ptr);
 			}
 		}
 	}
 }
+void Company::cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c)
+{
+	while (t->peekTopC(c) && c->getCDT() == timer)
+	{
+		moretrucks = 1;
+		t->dequeuetop(c);
+		c->setdelivered(1);
+		DeliveredC.enqueue(c);
+		t->inc_tDC();
 
+	}
+	if (moretrucks == 1)
+	{
+		In_TripT.dequeue(t);
+		if (t->peekTopC(c))
+			In_TripT.enqueue(t, -(c->getCDT().tohours()));
+		else
+		{
+			In_TripT.enqueue(t, -(t->getReturn_time().tohours()));
+		}
+	}
+}
+
+void Company::addtomaintain(Truck*& t)
+{
+	if (t->GetType() == VIP)
+	{
+		MaintainedT[VIP].enqueue(t);
+	}
+	else if (t->GetType() == Normal)
+	{
+		MaintainedT[Normal].enqueue(t);
+	}
+	else
+	{
+		MaintainedT[Special].enqueue(t);
+	}
+	t->SetMTime(timer);
+}
+
+void Company::addtoready(Truck*& t)
+{
+	if (t->GetType() == VIP)
+	{
+		ReadyT[VIP].enqueue(t);
+	}
+	else if (t->GetType() == Normal)
+	{
+		ReadyT[Normal].enqueue(t);
+	}
+	else
+	{
+		ReadyT[Special].enqueue(t);
+	}
+}
+void Company::returnTruck(Truck*& t, bool& moretrucks)
+{
+	if (t->getReturn_time() == timer)
+	{
+		moretrucks = 1;
+		In_TripT.dequeue(t);
+		t->IncementJ();
+		if (t->getCurrj() % MaintainenceLimit == 0)
+		{
+			addtomaintain(t);
+		}
+		else
+		{
+			addtoready(t);
+		}
+
+	}
+}
 void Company::TruckControl()
 {
-	
 	Truck* t = nullptr;
 	Cargo* c = nullptr;
 	bool moretrucks = 1;
 	while (moretrucks && In_TripT.peek(t))
 	{
-
 		moretrucks = 0;
 		if (t->peekTopC(c))
 		{
-			while (t->peekTopC(c) && c->getCDT() == timer)
-			{
-				moretrucks = 1;
-				t->dequeuetop(c);
-				c->setdelivered(1);
-				DeliveredC.enqueue(c);
-				t->inc_tDC();
-
-			}
-			if (moretrucks == 1)
-			{
-				In_TripT.dequeue(t);
-				if (t->peekTopC(c))
-					In_TripT.enqueue(t, -(c->getCDT().tohours()));
-				else
-				{
-					In_TripT.enqueue(t, -(t->getReturn_time().tohours()));
-				}
-			}
+			cargodeliver(t, moretrucks, c);
 		}
 		else
 		{
-			if (t->getReturn_time() == timer)
-			{
-				moretrucks = 1;
-				In_TripT.dequeue(t);
-				t->IncementJ();
-				if (t->getCurrj() % MaintainenceLimit == 0)
-				{
-					if (t->GetType() == VIP)
-					{
-						MaintainedT[VIP].enqueue(t);
-					}
-					else if (t->GetType() == Normal)
-					{
-						MaintainedT[Normal].enqueue(t);
-					}
-					else
-					{
-						MaintainedT[Special].enqueue(t);
-					}
-					t->SetMTime(timer);
-				}
-				else
-				{
-					if (t->GetType() == VIP)
-					{
-						ReadyT[VIP].enqueue(t);
-					}
-					else if (t->GetType() == Normal)
-					{
-						ReadyT[Normal].enqueue(t);
-					}
-					else
-					{
-						ReadyT[Special].enqueue(t);
-					}
-				}
-
-			}
+			returnTruck(t, moretrucks);
 		}
 	}
-
-
 }
