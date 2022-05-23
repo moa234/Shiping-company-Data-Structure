@@ -151,5 +151,8 @@
     <Text Include="test8.txt">
       <Filter>Simulation</Filter>
     </Text>
+    <Text Include="test222.txt">
+      <Filter>Simulation</Filter>
+    </Text>
   </ItemGroup>
 </Project>
