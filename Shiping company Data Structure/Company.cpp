@@ -647,42 +647,7 @@ void Company::Maintenance()
 
 void Company::TruckControl()
 {
-	/*for (int i = 0; i < 3; i++)
-	{
-
-		//loading->in_trip
-
-		Truck* x = nullptr;
-		LoadingT[i].peek(x);
-
-		if (!x)
-			continue;
-		bool moretrucks = 1;
-		while (moretrucks && x)
-		{
-			//Truck* x2 = x;  no need for x2
-
-			Time Cargos_are_loaded = x->getMaxCLT() + x->getStartLoading();
-			moretrucks = 0;
-			if (Cargos_are_loaded == timer)
-			{
-				moretrucks = 1;
-
-				LoadingT[i].dequeue(x);
-				x->EndLoading(timer);
-				Cargo* c = nullptr;
-				x->peekTopC(c);
-				In_TripT.enqueue(x, -(c->getCDT().tohours())); //they are 3 intrip not one
-				loadflag[c->gettype()] = 0;
-			}
-			bool existmore = LoadingT[i].peek(x);
-			if (!existmore)  //x2 == x old but you should check whether it returned true or false see implementation of peek
-				break;
-
-		}
-	}*/
-
-
+	
 	Truck* t = nullptr;
 	Cargo* c = nullptr;
 	bool moretrucks = 1;
@@ -753,10 +718,6 @@ void Company::TruckControl()
 
 			}
 		}
-
-
-
-
 	}
 
 
