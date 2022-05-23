@@ -139,5 +139,17 @@
     <Text Include="save.txt">
       <Filter>Simulation</Filter>
     </Text>
+    <Text Include="test5.txt">
+      <Filter>Simulation</Filter>
+    </Text>
+    <Text Include="test6.txt">
+      <Filter>Simulation</Filter>
+    </Text>
+    <Text Include="test7.txt">
+      <Filter>Simulation</Filter>
+    </Text>
+    <Text Include="test8.txt">
+      <Filter>Simulation</Filter>
+    </Text>
   </ItemGroup>
 </Project>
