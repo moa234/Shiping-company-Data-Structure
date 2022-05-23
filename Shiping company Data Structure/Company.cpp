@@ -542,7 +542,18 @@ void Company::LoadFile()
 
 void Company::CurrData()
 {
-
+	if (PUI->getmode() == silent)
+	{
+		if (timer.tohours() <= 25)
+		{
+			PUI->displaytext("Simulation starts...");
+		}
+		if (!IsRemainingEvents())
+		{
+			PUI->displaytext("Simulation ends, output file generated.");
+		}
+		return;
+	}
 	PUI->displayTime(timer);
 	PUI->displayNum(NWaitingC.GetSize() + SWaitingC.GetSize() + VWaitingC.GetSize());
 	PUI->displaytext(" Waiting Cargos: ");

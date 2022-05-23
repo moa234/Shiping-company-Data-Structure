@@ -137,6 +137,11 @@ void UI::PrintT(Truck* T)
 	cout << T;
 }
 
+Modetype UI::getmode()
+{
+	return mode;
+}
+
 
 
 

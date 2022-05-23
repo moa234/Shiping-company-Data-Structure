@@ -33,6 +33,7 @@ public:
 	void PrintQT(Queue<Truck*>& q);  //calls print function of List
 	void PrintPQT(PriorityQueue<Truck*>& q);  //calls print function of List
 	void PrintT(Truck* T);
+	Modetype getmode();
 	void WaitOption(); //checks the interface mode to use correct 
 					   // wait option either delay 1 second or enter key 
 	//void Interface(); //function responsible for coordinating 
