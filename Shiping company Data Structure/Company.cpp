@@ -217,18 +217,26 @@ void Company::AddVIPList(Cargo* ptr)
 {
 	int cost = ptr->getcost();
 	VWaitingC.enqueue(ptr, cost);
+	if (loadflag[VIP])
+	{
+		Cargo* c;
+		VWaitingC.peek(c);
+		if (ptr == c)
+		{
+			MapTruckToCargo(VIP)->SetPrevLoad(timer);
+		}
+	}
 }
 
 
 void Company::Timer()
 {
-	/*if (timer.GetDay() == 1 && timer.GetHour() ==7)
+	if (timer.GetDay() == 6 && timer.GetHour() == 20)
 	{
 		int x;
 		cin >> x;
-	}*/
+	}
 	Assignment();
-	autopromote();
 	Event* nxt;
 	while (Events.peek(nxt) && nxt->GetTime() == timer)
 	{
@@ -378,7 +386,7 @@ void Company::AssignmentCargo(Itemtype ctype)
 	Cargo* C = PeekTopCargo(ctype);
 
 	bool isloaded = 0;
-	if (C && (C->getloadt() <= (timer - Tcargo->GetPrevLoad()).GetHour()))
+	if (C && (C->getloadt() <= (timer - Tcargo->GetPrevLoad()).tohours()))
 	{
 		C = DequeueTopCargo(ctype);
 		Tcargo->loadC(C, timer);
