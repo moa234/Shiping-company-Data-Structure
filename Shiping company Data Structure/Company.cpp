@@ -123,7 +123,6 @@ void Company::ReadEvents(ifstream& fin)
 
 	int eventsnum;
 	fin >> eventsnum;
-	char type;
 
 	for (int i = 0; i < eventsnum; i++)
 	{
@@ -279,7 +278,6 @@ void Company::Assignment()
 
 void Company::AssignmentVIP()
 {
-	Cargo* C;
 	Truck* T = nullptr;
 	int AvailableCargos = VWaitingC.GetSize();
 	if (loadflag[VIP] == 0)
@@ -326,7 +324,6 @@ void Company::AssignmentSpecial(bool maxw)
 {
 	Truck* T;
 	int AvailableCargos = SWaitingC.GetSize();
-	Cargo* C;
 
 	if (ReadyT[Special].peek(T) && loadflag[Special] == 0)
 	{
@@ -478,7 +475,6 @@ void Company::AssignmentNormal(bool maxw)
 {
 	Truck* T = nullptr;
 	int AvailableCargos = NWaitingC.GetSize();
-	Cargo* C;
 	if (loadflag[Normal] == 0)
 	{
 		if (!ReadyT[Normal].isempty() && !LoadingN)

@@ -149,7 +149,6 @@ void UI::WaitOption()
 {
 	if (mode == interactive)
 	{
-		char x;
 		cin.get();
 	}
 	if (mode == stepBstep)
