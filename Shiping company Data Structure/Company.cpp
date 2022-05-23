@@ -38,7 +38,7 @@ void Company::ReadFile(ifstream& fin)
 bool Company::IsRemainingEvents()
 {
 	bool cond1 = (LoadingN ? 1 : 0) || (LoadingS ? 1 : 0) || (LoadingV ? 1 : 0) || MaintainedT[VIP].GetSize() || MaintainedT[Special].GetSize() || MaintainedT[Normal].GetSize();
-	bool cond2 = In_TripT.GetSize() || Events.GetSize() || NWaitingC.GetSize() || VWaitingC.GetSize() || SWaitingC.GetSize();
+	bool cond2 = In_TripT.GetSize() || Events.GetSize() || NWaitingC.GetSize() || SWaitingC.GetSize();
 	return cond1 || cond2;
 }
 
