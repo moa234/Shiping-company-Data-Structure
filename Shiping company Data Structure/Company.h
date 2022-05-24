@@ -44,8 +44,8 @@ class Company
 public:
 	Company();
 	Time GetTime(); //getter for current time
-	void Timer(); //function responsible for executing events corresponding to current hour
-
+	void Timer(); //function responsible for executing events corresponding to current hour 
+				// and Checking for assignment status
 	void ReadFile(ifstream& fin);
 	void LoadFile();
 
@@ -63,21 +63,21 @@ public:
 	void simulate(); //to start simulation
 	void IncrementHour(); //increment the current hour
 	void Assignment();
-	void AssignmentVIP();
-	void AssignmentNormal(bool maxw = 0);
-	void AssignmentSpecial(bool maxw = 0);
-	bool MaxWaitCheck(Itemtype ctype);
-	void MaxWaitAssign(Itemtype ctype);
-	bool MaxWaitExceed(Cargo* C);
+	void AssignmentVIP(); //Assign a vip truck to start loading cargos on it
+	void AssignmentNormal(bool maxw = 0); //Assign a Normal truck to start loading cargos on it
+	void AssignmentSpecial(bool maxw = 0);//Assign a Special truck to start loading cargos on it
+	bool MaxWaitCheck(Itemtype ctype);  //checks for a ceartin type whether there a cargo ecxeeded max wait time
+	void MaxWaitAssign(Itemtype ctype); 
+	bool MaxWaitExceed(Cargo* C); //utility function for MaxWaitCheck
 	void AssignmentCargo(Itemtype ctype);
 	void CheckEndLoading(Truck*& T, bool maxw = 0);
 	Cargo* DequeueTopCargo(Itemtype ctype);
 	Cargo* PeekTopCargo(Itemtype ctype);
 	Truck*& MapTruckToCargo(Itemtype ctype);
-	void Maintenance();
+	void Maintenance(); //function responsible for checking maintenance status of truck
 	void cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c);
 	void addtomaintain(Truck*& t);
-	void addtoready(Truck*& t);
+	void addtoready(Truck*& t); //adds a truck to Ready List
 	void returnTruck(Truck*& t, bool& morecargos);
 	void TruckControl();
 };

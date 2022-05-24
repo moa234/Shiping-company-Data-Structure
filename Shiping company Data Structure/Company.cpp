@@ -264,11 +264,6 @@ void Company::AddVIPList(Cargo* ptr)
 
 void Company::Timer()
 {
-	/*if (timer.GetDay() == 6 && timer.GetHour() == 20)
-	{
-		int x;
-		cin >> x;
-	}*/
 	Assignment();
 	Event* nxt;
 	while (Events.peek(nxt) && nxt->GetTime() == timer)
@@ -277,19 +272,6 @@ void Company::Timer()
 		nxt->excute(this);
 		delete nxt;
 	}
-	/*counter++;
-	if (counter == 5)
-	{
-		Cargo* ptr = NWaitingC.remRet1();
-		if (ptr)
-			NDeliveredC.enqueue(ptr);
-		if (SWaitingC.dequeue(ptr))
-			SDeliveredC.enqueue(ptr);
-		if (VWaitingC.dequeue(ptr))
-			VDeliveredC.enqueue(ptr);
-		counter = 0;
-	}*/
-
 }
 
 void Company::Assignment()
@@ -313,22 +295,23 @@ void Company::Assignment()
 void Company::AssignmentVIP()
 {
 	Truck* T = nullptr;
-	int AvailableCargos = VWaitingC.GetSize();
-	if (loadflag[VIP] == 0)
+	int AvailableCargos = VWaitingC.GetSize(); //number of available cargos
+	if (loadflag[VIP] == 0) //checking whether there are current assignment for vip cargo
 	{
-		if (!ReadyT[VIP].isempty() && !LoadingV)//you have two conditions, think of it deeply 
+		//if there are no current loading for vip cargos
+		if (!ReadyT[VIP].isempty() && !LoadingV) //if there is available trucks and no current loading vipv or normal cargos through vip trucks
 		{
-			ReadyT[VIP].peek(T);
+			ReadyT[VIP].peek(T); 
 			if (AvailableCargos >= T->getcap())
 			{
 				ReadyT[VIP].dequeue(T);
 				LoadingV = T;
-				LoadingV->SetStartLoading(timer, VIP);
+				LoadingV->SetStartLoading(timer, VIP); //loading begins
 				loadflag[VIP] = 1;
 			}
 
 		}
-		else if (!ReadyT[Normal].isempty() && !LoadingN)
+		else if (!ReadyT[Normal].isempty() && !LoadingN) //if there is available trucks and no current loading vip or normal cargos through normal trucks
 		{
 			ReadyT[Normal].peek(T);
 			if (AvailableCargos >= T->getcap())
@@ -339,7 +322,7 @@ void Company::AssignmentVIP()
 				loadflag[VIP] = 1;
 			}
 		}
-		else if (!ReadyT[Special].isempty() && !LoadingS)
+		else if (!ReadyT[Special].isempty() && !LoadingS) //if there is available trucks and no current loading vip or special cargos through special trucks
 		{
 			ReadyT[Special].peek(T);
 			if (AvailableCargos >= T->getcap())
@@ -359,7 +342,7 @@ void Company::AssignmentSpecial(bool maxw)
 	Truck* T;
 	int AvailableCargos = SWaitingC.GetSize();
 
-	if (ReadyT[Special].peek(T) && loadflag[Special] == 0)
+	if (ReadyT[Special].peek(T) && loadflag[Special] == 0) //checks availability of special trucks and no current loading for special cargos 
 	{
 		if ((AvailableCargos >= T->getcap() || maxw) && !LoadingS)
 		{
@@ -370,6 +353,40 @@ void Company::AssignmentSpecial(bool maxw)
 		}
 	}
 }
+void Company::AssignmentNormal(bool maxw)
+{
+	Truck* T = nullptr;
+	int AvailableCargos = NWaitingC.GetSize();
+	if (loadflag[Normal] == 0) //checks no current loading for normal cargos
+	{
+		if (!ReadyT[Normal].isempty() && !LoadingN) //if there is available trucks and no current loading vip or normal cargos through normal trucks
+		{
+			ReadyT[Normal].peek(T);
+			if (AvailableCargos >= T->getcap() || maxw) 
+			{
+				ReadyT[Normal].dequeue(T);
+				T->SetStartLoading(timer, Normal);
+				LoadingN = T;
+				loadflag[Normal] = 1;
+
+			}
+
+		}
+		else if (!ReadyT[VIP].isempty() && !LoadingV) //if there is available trucks and no current loading vip or normal cargos through vip trucks
+		{
+			ReadyT[VIP].peek(T);
+			if (AvailableCargos >= T->getcap() || maxw)
+			{
+				ReadyT[VIP].dequeue(T);
+				T->SetStartLoading(timer, Normal);
+				loadflag[Normal] = 1;
+				LoadingV = T;
+			}
+
+		}
+	}
+
+}
 void Company::MaxWaitAssign(Itemtype ctype)
 {
 	if (ctype == Normal)
@@ -379,19 +396,19 @@ void Company::MaxWaitAssign(Itemtype ctype)
 }
 bool Company::MaxWaitCheck(Itemtype ctype)
 {
-	if (ctype == VIP)
+	if (ctype == VIP) //no max wait for vip
 		return 0;
 	if (ctype == Normal)
 	{
-		Cargo* C = NWaitingC.getEntry1();
+		Cargo* C = NWaitingC.getEntry1(); 
 		if (!C) return 0;
-		return MaxWaitExceed(C);
+		return MaxWaitExceed(C); //checking for front element max wait
 	}
 	if (ctype == Special)
 	{
 		Cargo* C;
 		if (SWaitingC.peek(C))
-			return MaxWaitExceed(C);
+			return MaxWaitExceed(C); // checking for front element max wait
 		else
 			return 0;
 	}
@@ -462,6 +479,7 @@ void Company::CheckEndLoading(Truck*& T, bool maxw)
 		}
 	}
 }
+
 Cargo* Company::DequeueTopCargo(Itemtype ctype)
 {
 	Cargo* C = nullptr;
@@ -504,40 +522,6 @@ Truck*& Company::MapTruckToCargo(Itemtype ctype)
 		return LoadingS;
 	if (LoadingV && LoadingV->GetCargoType() == ctype)
 		return LoadingV;
-}
-void Company::AssignmentNormal(bool maxw)
-{
-	Truck* T = nullptr;
-	int AvailableCargos = NWaitingC.GetSize();
-	if (loadflag[Normal] == 0)
-	{
-		if (!ReadyT[Normal].isempty() && !LoadingN)
-		{
-			ReadyT[Normal].peek(T);
-			if (AvailableCargos >= T->getcap() || maxw)
-			{
-				ReadyT[Normal].dequeue(T);
-				T->SetStartLoading(timer, Normal);
-				LoadingN = T;
-				loadflag[Normal] = 1;
-
-			}
-
-		}
-		else if (!ReadyT[VIP].isempty() && !LoadingV)
-		{
-			ReadyT[VIP].peek(T);
-			if (AvailableCargos >= T->getcap() || maxw)
-			{
-				ReadyT[VIP].dequeue(T);
-				T->SetStartLoading(timer, Normal);
-				loadflag[Normal] = 1;
-				LoadingV = T;
-			}
-
-		}
-	}
-
 }
 
 void Company::autopromote()
@@ -601,18 +585,6 @@ void Company::CurrData()
 	PUI->displaytext(" ");
 	PUI->PrintT(LoadingV);
 
-	/*if (LoadingT[0].isempty() && LoadingT[1].isempty() && LoadingT[2].isempty())
-	{
-		PUI->PrintBracketStart(Normal);
-		PUI->PrintBracketEnd(Normal);
-		PUI->displaytext(", ");
-		PUI->PrintBracketStart(Special);
-		PUI->PrintBracketEnd(Special);
-		PUI->displaytext(", ");
-		PUI->PrintBracketStart(VIP);
-		PUI->PrintBracketEnd(VIP);
-	}*/
-
 	PUI->displayline();
 
 	PUI->displayNum(ReadyT[0].GetSize() + ReadyT[1].GetSize() + ReadyT[2].GetSize());
@@ -668,8 +640,8 @@ void Company::IncrementHour()
 }
 void Company::Maintenance()
 {
-	for (int i = 0; i < 3; i++)
-	{
+	for (int i = 0; i < 3; i++) //looping through trucks and check whether 
+	{							//Truck has finished its maintenance duration or not
 		if (!MaintainedT[i].isempty())
 		{
 			Truck* ptr;
@@ -678,9 +650,10 @@ void Company::Maintenance()
 			{
 
 				MaintainedT[i].dequeue(ptr);
-				ptr->EndMaitainence();
+				ptr->EndMaitainence(); 
 				addtoready(ptr);
-				itemfound = MaintainedT[i].peek(ptr);
+				itemfound = MaintainedT[i].peek(ptr); //if there is more trucks
+															//then continue checking for maintainence end
 			}
 		}
 	}
@@ -710,6 +683,7 @@ void Company::cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c)
 
 void Company::addtomaintain(Truck*& t)
 {
+	//checks the type of truck and adds it to corresponding maintainence list
 	if (t->GetType() == VIP)
 	{
 		MaintainedT[VIP].enqueue(t);
@@ -727,6 +701,7 @@ void Company::addtomaintain(Truck*& t)
 
 void Company::addtoready(Truck*& t)
 {
+	//checks the type of truck and adds it to corresponding list
 	if (t->GetType() == VIP)
 	{
 		ReadyT[VIP].enqueue(t);
