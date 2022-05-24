@@ -23,6 +23,7 @@ template<typename T>
 Node<T>::Node(const T& item)
 {
 	data = item;
+	next = nullptr;
 }
 
 template<typename T>

@@ -9,8 +9,11 @@ Company::Company()
 {
 	//initialize data member
 	timer.SetDay(1); timer.SetHour(1);
-	counter = 0;
 	PUI = new UI();
+	counter = 0;
+	AutoP = 0;
+	maxW = 0;
+	MaintainenceLimit = 0;
 	LoadingN = nullptr; LoadingS = nullptr; LoadingV = nullptr;
 	for (int i = 0; i < 3; i++)
 	{
@@ -193,7 +196,7 @@ void Company::ReadEvents(ifstream& fin)
 	{
 		char evtype;
 		fin >> evtype;
-		Itemtype category;
+		Itemtype category{};
 
 		if (evtype == 'R')
 		{
@@ -290,7 +293,7 @@ void Company::AddSpeList(Cargo* ptr)
 void Company::AddVIPList(Cargo* ptr)
 {
 	//add cargo to vip list uwing a priority equation
-	float cost = ptr->getcost();
+	double cost = ptr->getcost();
 	VWaitingC.enqueue(ptr, cost / (ptr->getdeldis() + 0.3 * ptr->getprept().tohours()));
 
 	//sets previous load time with current time if a new cargo is added to vip with higher priority while loading
@@ -812,4 +815,9 @@ void Company::TruckControl()
 			returnTruck(t, moretrucks);	//Checks if the truck finished the trip then adds it to Maint. or ready list
 		}
 	}
+}
+
+Company::~Company()
+{
+	delete PUI;
 }

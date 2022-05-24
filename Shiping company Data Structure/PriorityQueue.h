@@ -2,12 +2,12 @@
 #include "PriorityQueueADT.h"
 #include "PQNode.h"
 #include <iostream>
-#define max 1000
+#define MaxSz 15000
 using namespace std;
 template <typename T>
 class PriorityQueue: public PriorityQueueADT<T>
 {
-	PQNode <T>* PQNodes[max];
+	PQNode <T>* PQNodes[MaxSz];
 	int count;
 	int parent(int idx);
 	int lch(int idx);
@@ -88,7 +88,7 @@ void PriorityQueue<T>::reheapdown(int idx)
 template<typename T>
 PriorityQueue<T>::PriorityQueue()
 {
-	for (int i = 0; i < max; i++)
+	for (int i = 0; i < MaxSz; i++)
 		PQNodes[i] = nullptr;
 	count=-1;
 }
@@ -120,9 +120,9 @@ bool PriorityQueue<T>::peek(T& item) const
  template<typename T>
  bool PriorityQueue<T>::enqueue(const T& item, double weight)
  {
-	 if (count == max - 1)
+	 if (count == MaxSz - 1)
 		 return false;
-	 PQNode <T>* ptr = new PQNode<T>(item, weight+(double)(max-count) / (100 * max));
+	 PQNode <T>* ptr = new PQNode<T>(item, weight+(double)(MaxSz-count) / (100 * MaxSz));
 	 PQNodes[++count] = ptr;
 	 reheapup(count);
 	 return true;

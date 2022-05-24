@@ -3,8 +3,9 @@ using namespace std;
 
 int main()
 {
-	Company c;
-	c.LoadFile();
-	c.simulate();
+	Company *C=new Company;
+	C->LoadFile();
+	C->simulate();
+	delete C;
 	return 0;
 }
