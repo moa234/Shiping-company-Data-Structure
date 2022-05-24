@@ -339,6 +339,7 @@ void Company::AssignmentVIP()
 
 void Company::AssignmentSpecial(bool maxw)
 {
+	//the true(1) parameter is send for AssignmentSpecial to handle assigning a single cargo for maximum waiting rule
 	Truck* T;
 	int AvailableCargos = SWaitingC.GetSize();
 
@@ -355,6 +356,7 @@ void Company::AssignmentSpecial(bool maxw)
 }
 void Company::AssignmentNormal(bool maxw)
 {
+	//the true(1) parameter is send for AssignmentNormal to handle assigning a single cargo for maximum waiting rule
 	Truck* T = nullptr;
 	int AvailableCargos = NWaitingC.GetSize();
 	if (loadflag[Normal] == 0) //checks no current loading for normal cargos
@@ -390,9 +392,9 @@ void Company::AssignmentNormal(bool maxw)
 void Company::MaxWaitAssign(Itemtype ctype)
 {
 	if (ctype == Normal)
-		AssignmentNormal(1);
+		AssignmentNormal(1); //the true(1) parameter is send for AssignmentNormal to handle assigning a single cargo for maximum waiting rule 
 	if (ctype == Special)
-		AssignmentSpecial(1);
+		AssignmentSpecial(1); //the true(1) parameter is send for AssignmentSpecial to handle assigning a single cargo for maximum waiting rule
 }
 bool Company::MaxWaitCheck(Itemtype ctype)
 {
@@ -438,14 +440,14 @@ void Company::LoadingCargo(Itemtype ctype)
 	{
 		C = DequeueTopCargo(ctype); //dequeues the top cargo from a list of type ctype
 		Tcargo->loadC(C, timer); //now cargo is actually loaded on the truck
-		Tcargo->SetPrevLoad(timer); //
+		Tcargo->SetPrevLoad(timer); //for end of laoding of next which depend on the previous loaded cargo
 		isloaded = 1;
 	}
-	CheckEndLoading(Tcargo, isMaxW && isloaded);
+	CheckEndLoading(Tcargo, isMaxW && isloaded); //checks whether a truck finished its loading or not
 }
 void Company::CheckEndLoading(Truck*& T, bool maxw)
 {
-	if (T->FullCapacity() || maxw)
+	if (T->FullCapacity() || maxw) //whether capacity of truck is full or there is a special case of max waiting and truck have to be moved to moving list
 	{
 		T->EndLoading(timer);
 		Cargo* c = nullptr;
