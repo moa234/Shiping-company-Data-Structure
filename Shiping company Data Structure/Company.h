@@ -75,10 +75,10 @@ public:
 	Cargo* PeekTopCargo(Itemtype ctype);//gets the top cargo of a list from the cargo type send
 	Truck*& MapTruckToCargo(Itemtype ctype); //Maps the truck that is currently loading a specific type of cargo
 	void Maintenance(); //function responsible for checking maintenance status of truck
-	void cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c);
-	void addtomaintain(Truck*& t);
+	void cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c);//deliver cargo and rearange the truck position in IN_Trip
+	void addtomaintain(Truck*& t);//adds a truck to maintenance List
 	void addtoready(Truck*& t); //adds a truck to Ready List
-	void returnTruck(Truck*& t, bool& morecargos);
-	void TruckControl();
+	void returnTruck(Truck*& t, bool& morecargos);//Checks if the truck finished the trip then adds it to Maint. or ready list
+	void TruckControl();//manages the trucks' cargos delevery
 };
 
