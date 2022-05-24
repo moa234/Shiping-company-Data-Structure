@@ -172,7 +172,7 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="E:\CU\Sophomore\Spring 2022\Data structure and algorithms\project\28-4\TEST A.txt" />
+    <Text Include="E:\CU\Sophomore\Spring 2022\Data structure and algorithms\project\28-4\testx.txt" />
     <Text Include="save.txt" />
     <Text Include="test.txt" />
     <Text Include="test2.txt" />
