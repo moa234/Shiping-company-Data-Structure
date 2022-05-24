@@ -685,9 +685,9 @@ void Company::Maintenance()
 		}
 	}
 }
-void Company::cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c)
+void Company::cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c) //deliver cargo then rearange the truck pos. in IN_Trip queue
 {
-	while (t->peekTopC(c) && c->getCDT() == timer)
+	while (t->peekTopC(c) && c->getCDT() == timer) //(time to deliver cargo)
 	{
 		moretrucks = 1;
 		t->dequeuetop(c);
@@ -696,7 +696,7 @@ void Company::cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c)
 		t->inc_tDC();
 
 	}
-	if (moretrucks == 1)
+	if (moretrucks == 1)	//rearange the position of the truck (either by CDT of top cargo OR return time of truck)
 	{
 		In_TripT.dequeue(t);
 		if (t->peekTopC(c))
@@ -708,7 +708,7 @@ void Company::cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c)
 	}
 }
 
-void Company::addtomaintain(Truck*& t)
+void Company::addtomaintain(Truck*& t)//adds the truck to the right maintnance queue
 {
 	if (t->GetType() == VIP)
 	{
@@ -725,7 +725,7 @@ void Company::addtomaintain(Truck*& t)
 	t->SetMTime(timer);
 }
 
-void Company::addtoready(Truck*& t)
+void Company::addtoready(Truck*& t)//adds the truck to the right Ready queue
 {
 	if (t->GetType() == VIP)
 	{
@@ -740,14 +740,14 @@ void Company::addtoready(Truck*& t)
 		ReadyT[Special].enqueue(t);
 	}
 }
-void Company::returnTruck(Truck*& t, bool& moretrucks)
+void Company::returnTruck(Truck*& t, bool& moretrucks)//Checks if the truck finished the trip then adds it to Maint. or ready list
 {
-	if (t->getReturn_time() == timer)
+	if (t->getReturn_time() == timer) //truck finished the trip
 	{
 		moretrucks = 1;
 		In_TripT.dequeue(t);
 		t->IncementJ();
-		if (t->getCurrj() % MaintainenceLimit == 0)
+		if (t->getCurrj() % MaintainenceLimit == 0)	//Adds the truck to suitable list after finishing the trip
 		{
 			addtomaintain(t);
 		}
@@ -768,11 +768,11 @@ void Company::TruckControl()
 		moretrucks = 0;
 		if (t->peekTopC(c))
 		{
-			cargodeliver(t, moretrucks, c);
+			cargodeliver(t, moretrucks, c); //deliver cargo then rearange the truck position in IN_Trip
 		}
 		else
 		{
-			returnTruck(t, moretrucks);
+			returnTruck(t, moretrucks);	//Checks if the truck finished the trip then adds it to Maint. or ready list
 		}
 	}
 }
