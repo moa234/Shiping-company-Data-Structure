@@ -154,7 +154,7 @@
     <Text Include="test222.txt">
       <Filter>Simulation</Filter>
     </Text>
-    <Text Include="E:\CU\Sophomore\Spring 2022\Data structure and algorithms\project\28-4\testx.txt">
+    <Text Include="testx.txt">
       <Filter>Simulation</Filter>
     </Text>
   </ItemGroup>

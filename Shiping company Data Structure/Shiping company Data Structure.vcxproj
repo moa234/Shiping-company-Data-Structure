@@ -172,7 +172,6 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="E:\CU\Sophomore\Spring 2022\Data structure and algorithms\project\28-4\testx.txt" />
     <Text Include="save.txt" />
     <Text Include="test.txt" />
     <Text Include="test2.txt" />
@@ -183,6 +182,7 @@
     <Text Include="test6.txt" />
     <Text Include="test7.txt" />
     <Text Include="test8.txt" />
+    <Text Include="testx.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
