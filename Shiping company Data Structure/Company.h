@@ -45,6 +45,7 @@ class Company
 public:
 	Company();
 	void Timer(); //function responsible for executing events corresponding to current hour
+				  // and Checking for assignment status
 
 	void ReadFile(ifstream& fin);
 	void LoadFile();
@@ -63,22 +64,22 @@ public:
 	void simulate(); //to start simulation
 	void IncrementHour(); //increment the current hour
 	void Assignment();
-	void AssignmentVIP();
-	void AssignmentNormal(bool maxw = 0);
-	void AssignmentSpecial(bool maxw = 0);
-	bool MaxWaitCheck(Itemtype ctype);
-	void MaxWaitAssign(Itemtype ctype);
-	bool MaxWaitExceed(Cargo* C);
-	void AssignmentCargo(Itemtype ctype);
+	void AssignmentVIP(); //Assign a vip truck to start loading cargos on it
+	void AssignmentNormal(bool maxw = 0); //Assign a Normal truck to start loading cargos on it
+	void AssignmentSpecial(bool maxw = 0);//Assign a Special truck to start loading cargos on it
+	bool MaxWaitCheck(Itemtype ctype);  //checks for a ceartin type whether there a cargo ecxeeded max wait time
+	void MaxWaitAssign(Itemtype ctype);  //Assign A truck for a cargo that exceeded max wait
+	bool MaxWaitExceed(Cargo* C); //utility function for MaxWaitCheck
+	void LoadingCargo(Itemtype ctype); //A genaralized funtion for loading cargo onto truck and checking maxWait for front cargos
 	void CheckEndLoading(Truck*& T, bool maxw = 0);
-	Cargo* DequeueTopCargo(Itemtype ctype);
-	Cargo* PeekTopCargo(Itemtype ctype);
-	Truck*& MapTruckToCargo(Itemtype ctype);
-	void Maintenance();
-	void cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c);
-	void addtomaintain(Truck*& t);
-	void addtoready(Truck*& t);
-	void returnTruck(Truck*& t, bool& morecargos);
-	void TruckControl();
+	Cargo* DequeueTopCargo(Itemtype ctype);//dequeues the top cargo from a list of type ctype
+	Cargo* PeekTopCargo(Itemtype ctype);//gets the top cargo of a list from the cargo type send
+	Truck*& MapTruckToCargo(Itemtype ctype); //Maps the truck that is currently loading a specific type of cargo
+	void Maintenance(); //function responsible for checking maintenance status of truck
+	void cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c);//deliver cargo and rearange the truck position in IN_Trip
+	void addtomaintain(Truck*& t);//adds a truck to maintenance List
+	void addtoready(Truck*& t); //adds a truck to Ready List
+	void returnTruck(Truck*& t, bool& morecargos);//Checks if the truck finished the trip then adds it to Maint. or ready list
+	void TruckControl();//manages the trucks' cargos delevery
 };
 
