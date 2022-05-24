@@ -23,7 +23,6 @@ class Cargo
 public:
 //Constructor
 	Cargo(Itemtype t, int ID, int Dis, int Lt, int cost, Time time);
-	Cargo();
 
 //Getters
 	int getcost();

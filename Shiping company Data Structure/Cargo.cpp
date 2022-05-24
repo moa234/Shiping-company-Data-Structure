@@ -14,10 +14,6 @@ Cargo::Cargo(Itemtype t,int ID, int Dis, int Lt, int cost, Time time)
 	prom = 0;
 }
 
-Cargo::Cargo()
-{
-}
-
 int Cargo::getcost()
 {
 	return cost;
