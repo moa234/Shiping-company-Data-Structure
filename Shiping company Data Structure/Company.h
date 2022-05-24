@@ -67,13 +67,13 @@ public:
 	void AssignmentNormal(bool maxw = 0); //Assign a Normal truck to start loading cargos on it
 	void AssignmentSpecial(bool maxw = 0);//Assign a Special truck to start loading cargos on it
 	bool MaxWaitCheck(Itemtype ctype);  //checks for a ceartin type whether there a cargo ecxeeded max wait time
-	void MaxWaitAssign(Itemtype ctype); 
+	void MaxWaitAssign(Itemtype ctype);  //Assign A truck for a cargo that exceeded max wait
 	bool MaxWaitExceed(Cargo* C); //utility function for MaxWaitCheck
-	void AssignmentCargo(Itemtype ctype);
+	void LoadingCargo(Itemtype ctype); //A genaralized funtion for loading cargo onto truck and checking maxWait for front cargos
 	void CheckEndLoading(Truck*& T, bool maxw = 0);
-	Cargo* DequeueTopCargo(Itemtype ctype);
-	Cargo* PeekTopCargo(Itemtype ctype);
-	Truck*& MapTruckToCargo(Itemtype ctype);
+	Cargo* DequeueTopCargo(Itemtype ctype);//dequeues the top cargo from a list of type ctype
+	Cargo* PeekTopCargo(Itemtype ctype);//gets the top cargo of a list from the cargo type send
+	Truck*& MapTruckToCargo(Itemtype ctype); //Maps the truck that is currently loading a specific type of cargo
 	void Maintenance(); //function responsible for checking maintenance status of truck
 	void cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c);
 	void addtomaintain(Truck*& t);

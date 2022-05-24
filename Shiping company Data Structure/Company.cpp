@@ -283,9 +283,9 @@ void Company::Assignment()
 		AssignmentVIP();
 		AssignmentSpecial();
 		AssignmentNormal();
-		AssignmentCargo(VIP);
-		AssignmentCargo(Normal);
-		AssignmentCargo(Special);
+		LoadingCargo(VIP);
+		LoadingCargo(Normal);
+		LoadingCargo(Special);
 		autopromote();
 	}
 	TruckControl();
@@ -417,28 +417,28 @@ bool Company::MaxWaitExceed(Cargo* C)
 {
 	return ((timer - C->getprept()).tohours() >= maxW);
 }
-void Company::AssignmentCargo(Itemtype ctype)
+void Company::LoadingCargo(Itemtype ctype)
 {
-	bool isMaxW = MaxWaitCheck(ctype);
-	if (loadflag[ctype] == 0)
+	bool isMaxW = MaxWaitCheck(ctype); //checks whether there are applicaple cargo of type for max wait 
+	if (loadflag[ctype] == 0) //if there is no current truck loading
 	{
-		if (isMaxW)
+		if (isMaxW) //if there are max wait case and no truck is loading 
 		{
-			MaxWaitAssign(ctype);
+			MaxWaitAssign(ctype); //go ahead and assign a truck for this cargo to start loading and moving
 			return;
 		}
 		else
 			return;
 	}
-	Truck*& Tcargo = MapTruckToCargo(ctype);
-	Cargo* C = PeekTopCargo(ctype);
+	Truck*& Tcargo = MapTruckToCargo(ctype); //gets the current truck that is loading cargo 
+	Cargo* C = PeekTopCargo(ctype); //gets the top cargo of a list
 
 	bool isloaded = 0;
-	if (C && (C->getloadt() <= (timer - Tcargo->GetPrevLoad()).tohours()))
+	if (C && (C->getloadt() <= (timer - Tcargo->GetPrevLoad()).tohours())) //case cargo finishes its loading time
 	{
-		C = DequeueTopCargo(ctype);
-		Tcargo->loadC(C, timer);
-		Tcargo->SetPrevLoad(timer);
+		C = DequeueTopCargo(ctype); //dequeues the top cargo from a list of type ctype
+		Tcargo->loadC(C, timer); //now cargo is actually loaded on the truck
+		Tcargo->SetPrevLoad(timer); //
 		isloaded = 1;
 	}
 	CheckEndLoading(Tcargo, isMaxW && isloaded);
@@ -515,7 +515,8 @@ Cargo* Company::PeekTopCargo(Itemtype ctype)
 	return C;
 }
 Truck*& Company::MapTruckToCargo(Itemtype ctype)
-{
+{ 
+	//Mapping proccess
 	if (LoadingN && LoadingN->GetCargoType() == ctype)
 		return LoadingN;
 	if (LoadingS && LoadingS->GetCargoType() == ctype)
