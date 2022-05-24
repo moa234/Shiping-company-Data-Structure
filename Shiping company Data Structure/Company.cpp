@@ -249,7 +249,7 @@ void Company::AddSpeList(Cargo* ptr)
 void Company::AddVIPList(Cargo* ptr)
 {
 	float cost = ptr->getcost();
-	VWaitingC.enqueue(ptr, cost / (ptr->getdeldis() * ptr->getprept().tohours()));
+	VWaitingC.enqueue(ptr, cost / (ptr->getdeldis() + 0.3*ptr->getprept().tohours()));
 	if (loadflag[VIP])
 	{
 		Cargo* c;
