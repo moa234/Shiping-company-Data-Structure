@@ -41,7 +41,7 @@ class Company
 
 	void ReadTrucks(ifstream& fin);							 //utility function to read trucks info from file
 	void ReadEvents(ifstream& fin);							 //utility function to read events info from file
-	void savefile();
+	void savefile();										 //utility function to save parameters of simulation to file
 public:
 	Company();
 	void Timer(); //function responsible for executing events corresponding to current hour
