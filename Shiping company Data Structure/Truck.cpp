@@ -131,11 +131,13 @@ void Truck::updateCDT(Time& currTime)
 	Cargo* c;
 	int tload = 0;
 	int size = MovingC.GetSize();
+	int pdeldis = 0;
 	for (int i = 0; i < size; i++)
 	{
 		MovingC.dequeue(c);
 		tload += c->getloadt();
-		c->setCDT(currTime.tohours() + (c->getdeldis() / speed) + tload);
+		c->setCDT(currTime.tohours() + ((c->getdeldis() - pdeldis) / speed) + tload);
+		pdeldis = c->getdeldis();
 		temp.enqueue(c, -c->getCDT().tohours());
 	}
 	for (int i = 0; i < size; i++)

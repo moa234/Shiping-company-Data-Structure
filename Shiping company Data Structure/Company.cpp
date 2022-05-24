@@ -675,7 +675,6 @@ void Company::CurrData()
 	PUI->displayline();
 
 
-
 }
 
 void Company::simulate()
