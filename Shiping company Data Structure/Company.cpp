@@ -580,15 +580,20 @@ Truck*& Company::MapTruckToCargo(Itemtype ctype)
 
 void Company::autopromote()
 {
+	//function to autopromote normal cargo to vip if time exceeded
+
+	//stops autopromotion if cargo is loading 
 	if (loadflag[Normal] == 1)
 		return;
 	Cargo* c;
+
+	//gets first cargo from list
 	c = NWaitingC.getEntry1();
 	if (c)
 	{
+		//check the waiting time with autopromotion limit, then promote if exceeded
 		while ((timer.tohours() - c->getprept().tohours()) >= AutoP * 24)
 		{
-			//(c->getprept() + timer).tohours() >= AutoP   shoof kda ya moaaz?salah.
 			Time t;
 			Event* promote = new Promotion(c->getid(), 0);
 			promote->excute(this);
