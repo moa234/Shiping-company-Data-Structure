@@ -9,13 +9,13 @@ class Truck
     int CheckUpDuration;//check up duration for maintenance
     int Currjourney;    //The current counter for journies done by truck
     int DI;             //Delivery interval.
-    int DDFC = 0;       // delivery distance of furthest cargo
+    int DDFC;       // delivery distance of furthest cargo
     int ID;             //unique id
     int speed;          // Speed of truck
     Time TActive;        //truck active time
     int TCap;           // Truck Capacity
     int tDC;            //total cargos delivered
-    int tl;
+    int tl;             //total loading time
     float util;           // truck utilization
 
     Itemtype Ctype;     //type of cargo truck is carrying

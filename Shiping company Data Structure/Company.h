@@ -46,24 +46,19 @@ public:
 	Company();
 	void Timer(); //function responsible for executing events corresponding to current hour
 				  // and Checking for assignment status
-
 	void ReadFile(ifstream& fin);
 	void LoadFile();
-
 	bool IsRemainingEvents();	//Checking whether the program finishes or not 
 								//by checking empety conditions for reponsible lists
-	
 	void autopromote();
-
 	Cargo* getNCargo(int id); //gets the cargo with specific id from 
-
 	void AddNormList(Cargo* ptr); //adds a cargo to Normal Cargo List
 	void AddSpeList(Cargo* ptr); //adds a cargo to Special Cargo List
 	void AddVIPList(Cargo* ptr); //adds a cargo to VIP Cargo List
 	void CurrData(); //Function to be called to send current data to UI to be printed on screen
 	void simulate(); //to start simulation
 	void IncrementHour(); //increment the current hour
-	void Assignment();
+	void Assignment(); //handle the assignment order
 	void AssignmentVIP(); //Assign a vip truck to start loading cargos on it
 	void AssignmentNormal(bool maxw = 0); //Assign a Normal truck to start loading cargos on it
 	void AssignmentSpecial(bool maxw = 0);//Assign a Special truck to start loading cargos on it
@@ -81,5 +76,6 @@ public:
 	void addtoready(Truck*& t); //adds a truck to Ready List
 	void returnTruck(Truck*& t, bool& morecargos);//Checks if the truck finished the trip then adds it to Maint. or ready list
 	void TruckControl();//manages the trucks' cargos delevery
+	~Company();
 };
 

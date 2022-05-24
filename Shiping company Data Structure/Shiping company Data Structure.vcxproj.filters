@@ -124,7 +124,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="test.txt">
+    <Text Include="test1.txt">
       <Filter>Simulation</Filter>
     </Text>
     <Text Include="test2.txt">
@@ -151,19 +151,16 @@
     <Text Include="test8.txt">
       <Filter>Simulation</Filter>
     </Text>
-    <Text Include="test222.txt">
+    <Text Include="test11.txt">
       <Filter>Simulation</Filter>
     </Text>
-    <Text Include="testx.txt">
+    <Text Include="test9.txt">
       <Filter>Simulation</Filter>
     </Text>
-    <Text Include="testy.txt">
+    <Text Include="test10.txt">
       <Filter>Simulation</Filter>
     </Text>
     <Text Include="test0.txt">
-      <Filter>Simulation</Filter>
-    </Text>
-    <Text Include="testMega1.txt">
       <Filter>Simulation</Filter>
     </Text>
   </ItemGroup>

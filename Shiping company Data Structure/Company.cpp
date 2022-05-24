@@ -9,8 +9,11 @@ Company::Company()
 {
 	//initialize data member
 	timer.SetDay(1); timer.SetHour(1);
-	counter = 0;
 	PUI = new UI();
+	counter = 0;
+	AutoP = 0;
+	maxW = 0;
+	MaintainenceLimit = 0;
 	LoadingN = nullptr; LoadingS = nullptr; LoadingV = nullptr;
 	for (int i = 0; i < 3; i++)
 	{
@@ -193,7 +196,7 @@ void Company::ReadEvents(ifstream& fin)
 	{
 		char evtype;
 		fin >> evtype;
-		Itemtype category;
+		Itemtype category{};
 
 		if (evtype == 'R')
 		{
@@ -290,7 +293,7 @@ void Company::AddSpeList(Cargo* ptr)
 void Company::AddVIPList(Cargo* ptr)
 {
 	//add cargo to vip list uwing a priority equation
-	float cost = ptr->getcost();
+	double cost = ptr->getcost();
 	VWaitingC.enqueue(ptr, cost / (ptr->getdeldis() + 0.3 * ptr->getprept().tohours()));
 
 	//sets previous load time with current time if a new cargo is added to vip with higher priority while loading
@@ -500,27 +503,31 @@ void Company::CheckEndLoading(Truck*& T, bool maxw)
 {
 	if (T->FullCapacity() || maxw) //whether capacity of truck is full or there is a special case of max waiting and truck have to be moved to moving list
 	{
-		T->EndLoading(timer);
+		T->EndLoading(timer); //ends the loading process of truck 
 		Cargo* c = nullptr;
 		T->peekTopC(c);
-		In_TripT.enqueue(T, -(c->getCDT().tohours())); //they are 3 intrip not one
-		loadflag[T->GetCargoType()] = 0;
+		In_TripT.enqueue(T, -(c->getCDT().tohours())); //enqueuing the truck with the cargo delivery time of the first cargo to arrive
+		loadflag[T->GetCargoType()] = 0; //return the status of loading to false
 		T = nullptr;
 	}
 	else
 	{ //Handling Case of Promotion or Cancelling during loading
 		if (T->GetCargoType() == Normal && NWaitingC.GetSize() == 0)
 		{
-
+			//in case of promotion or cancellation there are two scenarios
+			//a truck to be moved from the normal list is the common between the two scenarios
+			//secnario 1: Truck doesn't find sufficent cargos to continue loading thus start moving
+			//scenario 2: Truck isn't laoded with any item and no waiting normal cargos thus return truck 
+			//again to the ready truck list
 			if (T->GetCargoSize() == 0)
-			{
+			{//handling scenario2
 				T->EndLoading(timer);
 				ReadyT[T->GetType()].enqueue(T);
 				loadflag[Normal] = 0;
 				T = nullptr;
 			}
 			else
-			{
+			{//handling scenario 1
 				T->EndLoading(timer);
 				Cargo* c = nullptr;
 				T->peekTopC(c);
@@ -807,4 +814,9 @@ void Company::TruckControl()
 			returnTruck(t, moretrucks);	//Checks if the truck finished the trip then adds it to Maint. or ready list
 		}
 	}
+}
+
+Company::~Company()
+{
+	delete PUI;
 }

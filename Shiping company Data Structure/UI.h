@@ -29,8 +29,6 @@ public:
 	void PrintLC(CargoList& q, Itemtype t);  //calls print function of List
 	void PrintPQC(PriorityQueue<Cargo*>& q, Itemtype t);  //calls print function of List
 	void PrintEQT(Queue<Truck*>& q, Itemtype t);  //calls print function of List
-	void PrintEPQT(Queue<Truck*>& q, Itemtype t);  //calls print function of List
-	void PrintQT(Queue<Truck*>& q);  //calls print function of List
 	void PrintPQT(PriorityQueue<Truck*>& q);  //calls print function of List
 	void PrintT(Truck* T);
 	Modetype getmode();

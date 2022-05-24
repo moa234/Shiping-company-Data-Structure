@@ -8,6 +8,12 @@ Truck::Truck(int speed, int Tcap, int CheckUpDuration, Itemtype type, int ID)
 	this->type = type;
 	Currjourney = 0;
 	this->ID = ID;
+	Ctype = {};
+	DI = 0;
+	DDFC = 0;
+	loading = 0;
+	tl = 0;
+	util = 0;
 	PreviousLoadC.SetDay(0);
 	PreviousLoadC.SetHour(0);
 	maxCargoLT.SetDay(0); maxCargoLT.SetHour(0);
@@ -15,9 +21,6 @@ Truck::Truck(int speed, int Tcap, int CheckUpDuration, Itemtype type, int ID)
 	TActive.toTime(0);
 }
 
-/*Truck::Truck()
-{
-}*/
 
 int Truck::getcap() const
 {
@@ -127,7 +130,7 @@ void Truck::IncementJ()
 
 void Truck::updateCDT(Time& currTime)
 {
-	PriorityQueue<Cargo*> temp;
+	PriorityQueue<Cargo*>* temp=new PriorityQueue<Cargo*>;
 	Cargo* c;
 	int tload = 0;
 	int size = MovingC.GetSize();
@@ -138,11 +141,11 @@ void Truck::updateCDT(Time& currTime)
 		tload += c->getloadt();
 		c->setCDT(currTime.tohours() + ((c->getdeldis() - pdeldis) / speed) + tload);
 		pdeldis = c->getdeldis();
-		temp.enqueue(c, -c->getCDT().tohours());
+		temp->enqueue(c, -c->getCDT().tohours());
 	}
 	for (int i = 0; i < size; i++)
 	{
-		temp.dequeue(c);
+		temp->dequeue(c);
 		MovingC.enqueue(c, -c->getCDT().tohours());
 		if (i == size - 1)
 		{
@@ -150,6 +153,7 @@ void Truck::updateCDT(Time& currTime)
 			TActive = TActive + maxCDT - currTime;
 		}
 	}
+	delete temp;
 }
 
 void Truck::updateDI()
