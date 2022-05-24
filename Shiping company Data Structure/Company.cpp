@@ -7,6 +7,7 @@
 
 Company::Company()
 {
+	//initialize data member
 	timer.SetDay(1); timer.SetHour(1);
 	counter = 0;
 	PUI = new UI();
@@ -17,38 +18,50 @@ Company::Company()
 	}
 }
 
-
-Time Company::GetTime()
-{
-	return timer;
-}
-
 void Company::ReadFile(ifstream& fin)
 {
+	//function responsible for reading parameters in input file
 
-	ReadTrucks(fin);
+	//get all trucks parameters
+	ReadTrucks(fin); 
+
+	//read autopromotion in days & maxwait in hours
 	int d, h;
 	fin >> d >> h;
 	AutoP = d;
 	maxW = h;
 
+	//read prep, promotion, cancellation events parameters
 	ReadEvents(fin);
 }
 
 bool Company::IsRemainingEvents()
 {
+	//checks if there is any more action to be done and return true if found
+
+	//cond1 checks for loading cargos and trucks in maintainance
 	bool cond1 = (LoadingN ? 1 : 0) || (LoadingS ? 1 : 0) || (LoadingV ? 1 : 0) || MaintainedT[VIP].GetSize() || MaintainedT[Special].GetSize() || MaintainedT[Normal].GetSize();
+
+	//cond2 checks for any moving trucks and for waiting cargos
 	bool cond2 = In_TripT.GetSize() || Events.GetSize() || NWaitingC.GetSize() || SWaitingC.GetSize();
+
 	return cond1 || cond2;
 }
 
-void Company::savefile(ofstream& fout)
+void Company::savefile()
 {
+	// function generates output file and calculate parameters
+	ofstream fout("save.txt");
+
+	//calculate total simulation file
 	Time simtime(1, 1);
 	simtime = timer - simtime;
+
+	//print cargo parameters
 	fout << "CDT" << "\tID" << "\tPT" << "\tWT" << "\tTID" << endl;
-	int count = DeliveredC.GetSize();
+	//initialize counts of cargos
 	Cargo* c;
+	int count = DeliveredC.GetSize();
 	int countND = 0;
 	int countVD = 0;
 	int countSD = 0;
@@ -57,6 +70,7 @@ void Company::savefile(ofstream& fout)
 	int totalautoP = 0;
 	for (int i = 0; i < count; i++)
 	{
+		//dequeue every cargo then check type and increment count corresponding to its type
 		DeliveredC.dequeue(c);
 		if (c->gettype() == Normal)
 			countND += 1;
@@ -70,22 +84,32 @@ void Company::savefile(ofstream& fout)
 		}
 		if (c->gettype() == Special)
 			countSD += 1;
+		//increment total waiting time for delivered cargo
 		totalwait = totalwait + c->getWT();
+		//print the parameters
 		fout << c->getCDT().GetDay() << ":" << c->getCDT().GetHour() << "\t" << c->getid() << "\t" << c->getprept().GetDay() << ":"
 			<< c->getprept().GetHour() << "\t" << c->getWT().GetDay() << ":" << c->getWT().GetHour() << "\t" << c->getTID() << endl;
+		//deallocate cargo from memory as it is no longer needed
 		delete c;
 	}
+
 	fout << "...................................." << endl;
 	fout << "...................................." << endl;
 
+	//print general paramters for all cargos and trucks
+
+	//print total number of cargos
 	fout << "Cargos: " << count << " [N: " << countND << ", S: " << countSD << ", V: " << countVD << "]" << endl;
 
+	//prints average waiting time of cargos
 	totalwait.toTime(totalwait.tohours() / count);
 	fout << "Cargo Avg Wait: " << totalwait.GetDay() << ":" << totalwait.GetHour() << endl;
 
+	//calculate percent of auto promoted cargos from total number
 	totalnor += countND;
 	fout << "Auto-promoted Cargos: " << ((totalnor > 0) ? ((float)totalautoP / totalnor * 100) : 0) << "% from total " << totalnor << endl;
 
+	//save counts for each ready truck and total number then print count
 	int countn = ReadyT[Normal].GetSize();
 	int countv = ReadyT[VIP].GetSize();
 	int counts = ReadyT[Special].GetSize();
@@ -93,15 +117,17 @@ void Company::savefile(ofstream& fout)
 	fout << "Trucks: " << countt << " [N: " << countn << ", S: " << counts << ", V: " << countv << "]" << endl;
 
 	Time tactive(0, 0);
-
 	Truck* t;
 	float util = 0;
+
+	//deque every ready truck and increment total active time and utilisation
 	for (int i = 0; i < countn; i++)
 	{
 		ReadyT[Normal].dequeue(t);
 		tactive = tactive + t->getTActive();
 		util = util + t->calcUtil(simtime);
-		//fout << util * 100 << endl;
+
+		//deallocate truck as it is not needed anymore
 		delete t;
 	}
 	for (int i = 0; i < countv; i++)
@@ -109,7 +135,8 @@ void Company::savefile(ofstream& fout)
 		ReadyT[VIP].dequeue(t);
 		tactive = tactive + t->getTActive();
 		util = util + t->calcUtil(simtime);
-		//fout << util * 100 << endl;
+
+		//deallocate truck as it is not needed anymore
 		delete t;
 	}
 	for (int i = 0; i < counts; i++)
@@ -117,10 +144,14 @@ void Company::savefile(ofstream& fout)
 		ReadyT[Special].dequeue(t);
 		tactive = tactive + t->getTActive();
 		util = util + t->calcUtil(simtime);
-		//fout << util * 100 << endl;
+
+		//deallocate truck as it is not needed anymore
 		delete t;
 	}
+	
+	//print average active time as percent from total simulation
 	fout << "Avg Active time: " << (tactive.tohours() / (float)countt) / simtime.tohours() * 100 << "% of total time " << simtime.GetDay() << ":" << simtime.GetHour() << endl;
+	//print average utilization of truck
 	fout << "Avg utilization: " << util / countt * 100 << "%" << endl;
 }
 
@@ -132,7 +163,7 @@ void Company::ReadTrucks(ifstream& fin)
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 3; j++)
 			fin >> data[i][j];
-	fin >> MaintainenceLimit;
+	fin >> MaintainenceLimit; // read no. of journeys to complete before entering maintainance
 	for (int i = 0; i < 3; i++)
 	{
 		Itemtype type = Normal;
@@ -144,7 +175,7 @@ void Company::ReadTrucks(ifstream& fin)
 			type = VIP;
 		for (int j = 0; j < data[0][i]; j++)
 		{
-
+			//create truck from parameters given in save file and enque it in corresponding queue
 			Truck* ptr = new Truck(data[1][i], data[2][i], data[3][i], type, ++ids);
 			ReadyT[type].enqueue(ptr);
 		}
@@ -154,7 +185,7 @@ void Company::ReadTrucks(ifstream& fin)
 
 void Company::ReadEvents(ifstream& fin)
 {
-
+	//gets events number
 	int eventsnum;
 	fin >> eventsnum;
 
@@ -166,6 +197,7 @@ void Company::ReadEvents(ifstream& fin)
 
 		if (evtype == 'R')
 		{
+			//reads preparation events parameters
 			char type;
 			fin >> type;
 			if (type == 'N') category = Normal;
@@ -185,11 +217,14 @@ void Company::ReadEvents(ifstream& fin)
 			Time et;
 			et.SetDay(datar[0]);
 			et.SetHour(datar[1]);
+
+			//create preparation event and add it to events queue
 			Event* prep = new Preparation(category, et, datar[2], datar[3], datar[4], datar[5]);
 			Events.enqueue(prep);
 		}
 		else if (evtype == 'X')
 		{
+			//read cancellation events parameters
 			int datax[3];
 			for (int i = 0; i < 3; i++)
 			{
@@ -204,11 +239,14 @@ void Company::ReadEvents(ifstream& fin)
 			Time etx;
 			etx.SetDay(datax[0]);
 			etx.SetHour(datax[1]);
+
+			//create cancellation event and add it to events queue
 			Event* cancel = new Cancellation(etx, datax[2]);
 			Events.enqueue(cancel);
 		}
 		else if (evtype == 'P')
 		{
+			//read promotion events
 			int datap[4];
 			for (int i = 0; i < 4; i++)
 			{
@@ -223,8 +261,8 @@ void Company::ReadEvents(ifstream& fin)
 			etp.SetDay(datap[0]);
 			etp.SetHour(datap[1]);
 
+			//create cancellation event and add it to events queue
 			Event* prom = new Promotion(etp, datap[2], datap[3]);
-
 			Events.enqueue(prom);
 		}
 	}
@@ -233,23 +271,30 @@ void Company::ReadEvents(ifstream& fin)
 
 Cargo* Company::getNCargo(int id)
 {
+	//remove cargo from ready list with certain id and returns it by pointer
 	return NWaitingC.remRet(id);
 }
 
 void Company::AddNormList(Cargo* ptr)
 {
+	//add certain truck to end of ready cargos list
 	NWaitingC.insertend(ptr);
 }
 
 void Company::AddSpeList(Cargo* ptr)
 {
+	//enque cargo to ready special queue
 	SWaitingC.enqueue(ptr);
 }
 
 void Company::AddVIPList(Cargo* ptr)
 {
+	//add cargo to vip list uwing a priority equation
 	float cost = ptr->getcost();
 	VWaitingC.enqueue(ptr, cost / (ptr->getdeldis() * ptr->getprept().tohours()));
+
+	//sets previous load time with current time if a new cargo is added to vip with higher priority while loading
+	//this stops current cargo from being loaded an start loading higher priority
 	if (loadflag[VIP])
 	{
 		Cargo* c;
@@ -264,39 +309,28 @@ void Company::AddVIPList(Cargo* ptr)
 
 void Company::Timer()
 {
-	/*if (timer.GetDay() == 6 && timer.GetHour() == 20)
-	{
-		int x;
-		cin >> x;
-	}*/
+	//responsible for all actions in current time
+
+	Maintenance();
+	//assign ready and loading cargos to trucks
 	Assignment();
+	TruckControl();
+
+	//read events when its time comes and excute its action
 	Event* nxt;
 	while (Events.peek(nxt) && nxt->GetTime() == timer)
 	{
 		Events.dequeue(nxt);
 		nxt->excute(this);
+		//deallocate event after excution
 		delete nxt;
 	}
-	/*counter++;
-	if (counter == 5)
-	{
-		Cargo* ptr = NWaitingC.remRet1();
-		if (ptr)
-			NDeliveredC.enqueue(ptr);
-		if (SWaitingC.dequeue(ptr))
-			SDeliveredC.enqueue(ptr);
-		if (VWaitingC.dequeue(ptr))
-			VDeliveredC.enqueue(ptr);
-		counter = 0;
-	}*/
-
 }
 
 void Company::Assignment()
 {
 
-	Maintenance();
-	if (GetTime().CompInRangeH(5, 23))//checks current hour is in range of working hours
+	if (timer.CompInRangeH(5, 23))//checks current hour is in range of working hours
 	{
 		AssignmentVIP();
 		AssignmentSpecial();
@@ -306,7 +340,6 @@ void Company::Assignment()
 		AssignmentCargo(Special);
 		autopromote();
 	}
-	TruckControl();
 }
 
 
@@ -658,8 +691,7 @@ void Company::simulate()
 		CurrData();
 		IncrementHour();
 	}
-	ofstream fout("save.txt");
-	savefile(fout);
+	savefile();
 }
 
 void Company::IncrementHour()

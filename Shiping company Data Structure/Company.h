@@ -41,17 +41,17 @@ class Company
 
 	void ReadTrucks(ifstream& fin);							 //utility function to read trucks info from file
 	void ReadEvents(ifstream& fin);							 //utility function to read events info from file
+	void savefile();
 public:
 	Company();
-	Time GetTime(); //getter for current time
 	void Timer(); //function responsible for executing events corresponding to current hour
 
 	void ReadFile(ifstream& fin);
 	void LoadFile();
 
-	bool IsRemainingEvents(); //Checking whether the program finishes or not 
-							  //by checking empety conditions for reponsible lists
-	void savefile(ofstream& fout);
+	bool IsRemainingEvents();	//Checking whether the program finishes or not 
+								//by checking empety conditions for reponsible lists
+	
 	void autopromote();
 
 	Cargo* getNCargo(int id); //gets the cargo with specific id from 
