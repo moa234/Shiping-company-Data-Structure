@@ -12,6 +12,7 @@ Truck::Truck(int speed, int Tcap, int CheckUpDuration, Itemtype type, int ID)
 	PreviousLoadC.SetHour(0);
 	maxCargoLT.SetDay(0); maxCargoLT.SetHour(0);
 	tDC = 0;
+	TActive.toTime(0);
 }
 
 /*Truck::Truck()
@@ -83,6 +84,11 @@ Time Truck::GetPrevLoad()
 	return PreviousLoadC;
 }
 
+Time Truck::getTActive()
+{
+	return TActive;
+}
+
 void Truck::SetCargoType(Itemtype type)
 {
 	Ctype = type;
@@ -139,6 +145,7 @@ void Truck::updateCDT(Time& currTime)
 		if (i == size - 1)
 		{
 			maxCDT = c->getCDT();
+			TActive = TActive + maxCDT - currTime;
 		}
 	}
 }
@@ -223,6 +230,7 @@ void Truck::EndMaitainence()
 
 void Truck::EndLoading(Time& currTime)
 {
+	TActive = TActive + currTime - StartLoading;
 	loading = 0;
 	StartLoading.SetDay(0);
 	StartLoading.SetHour(0);
@@ -233,6 +241,15 @@ void Truck::EndLoading(Time& currTime)
 		updateCDT(currTime);
 		updateReturn_time();
 	}
+}
+
+float Truck::calcUtil(Time& timer)
+{
+	if (Currjourney == 0)
+		util = 0;
+	else
+		util = (float)tDC / (TCap * Currjourney) * ((float)TActive.tohours() / timer.tohours());
+	return util;
 }
 
 std::ostream& operator<<(std::ostream& f, Truck* C)
@@ -266,7 +283,7 @@ std::ostream& operator<<(std::ostream& f, Truck* C)
 	}
 	else
 	{
-		if (C->loading && (C->GetCargoSize()==0))
+		if (C->loading && (C->GetCargoSize() == 0))
 		{
 			if (C->GetCargoType() == Normal)
 				f << "[]";

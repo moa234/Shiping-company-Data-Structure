@@ -44,6 +44,8 @@ bool Company::IsRemainingEvents()
 
 void Company::savefile(ofstream& fout)
 {
+	Time simtime(1, 1);
+	simtime = timer - simtime;
 	fout << "CDT" << "\tID" << "\tPT" << "\tWT" << "\tTID" << endl;
 	int count = DeliveredC.GetSize();
 	Cargo* c;
@@ -71,6 +73,7 @@ void Company::savefile(ofstream& fout)
 		totalwait = totalwait + c->getWT();
 		fout << c->getCDT().GetDay() << ":" << c->getCDT().GetHour() << "\t" << c->getid() << "\t" << c->getprept().GetDay() << ":"
 			<< c->getprept().GetHour() << "\t" << c->getWT().GetDay() << ":" << c->getWT().GetHour() << "\t" << c->getTID() << endl;
+		delete c;
 	}
 	fout << "...................................." << endl;
 	fout << "...................................." << endl;
@@ -83,10 +86,42 @@ void Company::savefile(ofstream& fout)
 	totalnor += countND;
 	fout << "Auto-promoted Cargos: " << ((totalnor > 0) ? ((float)totalautoP / totalnor * 100) : 0) << "% from total " << totalnor << endl;
 
-	int countt = ReadyT[Normal].GetSize() + ReadyT[VIP].GetSize() + ReadyT[Special].GetSize();
-	fout << "Trucks: " << countt << " [N: " << ReadyT[Normal].GetSize() << ", S: " << ReadyT[Special].GetSize() << ", V: " << ReadyT[VIP].GetSize() << "]" << endl;
+	int countn = ReadyT[Normal].GetSize();
+	int countv = ReadyT[VIP].GetSize();
+	int counts = ReadyT[Special].GetSize();
+	int countt = countn + countv + counts;
+	fout << "Trucks: " << countt << " [N: " << countn << ", S: " << counts << ", V: " << countv << "]" << endl;
 
+	Time tactive(0, 0);
 
+	Truck* t;
+	float util = 0;
+	for (int i = 0; i < countn; i++)
+	{
+		ReadyT[Normal].dequeue(t);
+		tactive = tactive + t->getTActive();
+		util = util + t->calcUtil(simtime);
+		//fout << util * 100 << endl;
+		delete t;
+	}
+	for (int i = 0; i < countv; i++)
+	{
+		ReadyT[VIP].dequeue(t);
+		tactive = tactive + t->getTActive();
+		util = util + t->calcUtil(simtime);
+		//fout << util * 100 << endl;
+		delete t;
+	}
+	for (int i = 0; i < counts; i++)
+	{
+		ReadyT[Special].dequeue(t);
+		tactive = tactive + t->getTActive();
+		util = util + t->calcUtil(simtime);
+		//fout << util * 100 << endl;
+		delete t;
+	}
+	fout << "Avg Active time: " << (tactive.tohours() / (float)countt) / simtime.tohours() * 100 << "% of total time " << simtime.GetDay() << ":" << simtime.GetHour() << endl;
+	fout << "Avg utilization: " << util / countt * 100 << "%" << endl;
 }
 
 void Company::ReadTrucks(ifstream& fin)
@@ -214,7 +249,7 @@ void Company::AddSpeList(Cargo* ptr)
 void Company::AddVIPList(Cargo* ptr)
 {
 	float cost = ptr->getcost();
-	VWaitingC.enqueue(ptr, cost/(ptr->getdeldis() * ptr->getprept().tohours()));
+	VWaitingC.enqueue(ptr, cost / (ptr->getdeldis() * ptr->getprept().tohours()));
 	if (loadflag[VIP])
 	{
 		Cargo* c;
@@ -541,11 +576,11 @@ void Company::CurrData()
 	{
 		if (timer.tohours() <= 25)
 		{
-			PUI->displaytext("Simulation starts...");
+			PUI->displaytext("Simulation starts...\n");
 		}
 		if (!IsRemainingEvents())
 		{
-			PUI->displaytext("Simulation ends, output file generated.");
+			PUI->displaytext("Simulation ends, output file generated.\n");
 		}
 		return;
 	}

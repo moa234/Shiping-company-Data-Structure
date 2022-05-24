@@ -108,7 +108,7 @@ Time Time::operator+(const Time& t) const
 	return x;
 }
 
-Time Time::operator-(const Time& t) const
+Time Time::operator-(const Time& t)
 {
 	int h, d;
 	h = hour - t.hour;

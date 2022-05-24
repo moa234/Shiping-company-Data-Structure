@@ -12,11 +12,11 @@ class Truck
     int DDFC = 0;       // delivery distance of furthest cargo
     int ID;             //unique id
     int speed;          // Speed of truck
-    int TActive;        //truck active time
+    Time TActive;        //truck active time
     int TCap;           // Truck Capacity
     int tDC;            //total cargos delivered
     int tl;
-    int util;           // truck utilization
+    float util;           // truck utilization
 
     Itemtype Ctype;     //type of cargo truck is carrying
     Itemtype type;      //type of truck
@@ -50,6 +50,7 @@ public:
     Time getStartLoading() const;// returns time when the loading started
     void SetPrevLoad(Time T);
     Time GetPrevLoad();
+    Time getTActive();
 
     //Setters
     void SetCargoType(Itemtype type);
@@ -72,6 +73,7 @@ public:
     bool FullCapacity();
     void EndMaitainence();
     void EndLoading(Time& currTime);
+    float calcUtil(Time& timer);
 
     friend std::ostream& operator <<(std::ostream& f, Truck* C);
 

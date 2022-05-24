@@ -18,7 +18,7 @@ public:
 	bool CompInRangeH(int h1,int h2); //compares current hour whether it is in range of two other hours
 	Time operator +(int t) const;
 	Time operator +(const Time& t) const;
-	Time operator -(const Time& t) const;
+	Time operator -(const Time& t);
 	bool operator >=(const int& t);
 	bool operator >(const Time& t) const;
 
