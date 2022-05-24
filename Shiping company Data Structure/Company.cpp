@@ -449,27 +449,31 @@ void Company::CheckEndLoading(Truck*& T, bool maxw)
 {
 	if (T->FullCapacity() || maxw) //whether capacity of truck is full or there is a special case of max waiting and truck have to be moved to moving list
 	{
-		T->EndLoading(timer);
+		T->EndLoading(timer); //ends the loading process of truck 
 		Cargo* c = nullptr;
 		T->peekTopC(c);
-		In_TripT.enqueue(T, -(c->getCDT().tohours())); //they are 3 intrip not one
-		loadflag[T->GetCargoType()] = 0;
+		In_TripT.enqueue(T, -(c->getCDT().tohours())); //enqueuing the truck with the cargo delivery time of the first cargo to arrive
+		loadflag[T->GetCargoType()] = 0; //return the status of loading to false
 		T = nullptr;
 	}
 	else
 	{ //Handling Case of Promotion or Cancelling during loading
 		if (T->GetCargoType() == Normal && NWaitingC.GetSize() == 0)
 		{
-
+			//in case of promotion or cancellation there are two scenarios
+			//a truck to be moved from the normal list is the common between the two scenarios
+			//secnario 1: Truck doesn't find sufficent cargos to continue loading thus start moving
+			//scenario 2: Truck isn't laoded with any item and no waiting normal cargos thus return truck 
+			//again to the ready truck list
 			if (T->GetCargoSize() == 0)
-			{
+			{//handling scenario2
 				T->EndLoading(timer);
 				ReadyT[T->GetType()].enqueue(T);
 				loadflag[Normal] = 0;
 				T = nullptr;
 			}
 			else
-			{
+			{//handling scenario 1
 				T->EndLoading(timer);
 				Cargo* c = nullptr;
 				T->peekTopC(c);
@@ -537,7 +541,6 @@ void Company::autopromote()
 	{
 		while ((timer.tohours() - c->getprept().tohours()) >= AutoP * 24)
 		{
-			//(c->getprept() + timer).tohours() >= AutoP   shoof kda ya moaaz?salah.
 			Time t;
 			Event* promote = new Promotion(c->getid(), 0);
 			promote->excute(this);
