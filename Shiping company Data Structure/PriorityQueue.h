@@ -9,6 +9,7 @@ class PriorityQueue: public PriorityQueueADT<T>
 {
 	PQNode <T>* PQNodes[MaxSz];
 	int count;
+	int tcount;
 	int parent(int idx);
 	int lch(int idx);
 	int rch(int idx);
@@ -91,6 +92,7 @@ PriorityQueue<T>::PriorityQueue()
 	for (int i = 0; i < MaxSz; i++)
 		PQNodes[i] = nullptr;
 	count=-1;
+	tcount = -1;
 }
 
 template<typename T>
@@ -122,8 +124,9 @@ bool PriorityQueue<T>::peek(T& item) const
  {
 	 if (count == MaxSz - 1)
 		 return false;
-	 PQNode <T>* ptr = new PQNode<T>(item, weight+(double)(MaxSz-count) / (100 * MaxSz));
+	 PQNode <T>* ptr = new PQNode<T>(item, weight+((double)tcount+1)*0.000001);
 	 PQNodes[++count] = ptr;
+	 tcount++;
 	 reheapup(count);
 	 return true;
  }
