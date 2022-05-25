@@ -54,7 +54,10 @@ bool Company::IsRemainingEvents()
 void Company::savefile()
 {
 	// function generates output file and calculate parameters
-	ofstream fout("save.txt");
+	string s;
+	cout << "save file name: ";
+	cin >> s;
+	ofstream fout(s+".txt");
 
 	//calculate total simulation file
 	Time simtime(1, 1);
