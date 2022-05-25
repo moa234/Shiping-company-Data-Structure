@@ -315,9 +315,6 @@ void Company::Timer()
 	//responsible for all actions in current time
 
 	Maintenance();
-	//assign ready and loading cargos to trucks
-	Assignment();
-	TruckControl();
 
 	//read events when its time comes and excute its action
 	Event* nxt;
@@ -328,6 +325,9 @@ void Company::Timer()
 		//deallocate event after excution
 		delete nxt;
 	}
+	//assign ready and loading cargos to trucks
+	Assignment();
+	TruckControl();
 }
 
 void Company::Assignment()
