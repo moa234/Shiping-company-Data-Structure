@@ -47,7 +47,7 @@ public:
 			}
 			count--;
 			return currptr->getitem();
-			
+
 		}
 		return nullptr;
 	}

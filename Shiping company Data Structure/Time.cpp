@@ -115,14 +115,14 @@ Time Time::operator-(const Time& t)
 	d = day - t.day;
 	if (h < 0)
 	{
-		d --;
-		h = h+24;
+		d--;
+		h = h + 24;
 	}
 	Time x(d, h);
 	return x;
 }
 
-bool Time::operator>=(const int& t) 
+bool Time::operator>=(const int& t)
 {
 	return (tohours() >= t);
 }

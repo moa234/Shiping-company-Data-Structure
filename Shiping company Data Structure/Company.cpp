@@ -54,10 +54,7 @@ bool Company::IsRemainingEvents()
 void Company::savefile()
 {
 	// function generates output file and calculate parameters
-	string s;
-	cout << "save file name: ";
-	cin >> s;
-	ofstream fout(s+".txt");
+	ofstream fout("save.txt");
 
 	//calculate total simulation file
 	Time simtime(1, 1);
@@ -736,7 +733,7 @@ void Company::cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c) //deliver car
 		t->inc_tDC();
 
 	}
-	
+
 	if (moretrucks == 1)	//rearange the position of the truck (either by CDT of top cargo OR return time of truck)
 	{
 		In_TripT.dequeue(t);

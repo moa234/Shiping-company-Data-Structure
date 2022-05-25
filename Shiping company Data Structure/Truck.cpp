@@ -130,7 +130,7 @@ void Truck::IncementJ()
 
 void Truck::updateCDT(Time& currTime)
 {
-	PriorityQueue<Cargo*>* temp=new PriorityQueue<Cargo*>;
+	PriorityQueue<Cargo*>* temp = new PriorityQueue<Cargo*>;
 	Cargo* c;
 	int tload = 0;
 	int size = MovingC.GetSize();

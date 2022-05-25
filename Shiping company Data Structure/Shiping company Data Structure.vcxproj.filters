@@ -130,7 +130,7 @@
     <Text Include="save.txt">
       <Filter>Simulation</Filter>
     </Text>
-    <Text Include="test0.txt">
+    <Text Include="testA1.txt">
       <Filter>TestCases_Save</Filter>
     </Text>
     <Text Include="testB.txt">
@@ -200,6 +200,9 @@
       <Filter>TestCases_Save</Filter>
     </Text>
     <Text Include="saveK.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="saveA1.txt">
       <Filter>TestCases_Save</Filter>
     </Text>
   </ItemGroup>
