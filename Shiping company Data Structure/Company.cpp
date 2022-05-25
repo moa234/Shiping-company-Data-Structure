@@ -26,7 +26,7 @@ void Company::ReadFile(ifstream& fin)
 	//function responsible for reading parameters in input file
 
 	//get all trucks parameters
-	ReadTrucks(fin); 
+	ReadTrucks(fin);
 
 	//read autopromotion in days & maxwait in hours
 	int d, h;
@@ -105,7 +105,7 @@ void Company::savefile()
 	fout << "Cargos: " << count << " [N: " << countND << ", S: " << countSD << ", V: " << countVD << "]" << endl;
 
 	//prints average waiting time of cargos
-	totalwait.toTime(totalwait.tohours() / count);
+	totalwait.toTime((count != 0) ? totalwait.tohours() / count : 0);
 	fout << "Cargo Avg Wait: " << totalwait.GetDay() << ":" << totalwait.GetHour() << endl;
 
 	//calculate percent of auto promoted cargos from total number
@@ -151,7 +151,7 @@ void Company::savefile()
 		//deallocate truck as it is not needed anymore
 		delete t;
 	}
-	
+
 	//print average active time as percent from total simulation
 	fout << "Avg Active time: " << (tactive.tohours() / (float)countt) / simtime.tohours() * 100 << "% of total time " << simtime.GetDay() << ":" << simtime.GetHour() << endl;
 	//print average utilization of truck
@@ -355,7 +355,7 @@ void Company::AssignmentVIP()
 		//if there are no current loading for vip cargos
 		if (!ReadyT[VIP].isempty() && !LoadingV) //if there is available trucks and no current loading vipv or normal cargos through vip trucks
 		{
-			ReadyT[VIP].peek(T); 
+			ReadyT[VIP].peek(T);
 			if (AvailableCargos >= T->getcap())
 			{
 				ReadyT[VIP].dequeue(T);
@@ -418,7 +418,7 @@ void Company::AssignmentNormal(bool maxw)
 		if (!ReadyT[Normal].isempty() && !LoadingN) //if there is available trucks and no current loading vip or normal cargos through normal trucks
 		{
 			ReadyT[Normal].peek(T);
-			if (AvailableCargos >= T->getcap() || maxw) 
+			if (AvailableCargos >= T->getcap() || maxw)
 			{
 				ReadyT[Normal].dequeue(T);
 				T->SetStartLoading(timer, Normal);
@@ -456,7 +456,7 @@ bool Company::MaxWaitCheck(Itemtype ctype)
 		return 0;
 	if (ctype == Normal)
 	{
-		Cargo* C = NWaitingC.getEntry1(); 
+		Cargo* C = NWaitingC.getEntry1();
 		if (!C) return 0;
 		return MaxWaitExceed(C); //checking for front element max wait
 	}
@@ -575,7 +575,7 @@ Cargo* Company::PeekTopCargo(Itemtype ctype)
 	return C;
 }
 Truck*& Company::MapTruckToCargo(Itemtype ctype)
-{ 
+{
 	//Mapping proccess
 	if (LoadingN && LoadingN->GetCargoType() == ctype)
 		return LoadingN;
@@ -682,7 +682,6 @@ void Company::CurrData()
 	PUI->displayline();
 
 
-
 }
 
 void Company::simulate()
@@ -715,7 +714,7 @@ void Company::Maintenance()
 			{
 
 				MaintainedT[i].dequeue(ptr);
-				ptr->EndMaitainence(); 
+				ptr->EndMaitainence();
 				addtoready(ptr);
 				itemfound = MaintainedT[i].peek(ptr); //if there is more trucks
 															//then continue checking for maintainence end
