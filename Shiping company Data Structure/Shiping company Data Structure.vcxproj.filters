@@ -31,6 +31,9 @@
     <Filter Include="Simulation">
       <UniqueIdentifier>{e63d46ba-a551-4489-b5c6-47fba0304948}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestCases_Save">
+      <UniqueIdentifier>{0ccd6452-91e1-4a68-b4d1-4869f014292e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cargo.h">
@@ -124,44 +127,80 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="testB.txt">
-      <Filter>Simulation</Filter>
-    </Text>
-    <Text Include="test4.txt">
-      <Filter>Simulation</Filter>
-    </Text>
     <Text Include="save.txt">
       <Filter>Simulation</Filter>
     </Text>
-    <Text Include="test5.txt">
-      <Filter>Simulation</Filter>
+    <Text Include="test0.txt">
+      <Filter>TestCases_Save</Filter>
     </Text>
-    <Text Include="test6.txt">
-      <Filter>Simulation</Filter>
+    <Text Include="testB.txt">
+      <Filter>TestCases_Save</Filter>
     </Text>
-    <Text Include="test7.txt">
-      <Filter>Simulation</Filter>
+    <Text Include="testJ.txt">
+      <Filter>TestCases_Save</Filter>
     </Text>
-    <Text Include="test8.txt">
-      <Filter>Simulation</Filter>
+    <Text Include="testK.txt">
+      <Filter>TestCases_Save</Filter>
     </Text>
     <Text Include="test11.txt">
-      <Filter>Simulation</Filter>
-    </Text>
-    <Text Include="test9.txt">
-      <Filter>Simulation</Filter>
-    </Text>
-    <Text Include="test10.txt">
-      <Filter>Simulation</Filter>
-    </Text>
-    <Text Include="test0.txt">
-      <Filter>Simulation</Filter>
+      <Filter>TestCases_Save</Filter>
     </Text>
     <Text Include="testA.txt">
-      <Filter>Simulation</Filter>
+      <Filter>TestCases_Save</Filter>
     </Text>
     <Text Include="testC.txt">
-      <Filter>Simulation</Filter>
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="saveA.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="saveB.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="saveC.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="testD.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="testE.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="testF.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="testG.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="testH.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="testI.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="saveD.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="saveE.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="saveF.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="saveG.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="saveH.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="saveI.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="saveJ.txt">
+      <Filter>TestCases_Save</Filter>
+    </Text>
+    <Text Include="saveK.txt">
+      <Filter>TestCases_Save</Filter>
     </Text>
   </ItemGroup>
 </Project>
