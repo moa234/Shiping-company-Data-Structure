@@ -194,6 +194,7 @@ bool Truck::InMaintainence(const Time& T)
 
 bool Truck::loadC(Cargo*& c, Time& t)
 {
+
 	bool canadd = MovingC.enqueue(c, -c->getdeldis());
 	if (canadd)
 	{

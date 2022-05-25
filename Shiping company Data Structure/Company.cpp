@@ -733,6 +733,7 @@ void Company::cargodeliver(Truck*& t, bool& moretrucks, Cargo*& c) //deliver car
 		t->inc_tDC();
 
 	}
+	
 	if (moretrucks == 1)	//rearange the position of the truck (either by CDT of top cargo OR return time of truck)
 	{
 		In_TripT.dequeue(t);
