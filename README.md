@@ -56,3 +56,6 @@ For more detailed information on the usage of each data structure for specific o
 ![Image 2](imgs/code2.png)
 
 *In the middle of the simulation execution*
+# 👥 Contributers
+- [Salah Abotaleb](https://github.com/SalahAbotaleb)
+- [Moaaz Tarek](https://github.com/moa234)
